@@ -16,10 +16,11 @@
 	    <div id="images" style="text-align:center; margin:50px auto; 
 	         position:absolute; left:0; right:0; margin-left:auto; margin-right:auto;">
 	    <img src="/sheeva/images/login_sheeva.png" id="login_background" 
-	         style="margin:0px 20px; display:block; text-decoration:none; color:black;"/>
+	         style="margin:0px 20px; display:inline_block; text-decoration:none; color:black;"/>
 		<form id="loginForm" action='#{request.contextPath}/j_spring_security_check' method="post" 
 		      style="margin:0px 20px; display:block; text-decoration:none; color:black;">
-					<h:panelGrid columns="2" style="border: none; padding: 5px; background: none position:absolute; left:0; right:0; margin-left:auto; margin-right:auto;" >
+					<h:panelGrid columns="2" style="border: none; padding: 5px; background: none; 
+					             position:absolute; left:0; right:0; margin-left:auto; margin-right:auto;" >
 						<h:outputText value="Login:" />
 						<input type="text" name="j_username" id="j_username" class="ui-inputfield ui-widget ui-state-default ui-corner-all" />
 						<h:outputText value="Senha:"/>
