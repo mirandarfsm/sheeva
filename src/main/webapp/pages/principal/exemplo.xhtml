@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template/template.xhtml">
+
+	 <ui:define name="html-body-bottom">
+	    <script type="text/javascript" src="#{request.contextPath}/resources/vendor/js/jquery.maskMoney.min.js"/>
+	    <script type="text/javascript">
+	      $(document).ready(function(){
+	        maskPrefix('R$');
+	      });
+	    </script>
+	  </ui:define>
+	<ui:define name="html-title">Cadastro de Empenho</ui:define>
+
+	<ui:define name="main">
+
+		<h3>FormulÃ¡rio de Empenho</h3>
+
+		<p:separator />
+
+		<h:form id="formulario-empenho-form">
+			<p:messages id="msgs" redisplay="false" showIcon="false" />
+			<p:panelGrid>
+         		 <p:row>
+					<p:column>
+						<p:outputLabel value="Credenciado:" for="credenciado" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu 
+							value="#{controleEmpenhoFormularioBean.empenho.credenciado}"
+							converter="jsonConverter" filter="true" filterMatchMode="contais"
+							id="credenciado">
+							<f:selectItems required="true"  size="60"
+								value="#{controleEmpenhoFormularioBean.credenciados}"
+								var="credenciado" itemValue="#{credenciado}"
+								itemLabel="#{credenciado.nomeFantasia}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="NÃºmero:" for="numero"  />
+					</p:column>
+					<p:column>
+						<p:inputText id="numero" required="true" size="60" maxlength="50"
+							value="#{controleEmpenhoFormularioBean.empenho.numero}" />
+					</p:column>
+				</p:row>
+					<p:row>
+					<p:column>
+						<p:outputLabel value="Verba:" for="verba"   />
+					</p:column>
+					<p:column>
+						<p:inputText id="verba" required="true"  size="60" maxlength="50"
+							value="#{controleEmpenhoFormularioBean.empenho.verba}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Valor:" for="valor" />
+					</p:column>
+					<p:column>
+						<p:inputText id="valor" value="#{controleEmpenhoFormularioBean.empenho.valor}" required="true"  size="60" maxlength="20" 
+						converter="doubleConverter" styleClass="number"/>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Data CriaÃ§Ã£o:" for="data-criacao" />
+					</p:column>
+					<p:column>
+						<p:calendar
+							value="#{controleEmpenhoFormularioBean.empenho.dataCriacao}"
+							id="data-criacao" size="30" locale="pt_BR" navigator="true" required="true"  />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Data Limite:" for="data-limite" required="true" />
+					</p:column>
+					<p:column>
+						<p:calendar
+							value="#{controleEmpenhoFormularioBean.empenho.dataLimite}"
+							id="data-limite" size="30" locale="pt_BR" navigator="true"  required="true" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Finalizado" for="ativo" />
+					</p:column>
+					<p:column>
+						<p:selectBooleanCheckbox id="ativo"
+							value="#{controleEmpenhoFormularioBean.empenho.finalizado}" disabled="true"  />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+
+			<div class="vgap-15"></div>
+
+			<p:commandButton value="Salvar" styleClass="btn btn-success"
+				icon="fa fa-save" validateClient="true"
+				action="#{controleEmpenhoFormularioBean.salvar}"
+				update="@form" id="salvar" />
+			<p:commandButton value="Finalizar" styleClass="btn btn-success"
+				icon="fa fa-times" validateClient="true" 
+				rendered="#{!(controleEmpenhoFormularioBean.empenho.finalizado) and (controleEmpenhoFormularioBean.empenho.id > 0)}"
+				action="#{controleEmpenhoFormularioBean.confirmaFinalizarEmpenho}"
+				update="@form" id="finalizar" />
+				
+			<p:commandButton value="Reabrir" styleClass="btn btn-success"
+				icon="fa fa-folder-open" validateClient="true" rendered="#{controleEmpenhoFormularioBean.empenho.finalizado}"
+				action="#{controleEmpenhoFormularioBean.confirmaReabrirEmpenho}"
+				update="@form" id="reabrir" />
+			<a href="../empenho" class="btn" id="voltar">Voltar</a>
+
+		</h:form>
+
+    <p:dialog header="AtenÃ§Ã£o!" id="finalizacao-empenho" widgetVar="finalizacaoEmpenhoDialog"
+      modal="true" resizable="false">
+      <h:form id="dialog-finalizar-form">
+        <h:outputText
+          value="Tem certeza que deseja Finalizar o Empenho?" />
+
+        <div class="vgap-30">
+          <!-- GAP 30px -->
+        </div>
+        <h:panelGroup styleClass="dialog-footer" layout="block">
+          <p:commandButton value="Sim" styleClass="btn btn-success" icon="fa fa-save"
+            action="#{controleEmpenhoFormularioBean.finalizar}" />
+          <p:commandButton value="Cancelar" styleClass="btn" icon="fa" type="button"
+            onclick="PF('finalizacaoEmpenhoDialog').hide()" />
+        </h:panelGroup>
+
+      </h:form>
+    </p:dialog>
+    
+     <p:dialog header="AtenÃ§Ã£o!" id="reabertura-empenho" widgetVar="reabertuaEmpenhoDialog"
+      modal="true" resizable="false">
+      <h:form id="dialog-status-form">
+        <h:outputText
+          value="Tem certeza que deseja Reabrir o Empenho?" />
+
+        <div class="vgap-30">
+          <!-- GAP 30px -->
+        </div>
+        <h:panelGroup styleClass="dialog-footer" layout="block">
+          <p:commandButton value="Sim" styleClass="btn btn-success" icon="fa fa-save"
+            action="#{controleEmpenhoFormularioBean.reabrir}"  />
+          <p:commandButton value="Cancelar" styleClass="btn" icon="fa" type="button"
+            onclick="PF('reabertuaEmpenhoDialog').hide()" />
+        </h:panelGroup>
+
+      </h:form>
+    </p:dialog>
+	</ui:define>
+
+</ui:composition>
