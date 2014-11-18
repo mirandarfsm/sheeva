@@ -10,9 +10,7 @@
 
 <h:body>
 	<h:form>
-	<img src="/sheeva/images/logo.jpg" id="imagem_background"/>
 	<p:menu type="plain" id="menuTopo" styleClass="menuTopo">
-	    <p:menuitem value="Página Principal" icon="ui-icon-home"/>
         <p:menuitem value="Alterar Senha" action="#{alterarSenhaBean.abrirPagina}"  icon="ui-icon-key" ajax="false"/>
         <p:menuitem value="Sair" url="#{request.contextPath}/j_spring_security_logout" icon="ui-icon-extlink" ajax="false"/>
 	 </p:menu>
