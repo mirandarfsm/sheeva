@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link type="text/css" rel="stylesheet" href="/sheeva/css/conflito.css" />
+</h:head>
+
+<h:body>
+	<h:form>
+	<img src="/sheeva/images/logo.jpg" id="imagem_background"/>
+	<p:menu type="plain" id="menuTopo" styleClass="menuTopo">
+	    <p:menuitem value="Página Principal" icon="ui-icon-home"/>
+        <p:menuitem value="Alterar Senha" action="#{alterarSenhaBean.abrirPagina}"  icon="ui-icon-key" ajax="false"/>
+        <p:menuitem value="Sair" url="#{request.contextPath}/j_spring_security_logout" icon="ui-icon-extlink" ajax="false"/>
+	 </p:menu>
+	</h:form>
+	 <div style="display: padding-bottom: 10px; position: absolute; right: 10px; margin: 10px 10px 10px 0;">
+	    <h:outputText value="Olá, "/>
+	 	<strong><h:outputText value="#{authenticationBean.usuarioLogado.nome}"/></strong>
+	 </div>
+	    
+</h:body>
+</html>

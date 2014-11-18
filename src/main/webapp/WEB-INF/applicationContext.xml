@@ -1,32 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:security="http://www.springframework.org/schema/security"
-	xmlns:sec="http://www.springframework.org/schema/security" xmlns:flex="http://www.springframework.org/schema/flex"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:test="http://www.springframework.org/schema/test"
-	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xsi:schemaLocation="
-           http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-           http://www.springframework.org/schema/context
-http://www.springframework.org/schema/context/spring-context-3.0.xsd
-           http://www.springframework.org/schema/jee
-http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
-           http://www.springframework.org/schema/tx
-http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-           http://www.springframework.org/schema/security
-http://www.springframework.org/schema/security/spring-security-3.0.3.xsd
-                       http://www.springframework.org/schema/flex
-http://www.springframework.org/schema/flex/spring-flex-1.0.xsd
-                       http://www.springframework.org/schema/aop
-http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-http://www.springframework.org/schema/test
-http://www.springframework.org/schema/test/spring-test-3.0.xsd
-http://www.springframework.org/schema/data/jpa
-http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
-">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:p="http://www.springframework.org/schema/p" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -63,40 +48,9 @@ http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<context:annotation-config />
-	<context:component-scan base-package="br.com.sheeva">
+		<context:component-scan base-package="br.com.sheeva">
 	</context:component-scan>
 
-	<jpa:repositories base-package="br.com.sheeva.repositorio" />
-	
-	<bean id="sheevaAuthenticationProvider"
-		class="br.com.sheeva.autenticacao.SheevaAuthenticationProvider" />
-
-	<bean id="passwordEncoder"
-		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
-		<constructor-arg value="256" />
-	</bean>
-
-	<sec:global-method-security
-		secured-annotations="enabled">
-	</sec:global-method-security>
-
-	<sec:http auto-config="true" access-denied-page="/pages/login/login.jsf">
-		<sec:form-login login-page="/pages/login/login.jsf"
-			default-target-url="/pages/home/home.jsf"
-			always-use-default-target="false" authentication-failure-url="/pages/login/login.jsf?erro=1" />
-		<sec:intercept-url pattern="/css/**" filters="none" />
-		<sec:intercept-url pattern="/images/**" filters="none" />
-		<sec:intercept-url pattern="/pages/login/login.jsf"
-			filters="none" />
-		<sec:intercept-url pattern="/javax.faces.resource/**"
-			filters="none" />
-		<sec:intercept-url pattern="/pages/home/*" access="ROLE_USER" />
-	</sec:http>
-
-	<sec:authentication-manager>
-		<sec:authentication-provider ref="sheevaAuthenticationProvider" />
-	</sec:authentication-manager>
-	
-
+    <import resource="security.xml"/>	
 
 </beans>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:p="http://www.springframework.org/schema/p" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<bean id="sheevaAuthenticationProvider"
+		class="br.com.sheeva.autenticacao.SheevaAuthenticationProvider" />
+
+	<bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+		<constructor-arg value="256" />
+	</bean>
+
+	<sec:global-method-security
+		secured-annotations="enabled">
+	</sec:global-method-security>
+
+	<sec:http auto-config="true" access-denied-page="/pages/login/login.jsf">
+		<sec:form-login login-page="/pages/login/login.jsf"
+			default-target-url="/pages/home/pagina_inicial.jsf"
+			always-use-default-target="false" authentication-failure-url="/pages/login/login.jsf?erro=1" />
+		<sec:intercept-url pattern="/css/**" />
+		<sec:intercept-url pattern="/images/**" />
+		<sec:intercept-url pattern="/pages/login/login.jsf" />
+		<sec:intercept-url pattern="/javax.faces.resource/**" />
+		<sec:intercept-url pattern="/pages/home/*" access="ROLE_USER" />
+	</sec:http>
+
+	<sec:authentication-manager>
+		<sec:authentication-provider ref="sheevaAuthenticationProvider" />
+	</sec:authentication-manager>
+
+</beans>
