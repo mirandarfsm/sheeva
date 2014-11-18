@@ -1,118 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
-  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:sec="http://www.springframework.org/security/tags">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags">
 
-  <h:outputText value="#{pageContext.request.pathTranslated}" />
- 
-  <h:form id="form-menu" prependId="false">
-    
-    <p:accordionPanel styleClass="menu-sisauc" activeIndex="#{sessionBean.menuIndex}" dynamic="true" id="menu">
-      <p:ajax event="tabChange" listener="#{sessionBean.menuTabChange}" global="false" immediate="true"/>
-      <sec:authorize ifAllGranted="PERFIL_ADMINISTRADOR_SISTEMA">
+	<h:outputText value="#{pageContext.request.pathTranslated}" />
 
-        <p:tab title="Cadastros" id="cadastros-tab">
-          <p:menu>
-            <p:menuitem icon="fa fa-user" value="Usuários" id="menu-usuarios" url="/administracao/cadastro/usuario" />
-            <p:menuitem icon="fa fa-user-md" value="Profissionais" id="menu-medicos" url="/administracao/cadastro/medico" />
-            <p:menuitem icon="fa fa-briefcase" value="Credenciados" id="menu-credenciados"
-              url="/administracao/cadastro/credenciado" />
-            <p:menuitem icon="fa fa-circle-o" value="Porte" id="menu-porte" url="/administracao/cadastro/porte" />
-            <p:menuitem icon="fa fa-dot-circle-o" value="Porte Anestésico" id="menu-porte-anestesico"
-              url="/administracao/cadastro/porte-anestesico" />
-          </p:menu>
-        </p:tab>
+	<h:form id="form-menu" prependId="false">
 
-        <p:tab title="Editais" id="editais-tab">
-          <p:menu>
-            <p:menuitem icon="fa fa-file-o" value="Cadastro" id="menu-edital-credenciamento"
-              url="/administracao/cadastro/edital-credenciamento" />
-            <p:menuitem icon="fa fa-file-text-o" value="Configuração" id="menu-configuracao-edital"
-              url="/administracao/cadastro/configuracao-edital" />
-          </p:menu>
-        </p:tab>
+		<p:tab title="Cadastros" id="cadastros-tab">
+			<ul class="nav nav-pills nav-stacked">
+				<li class="active"><a href="#">Gerenciar Usuário</a></li>
+				<li><a href="#">Gerenciar Servidor</a></li>
+				<li><a href="#">Gerenciar Instâncias</a></li>
+			</ul>
+		</p:tab>
 
-      </sec:authorize>
-
-      <sec:authorize ifAllGranted="PERFIL_USUARIO">
-        <p:tab title="Beneficiários" id="beneficiarios-tab">
-          <p:menu>
-            <p:menuitem icon="fa fa-users" value="Consulta" id="menu-beneficiarios"
-              url="/administracao/cadastro/beneficiario" />
-          </p:menu>
-        </p:tab>
-      </sec:authorize>
-
-      <sec:authorize ifAllGranted="PERFIL_ATENDENTE_FUNSA">
-        <p:tab title="Atendimento" id="atendimento-tab">
-          <p:menu>
-            <p:menuitem icon="fa fa-file" value="Cadastrar Solicitação" id="menu-cadastro-solicitacao"
-              url="/atendente/cadastro/solicitacao" />
-          </p:menu>
-          <p:menu>
-            <p:menuitem icon="fa fa-search" value="Buscar Solicitação" id="menu-busca-solicitacao"
-              url="/atendente/busca/solicitacao" />
-          </p:menu>
-        </p:tab>
-      </sec:authorize>
-      
-   
-
-      <sec:authorize ifAllGranted="PERFIL_AUDITOR_FUNSA">
-        <p:tab title="Auditoria Prospectiva" id="auditoria-prospectiva-tab">
-          <p:menu>
-            <p:menuitem icon="fa fa-gavel" value="Solicitações Pendentes" id="menu-solicitacoes-pendentes"
-              url="/auditoria-prospectiva/pendentes" />
-          </p:menu>
-        </p:tab>
-      </sec:authorize>
-
-	   <sec:authorize ifAllGranted="PERFIL_CHEFE_FUNSA">
-	        <p:tab title="GAB" id="chefe-funsa-tab">
-	          <p:menu>
-	            <p:menuitem icon="fa fa-eye" value="Acompanhamento" id="menu-acompanhar-gabs" url="/chefe-funsa/gab/acompanhamento" />
-	          </p:menu>
-	        </p:tab>
-	      </sec:authorize>
-
-      <sec:authorize ifAllGranted="PERFIL_AUDITOR_FINANCEIRO">
-        <p:tab title="Auditoria Retrospectiva" id="auditoria-retrospectiva-tab">
-          <p:menu>
-            <p:menuitem icon="fa fa-download" value="Apresentar GAB" id="menu-apresentar-gab"
-              url="/auditoria-retrospectiva/apresentar-gab" />
-            <p:menuitem icon="fa fa-edit" value="Realizar Auditoria" id="menu-gab-apresentada"
-              url="/auditoria-retrospectiva/realizar-auditoria" />
-            <p:menuitem icon="fa fa-list-alt" value="Lotes de Pagamento" id="lotes-pagamento"
-              url="/auditoria-retrospectiva/gerenciar-lotes" />
-          </p:menu>
-        </p:tab>
-      </sec:authorize>
-
-       <sec:authorize ifAllGranted="PERFIL_INTENDENCIA">
-        <p:tab title="Intendência" id="intendencia-tab">
-          <p:menu>
-            <p:menuitem icon="fa fa-cog" value="Controle de Empenho" id="menu-empenho"
-              url="/intendencia/empenho" />
-          </p:menu>
-        </p:tab>
- 	   </sec:authorize>
-      
-       <sec:authorize ifAllGranted="PERFIL_ADMINISTRADOR_SISTEMA">
-        <p:tab title="Sistema" id="sistema-tab">
-          <p:menu>
-            <p:menuitem icon="fa fa-cog" value="Configuração" id="menu-configuracao"
-              url="/administracao/sistema/configuracoes-sistema" />
-            <p:menuitem icon="fa fa-institution" value="Organização Militar" id="menu-organizacao-militar"
-              url="/administracao/cadastro/organizacao-militar" />
-            <p:menuitem icon="fa fa-hospital-o" value="SIGAMEH Web Service" id="menu-sigame-ws"
-              url="/administracao/cadastro/sigameh-ws" />
-          </p:menu>
-        </p:tab>
-       </sec:authorize>
-    
-       
-    </p:accordionPanel>
-
-  </h:form>
+	</h:form>
 
 </ui:composition>

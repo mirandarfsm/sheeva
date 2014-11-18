@@ -1,3 +1,3 @@
 <%	String path = request.getContextPath(); 
-response.sendRedirect(path+"/pages/home/pagina_inicial.jsf");
+response.sendRedirect(path+"/pages/principal/pagina-principal.jsf");
 %>

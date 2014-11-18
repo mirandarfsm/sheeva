@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
-  xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
-  <div class="row-fluid">
-    <div class="span12 topo text-right">
-      <h:form>
-        <span>Olá #{authenticationContext.usuarioLogado.nome}</span>
-        <a class="btn btn-link" href="#{request.contextPath}/perfil"> <span class="fa fa-user"></span> <span>Meu
-            perfil</span>
-        </a>
-        <p:commandButton styleClass="btn btn-link" icon="fa fa-sign-out" action="#{authenticationContext.logout}"
-          value="Sair">
-        </p:commandButton>
-      </h:form>
-    </div>
-  </div>
+	<h:form>
+		<p:menu type="plain" id="menuTopo" styleClass="menuTopo">
+			<p:menuitem value="Alterar Senha" action="#{alterarSenhaBean.abrirPagina}" icon="ui-icon-key" ajax="false" />
+			<p:menuitem value="Sair" url="#{request.contextPath}/j_spring_security_logout" icon="ui-icon-extlink" ajax="false" />
+		</p:menu>
+	</h:form>
+	<div
+		style="display: padding-bottom: 10px; position: absolute; right: 10px; margin: 10px 10px 10px 0;">
+		<h:outputText value="Olá, " />
+		<strong><h:outputText value="#{authenticationBean.usuarioLogado.nome}" /></strong>
+	</div>
 
 </ui:composition>

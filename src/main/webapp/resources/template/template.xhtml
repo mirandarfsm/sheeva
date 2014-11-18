@@ -4,34 +4,38 @@
   xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-  <title>SISAUC - <ui:insert name="html-title" /></title>
-  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/vendor/css/bootstrap.css?v=#{versaoInterna}" />
-  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/vendor/css/bootstrap-responsive.css?v=#{versaoInterna}" />
-  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/vendor/css/font-awesome.css?v=#{versaoInterna}" />
-  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/correcoes.css?v=#{versaoInterna}" />
-  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/estrutura.css?v=#{versaoInterna}" />
-  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/gaps.css?v=#{versaoInterna}" />
-  <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/resources/imagens/favicon.ico"/>
+  <title>SHEEVA - <ui:insert name="html-title" /></title>
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap-theme.css.map" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap-theme.min.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap.css.map" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap-theme.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap-responsive.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/js/bootstrap.min.js" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/js/bootstrap.js" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/js/npm.js" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/font-awesome/font-awesome.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/correcoes.css" />
   <ui:insert name="html-head" />
 </h:head>
 
 <h:body>
   #{messages}
   <ui:include src="topo.xhtml" />
-  <div class="vgap-10"></div>
-
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span2">
-        <ui:include src="menu.xhtml" />
-      </div>
-      <div class="span10">
-        <ui:insert name="main" />
-      </div>
-    </div>
-  </div>
-  <div class="vgap-30"></div>  
-  <ui:insert name="dialogs" />
+	<div class="vgap-10"></div>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span2">
+				<ui:include src="menu.xhtml" />
+			</div>
+			<div class="span10">
+				<ui:insert name="main" />
+			</div>
+		</div>
+	</div>
+	<div class="vgap-30"></div>
+	<ui:insert name="dialogs" />
   
   <p:dialog id="loading-dialog" widgetVar="loadingDialog" resizable="false" styleClass="loading-dialog" >
     <h:panelGroup styleClass="fa fa-cog fa-spin"/> Carregando..
@@ -46,8 +50,8 @@
   </h:form>
   
   
-  <script type="text/javascript" src="#{request.contextPath}/resources/js/primefaces_pt_BR.js?v=#{versaoInterna}"/>
-  <script type="text/javascript" src="#{request.contextPath}/resources/js/sisauc.js?v=#{versaoInterna}"/>
+  <script type="text/javascript" src="#{request.contextPath}/resources/js/primefaces_pt_BR.js"/>
+  <script type="text/javascript" src="#{request.contextPath}/resources/js/sisauc.js"/>
   <ui:insert name="html-body-bottom" />
   
 </h:body>
