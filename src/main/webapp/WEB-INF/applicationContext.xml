@@ -16,7 +16,7 @@
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="persistenceXmlLocation" value="classpath:/META-INF/persistence.xml" />
+			<!-- property name="persistenceXmlLocation" value="classpath:/META-INF/persistence.xml" --> 
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="showSql" value="false" />
@@ -40,7 +40,7 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="url" value="jdbc:postgresql://localhost:5432/sheeva" />
+		<property name="url" value="jdbc:postgresql://192.168.132.58:5432/sheeva" />
 		<property name="username" value="sheeva" />
 		<property name="password" value="sheeva" />
 	</bean>
