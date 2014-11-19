@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="html-title">Cadastrar usuário</ui:define>
+	<ui:define name="main">
+		<h3>Cadastro de Usuário</h3>
+		<p:separator />
+		<div class="vgap-10" />
+		<h:form id="formUsuario">
+			<p:messages id="msg" showIcon="false" autoUpdate="true" />
+			<p:panel header="Usuario" style="font-size: 12px;">
+				<p:fieldset legend="Cadastrar Usuario">
+					<p:commandButton value="Novo Usuario" action="#{usuarioBean.novo}"
+						ajax="false" id="botaoNovoUsuario"
+						style="margin-bottom: 5px; margin-top: 20px;" />
+				</p:fieldset>
+				<p:fieldset
+					legend="#{usuarioBean.usuarios.size()} Usuarios Cadastrados"
+					id="fieldUsuarios">
+					<p:dataTable id="usuarioTable" var="usuario"
+						value="#{usuarioBean.usuarios}" rowKey="#{usuario.id}"
+						paginator="true" rows="7" tableStyle="font-size: 12px;"
+						emptyMessage="Nenhum usuario cadastrado">>
+							<p:column headerText="Nome Usuario" sortBy="#{usuario.nome}"
+							filterBy="#{usuario.nome}" id="nome">
+            					#{usuario.nome}
+       						</p:column>
+						<p:column headerText="Alterar" style="width:32px">
+							<p:commandButton action="#{usuarioBean.editar}" title="Alterar"
+								icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
+								<f:setPropertyActionListener value="#{usuario}"
+									target="#{usuarioBean.usuario}" />
+							</p:commandButton>
+						</p:column>
+						<p:column headerText="Excluir" style="width:32px">
+							<p:commandButton title="Excluir" icon="ui-icon ui-icon-close"
+								id="botaoExcluir" onclick="confirmacaoDialog.show()">
+								<f:setPropertyActionListener value="#{usuario}"
+									target="#{usuarioBean.usuario}" />
+							</p:commandButton>
+							<p:confirmDialog
+								message="Você realmente deseja deletar este usuário?"
+								header="Deletar Usuário" severity="alert"
+								widgetVar="confirmacaoDialog" appendToBody="true">
+								<p:commandButton value="Sim" action="#{usuarioBean.excluir}"
+									onsuccess="confirmacaoDialog.hide()"
+									update=":formUsuario:fieldUsuarios :formUsuario:msg">
+								</p:commandButton>
+								<p:commandButton value="Não" onclick="confirmacaoDialog.hide();" />
+							</p:confirmDialog>
+						</p:column>
+					</p:dataTable>
+
+				</p:fieldset>
+			</p:panel>
+			<p:confirmDialog message="Deseja realmente excluir este usuário?"
+				appendToBody="true" showEffect="puff" hideEffect="puff"
+				severity="alert" widgetVar="confirmarExcluir"
+				styleClass="confirmDialogCustomizado">
+				<p:commandButton value="Sim" onsuccess="window.close()"
+					oncomplete="confirmarExcluir.hide()"
+					action="#{usuarioBean.excluir}"
+					update=":formUsuario:fieldUsuarios :formUsuario:msg" />
+				<p:commandButton value="Não" onclick="confirmarExcluir.hide()"
+					type="button" />
+			</p:confirmDialog>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

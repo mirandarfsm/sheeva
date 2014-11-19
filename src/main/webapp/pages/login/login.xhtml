@@ -8,7 +8,18 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link type="text/css" rel="stylesheet" href="/sheeva/css/theme.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap-theme.css.map" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap-theme.min.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap.css.map" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap-theme.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/css/bootstrap-responsive.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/js/bootstrap.min.js" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/js/bootstrap.js" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/js/npm.js" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/font-awesome/font-awesome.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/correcoes.css" />
 	<title>Sheeva - Login</title>
 </h:head>
  <h:body>
@@ -20,18 +31,22 @@
 		<form id="loginForm" action='#{request.contextPath}/j_spring_security_check' method="post" 
 		      style="margin:0px 20px; display:block; text-decoration:none; color:black;">
 					<h:panelGrid columns="2" style="border: none; padding: 5px; background: none; 
-					             position:absolute; left:0; right:0; margin-left:auto; margin-right:auto;" >
-						<h:outputText value="Login:" />
+					             margin-left:auto; margin-right:auto;" >
+						<h:outputText value="Login: " />
 						<input type="text" name="j_username" id="j_username" class="ui-inputfield ui-widget ui-state-default ui-corner-all" />
-						<h:outputText value="Senha:"/>
+						<h:outputText value="Senha: "/>
 						<input type="password" name="j_password" id="j_password" class="ui-inputfield ui-widget ui-state-default ui-corner-all" />
 						<h:outputText value=" "/>
-						<input type="submit" name="Submit" id="Submit" value="Entrar"/>
+						<button type="submit" id="entrar" class="btn btn-primary btn-block botao-login">
+			                Entrar
+            		    </button>
 						<h:outputText value=" "/>
 					</h:panelGrid>
-					<h:panelGrid columns="2" style="margin-left: auto; border: none; background: none;">
+					<h:panelGrid columns="2" style="margin-right:auto; margin-left: auto; border: none; background: none;">
 						<c:if test="#{param.erro != null}">
-							<div id="error">Nome de Usuário ou Senha Incorretos.</div>
+							<div class="erro-login blink_me" id="error">
+								Nome de usuário e/ou senha incorretos
+							</div>
 						</c:if>
 						<c:if test="#{param.erro == null}">
 							<div  id="ponto">&nbsp;</div>

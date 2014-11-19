@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="html-title">Alterar Senha</ui:define>
+	<ui:define name="main">
+		<h3>Alterar de Senha</h3>
+		<p:separator />
+		<div class="vgap-10" />
+				<h:form id="formAlterarSenha">
+				<p:panel header="Alterar Senha">
+					<p:messages id="msg" />
+					<p:fieldset legend="Alterar Senha" id="fieldAlterarSenha">
+						<h:panelGrid columns="3">
+							<h:outputText value="Senha Atual: "/>
+							<p:password id="senhaAtual" size="30" value="#{alterarSenhaBean.senhaAtual}" promptLabel="Senha"  weakLabel="Senha Fraca" 
+									goodLabel="Senha Boa" strongLabel="Senha Forte" />
+							<p:message for="senhaAtual"/>
+							<h:outputText value="Nova Senha "/>
+							<p:password id="novaSenha" size="30" value="#{alterarSenhaBean.novaSenha}" promptLabel="Senha"  weakLabel="Senha Fraca" 
+									goodLabel="Senha Boa" strongLabel="Senha Forte" match="confirmarSenha" />
+							<p:message for="senhaAtual"/>
+							<h:outputText value="Confirmar Nova Senha: "/>
+							<p:password id="confirmarSenha" size="30" value="#{alterarSenhaBean.novaSenha}" promptLabel="Confirmar Senha" 
+											weakLabel="Senha Fraca"	goodLabel="Senha Boa" strongLabel="Senha Forte" />
+							<p:message for="confirmarSenha"/>
+						</h:panelGrid>
+						<p:commandButton value="Alterar" action="#{alterarSenhaBean.alterarSenha}" update="msg fieldAlterarSenha" 
+											icon="ui-icon-disk"/>
+					</p:fieldset>
+				</p:panel>
+			</h:form>
+
+	</ui:define>
+
+</ui:composition>

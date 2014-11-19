@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="html-title">Cadastrar usuário</ui:define>
+	<ui:define name="main">
+		<h3>Cadastro de Usuário</h3>
+		<p:separator />
+		<div class="vgap-10" />
+		<h:form id="formUsuario">
+			<p:messages id="msg" globalOnly="true" />
+			<p:fieldset legend="Dados Cadastrais">
+				<h:panelGrid columns="3">
+					<h:outputText value="Nome: "/>
+					<p:inputText id="nome" size="60" value="#{usuarioBean.usuario.nome}" /> 
+					<p:message for="nome"/>
+					<h:outputText value="Login "/>
+					<p:inputText id="login" size="30" value="#{usuarioBean.usuario.login}"/>
+					<p:message for="login"/>
+					<p:commandButton value="Restaurar Senha" action="#{usuarioBean.resetarSenha}" update="msg" id="resetarSenha"/>
+				</h:panelGrid>
+			</p:fieldset>
+					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{usuarioBean.cancelar}" ajax="false" 
+								icon="ui-icon-arrowreturnthick-1-w"/>		
+					<p:commandButton id="botaoSalvar" value="Salvar" action="#{usuarioBean.salvar}" ajax="false" update="msg" 
+								icon="ui-icon-disk"/>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
