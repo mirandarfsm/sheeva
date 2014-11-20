@@ -1,55 +1,112 @@
-.menuTopo{
+.menuTopo {
 	background: none !important;
 	border: none !important;
 	margin-left: auto !important;
 }
 
 .botao-login {
-margin: 10px 0px;
+	margin: 10px 0px;
 }
 
 .erro-login {
-margin: 5px 0px;
-padding:10px 10px 10px 50px;
-color: #D8000C;
+	margin: 5px 0px;
+	padding: 10px 10px 10px 50px;
+	color: #D8000C;
 }
 
-.menu-cadastro{
-	border: none !important;
-	color: #0068d8 !important;
+.menu-cadastro {
+	margin-top: 50px;
 }
 
 .blink_me {
-    -webkit-animation-name: blinker;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-iteration-count: 5;
-
-    -moz-animation-name: blinker;
-    -moz-animation-duration: 1s;
-    -moz-animation-timing-function: linear;
-    -moz-animation-iteration-count: 5;
-
-    animation-name: blinker;
-    animation-duration: 1s;
-    animation-timing-function: linear;
-    animation-iteration-count: 5;
+	-webkit-animation-name: blinker;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: 5;
+	-moz-animation-name: blinker;
+	-moz-animation-duration: 1s;
+	-moz-animation-timing-function: linear;
+	-moz-animation-iteration-count: 5;
+	animation-name: blinker;
+	animation-duration: 1s;
+	animation-timing-function: linear;
+	animation-iteration-count: 5;
 }
 
-@-moz-keyframes blinker {  
-    0% { opacity: 1.0; }
-    50% { opacity: 0.0; }
-    100% { opacity: 1.0; }
+@
+-moz-keyframes blinker { 0% {
+	opacity: 1.0;
 }
 
-@-webkit-keyframes blinker {  
-    0% { opacity: 1.0; }
-    50% { opacity: 0.0; }
-    100% { opacity: 1.0; }
+50%
+{
+opacity
+:
+ 
+0
+.0
+;
+ 
+}
+100%
+{
+opacity
+:
+ 
+1
+.0
+;
+ 
+}
+}
+@
+-webkit-keyframes blinker { 0% {
+	opacity: 1.0;
 }
 
-@keyframes blinker {  
-    0% { opacity: 1.0; }
-    50% { opacity: 0.0; }
-    100% { opacity: 1.0; }
+50%
+{
+opacity
+:
+ 
+0
+.0
+;
+ 
+}
+100%
+{
+opacity
+:
+ 
+1
+.0
+;
+ 
+}
+}
+@
+keyframes blinker { 0% {
+	opacity: 1.0;
+}
+50%
+{
+opacity
+:
+ 
+0
+.0
+;
+ 
+}
+100%
+{
+opacity
+:
+ 
+1
+.0
+;
+ 
+}
 }
