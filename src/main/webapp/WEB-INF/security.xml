@@ -29,10 +29,7 @@
 		<sec:form-login login-page="/pages/login/login.jsf"
 			default-target-url="/pages/principal/pagina-principal.jsf"
 			always-use-default-target="false" authentication-failure-url="/pages/login/login.jsf?erro=1" />
-		<sec:intercept-url pattern="/css/**" />
-		<sec:intercept-url pattern="/images/**" />
 		<sec:intercept-url pattern="/pages/login/login.jsf" />
-		<sec:intercept-url pattern="/javax.faces.resource/**" />
 		<sec:intercept-url pattern="/pages/principal/*" access="ROLE_USER" />
 	</sec:http>
 

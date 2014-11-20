@@ -37,7 +37,21 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-	<bean id="dataSource"
+	<bean id="dataSourcePropertiesPlaceHolder"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="location"
+			value="file:${user.home}/.sheeva/config.properties" />
+	</bean>
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass"><value>org.postgresql.Driver</value></property>
+		<property name="jdbcUrl"><value>${database.url}</value></property>
+		<property name="user"><value>${database.username}</value></property>
+		<property name="password"><value>${database.password}</value></property>
+	</bean> 
+
+	<bean id="dataSourceLocal"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url" value="jdbc:postgresql://192.168.132.58:5432/sheeva" />
