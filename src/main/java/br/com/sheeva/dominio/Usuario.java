@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,16 +19,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.sheeva.enu.Perfil;
-
-import javax.persistence.Column;
 
 @NamedQueries({
 	@NamedQuery(name="Usuario.removeById", query="UPDATE Usuario user SET user.excluido = true WHERE user.id = :idUsuario"),
@@ -131,6 +130,9 @@ public class Usuario implements Serializable, UserDetails {
 		this.senha = senha;
 	}
 
+	@Email(message="E-mail inválido.")
+	@NotBlank(message="O campo E-MAIL é obrigatório.")
+	@Column(unique = true)
 	public String getEmail() {
 		return email;
 	}

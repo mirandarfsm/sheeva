@@ -41,11 +41,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 
 	public Usuario getByLogin(String login) {
-		List<Usuario> usuarios = entityManager.createNamedQuery("Usuario.obterPeloLogin").setParameter("login", login).getResultList();
-		if (usuarios == null || usuarios.isEmpty()) {
-			return null;
-		}
-		return usuarios.get(0);
+		Usuario usuario = (Usuario) entityManager.createNamedQuery("Usuario.obterPeloLogin").setParameter("login", login).getSingleResult();
+		return usuario;
 	}
 
 }

@@ -83,7 +83,7 @@ public class UsuarioBean {
 	public void resetarSenha(){
 		usuarioService.resetSenha(usuario);
 		Mensagem.msgInformacao("Senha alterada com sucesso");
-		Mensagem.msgInformacao("A Senha nova senha é igual ao login");
+		Mensagem.msgInformacao("A nova senha é igual ao login");
 	}
 	
 	public Usuario getUsuario() {
