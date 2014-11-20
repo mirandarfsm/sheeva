@@ -22,6 +22,9 @@
 					<h:outputText value="Login "/>
 					<p:inputText id="login" size="30" value="#{usuarioBean.usuario.login}"/>
 					<p:message for="login"/>
+					<h:outputText value="E-mail "/>
+					<p:inputText id="email" size="30" value="#{usuarioBean.usuario.email}"/>
+					<p:message for="email"/>
 					<p:commandButton value="Restaurar Senha" action="#{usuarioBean.resetarSenha}" update="msg" id="resetarSenha"/>
 				</h:panelGrid>
 			</p:fieldset>

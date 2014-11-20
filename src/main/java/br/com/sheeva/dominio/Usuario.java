@@ -2,7 +2,6 @@ package br.com.sheeva.dominio;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +26,8 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.sheeva.enu.Perfil;
+
+import javax.persistence.Column;
 
 @NamedQueries({
 	@NamedQuery(name="Usuario.removeById", query="UPDATE Usuario user SET user.excluido = true WHERE user.id = :idUsuario"),
@@ -44,6 +46,7 @@ public class Usuario implements Serializable, UserDetails {
 	private Set<Perfil> perfis;
 	private String login;
 	private String senha;
+	private String email;
 	private static final long serialVersionUID = 1L;
 
 	public Usuario() {
@@ -60,6 +63,7 @@ public class Usuario implements Serializable, UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
 	@SequenceGenerator(name = "seq_usuario", sequenceName = "seq_usuario", allocationSize = 1, initialValue = 10000)
+	@Column(unique = true, nullable = false, updatable = false, insertable = true)
 	public Integer getId() {
 		return this.id;
 	}
@@ -69,6 +73,7 @@ public class Usuario implements Serializable, UserDetails {
 	}
 
 	@NotBlank(message="O campo NOME é obrigatório.")
+	@Column(nullable = false)
 	public String getNome() {
 		return this.nome;
 	}
@@ -77,6 +82,7 @@ public class Usuario implements Serializable, UserDetails {
 		this.nome = nome;
 	}
 
+	@Column(nullable = false)
 	public boolean isExcluido() {
 		return excluido;
 	}
@@ -99,6 +105,7 @@ public class Usuario implements Serializable, UserDetails {
 	}
 
 	@NotBlank(message="O campo LOGIN é obrigatório.")
+	@Column(nullable = false, unique = true)
 	public String getLogin() {
 		if (login != null) {
 			return login.toLowerCase();
@@ -115,12 +122,21 @@ public class Usuario implements Serializable, UserDetails {
 	}
 
 	@NotBlank(message="O campo SENHA é obrigatório.")
+	@Column(nullable = false)
 	public String getSenha() {
 		return senha;
 	}
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Transient
