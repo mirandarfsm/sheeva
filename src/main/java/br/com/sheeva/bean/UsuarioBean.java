@@ -2,6 +2,7 @@ package br.com.sheeva.bean;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.model.SelectItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,11 @@ import br.com.sheeva.enu.EnumSelectItemsCreator;
 import br.com.sheeva.enu.Perfil;
 import br.com.sheeva.service.UsuarioService;
 import br.com.sheeva.utils.LayoutIndexManager;
+import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
 @Service("usuarioBean")
-@Scope("session")
+@Scope(value = "session")
 public class UsuarioBean {
 	
 	private Usuario usuario;
@@ -29,10 +31,10 @@ public class UsuarioBean {
 		
 	}
 	
-	public String abrirPagina(){
+	@PostConstruct
+	public void init(){
 		usuarios = usuarioService.listarTodos();
 		LayoutIndexManager.atualizarIndice(1);
-		return "/pages/usuario/cadastrar-usuario-lista.xhtml";
 	}
 	
 	public String novo(){
@@ -41,14 +43,14 @@ public class UsuarioBean {
 		return "/pages/usuario/cadastrar-usuario-formulario.xhtml";
 	}
 
-	public String salvar() {
+	public void salvar() {
 		usuarioService.salvar(usuario);
 		if(usuario.getId()==null){
 			Mensagem.msgInformacao("Usuario salvo com sucesso");
 		}else {
 			Mensagem.msgInformacao("Usuario alterado com sucesso");
 		}
-		return abrirPagina();
+		ManagedBeanUtils.redirecionar("/usuario");
 	}
 
 	public void excluir() {

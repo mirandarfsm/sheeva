@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+	<url-mapping id="login">
+		<pattern value="/login" />
+		<view-id value="/pages/login/login.jsf" />
+	</url-mapping>
+
+	<url-mapping id="principal">
+		<pattern value="/principal" />
+		<view-id value="/pages/principal/pagina-principal.jsf" />
+	</url-mapping>
+
+	<url-mapping id="cadastrar-usuario-lista">
+		<pattern value="/usuario" />
+		<view-id value="/pages/usuario/cadastrar-usuario-lista.jsf" />
+	</url-mapping>
+
+</pretty-config>

@@ -65,6 +65,9 @@
 		<context:component-scan base-package="br.com.sheeva">
 	</context:component-scan>
 
+	<bean id="persistenceExceptionTranslationPostProcessor" 
+	      class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
     <import resource="security.xml"/>	
 
 </beans>
