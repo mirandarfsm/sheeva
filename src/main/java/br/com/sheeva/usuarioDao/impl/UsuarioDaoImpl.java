@@ -44,5 +44,16 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		Usuario usuario = (Usuario) entityManager.createNamedQuery("Usuario.obterPeloLogin").setParameter("login", login).getSingleResult();
 		return usuario;
 	}
+	
+	public boolean verificarLoginEmUso(Usuario usuario) {
+		if(usuario.getId() == null){
+			Usuario usuarioExistente = getByLogin(usuario.getLogin());
+			if (usuarioExistente != null && !usuarioExistente.equals(usuario)) {
+				String message = "Já existe pessoa cadastrada com este login");
+				throw new SigadaerException(message);
+			}
+
+		}
+	}
 
 }
