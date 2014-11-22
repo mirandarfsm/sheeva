@@ -1,4 +1,4 @@
-package br.com.sheeva.usuarioDao;
+package br.com.sheeva.dao;
 
 import java.util.List;
 

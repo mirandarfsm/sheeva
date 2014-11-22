@@ -1,4 +1,4 @@
-package br.com.sheeva.usuarioDao.impl;
+package br.com.sheeva.dao.impl;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.sheeva.dao.UsuarioDao;
 import br.com.sheeva.dominio.Usuario;
-import br.com.sheeva.usuarioDao.UsuarioDao;
 
 @Service("usuarioDao")
 @Transactional

@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.sheeva.dao.UsuarioDao;
 import br.com.sheeva.dominio.Usuario;
 import br.com.sheeva.service.UsuarioService;
-import br.com.sheeva.usuarioDao.UsuarioDao;
 
 @Service("usuarioService")
 public class UsuarioServiceImpl implements UsuarioService {
