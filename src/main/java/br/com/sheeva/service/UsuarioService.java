@@ -20,4 +20,8 @@ public interface UsuarioService {
 
 	public void resetSenha(Usuario usuario);
 	
+	public boolean isLoginEmUso(Usuario usuario);
+
+	public boolean isEmailEmUso(Usuario usuario);
+	
 }

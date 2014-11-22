@@ -31,7 +31,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuarioDao.remove(id);
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Usuario> listarTodos() {
 		return usuarioDao.getAll();
 	}
@@ -45,7 +44,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 	
 	public void mudarSenha(String login, String senhaAtual, String novaSenha) {
-
 		Usuario usuario = buscarPeloLogin(login);
 		if (!passwordEncoder.encodePassword(senhaAtual, null).equals(usuario.getSenha())) {
 			throw new RuntimeException("A senha atual inserida está incorreta!");
@@ -58,5 +56,22 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuario.setSenha(passwordEncoder.encodePassword(usuario.getLogin(), null));
 		usuarioDao.save(usuario);
 	}
+	
+	public boolean isLoginEmUso(Usuario usuario) {
+		Usuario usuarioExistente = usuarioDao.getByLogin(usuario.getLogin());
+		if (usuarioExistente != null && !usuarioExistente.equals(usuario)) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isEmailEmUso(Usuario usuario) {
+		Usuario usuarioExistente = usuarioDao.getByEmail(usuario.getEmail());
+		if (usuarioExistente != null && !usuarioExistente.equals(usuario)) {
+			return true;
+		}
+		return false;
+	}
+
 
 }

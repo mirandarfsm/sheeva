@@ -46,15 +46,12 @@
   <p:ajaxStatus onstart="PF('loadingDialog').show()" onsuccess="PF('loadingDialog').hide()" />
   
   <h:form id="global-dialog-form">
-    <p:confirmDialog global="true">
+    <p:confirmDialog global="true" appendToBody="true">
       <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
       <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
     </p:confirmDialog>  
   </h:form>
   
-  
-  <script type="text/javascript" src="#{request.contextPath}/resources/js/primefaces_pt_BR.js"/>
-  <script type="text/javascript" src="#{request.contextPath}/resources/js/sisauc.js"/>
   <ui:insert name="html-body-bottom" />
   
 </h:body>

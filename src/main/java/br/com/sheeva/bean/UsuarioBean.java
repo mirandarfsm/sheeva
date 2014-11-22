@@ -44,12 +44,21 @@ public class UsuarioBean {
 	}
 
 	public void salvar() {
+		if (usuarioService.isLoginEmUso(usuario)) {
+			Mensagem.msgErro("Já existe uma pessoa cadastrada com este login.");
+			return;
+		}
+		if (usuarioService.isEmailEmUso(usuario)) {
+			Mensagem.msgErro("Já existe uma pessoa cadastrada com este e-mail.");
+			return;
+		}
 		usuarioService.salvar(usuario);
 		if(usuario.getId()==null){
 			Mensagem.msgInformacao("Usuario salvo com sucesso");
 		}else {
 			Mensagem.msgInformacao("Usuario alterado com sucesso");
 		}
+		usuarios = usuarioService.listarTodos();
 		ManagedBeanUtils.redirecionar("/usuario");
 	}
 

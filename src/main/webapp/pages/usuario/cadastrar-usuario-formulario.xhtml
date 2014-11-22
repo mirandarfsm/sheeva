@@ -13,11 +13,11 @@
 		<p:separator />
 		<div class="vgap-10" />
 		<h:form id="formUsuario">
-			<p:messages id="msg" globalOnly="true" />
+			<p:messages id="msg" globalOnly="true" showIcon="false" autoUpdate="true"/>
 			<p:fieldset legend="Dados Cadastrais">
 				<h:panelGrid columns="3">
 					<h:outputText value="Nome: "/>
-					<p:inputText id="nome" size="60" value="#{usuarioBean.usuario.nome}" /> 
+					<p:inputText id="nome" size="50" value="#{usuarioBean.usuario.nome}" /> 
 					<p:message for="nome"/>
 					<h:outputText value="Login "/>
 					<p:inputText id="login" size="30" value="#{usuarioBean.usuario.login}"/>
@@ -25,12 +25,13 @@
 					<h:outputText value="E-mail "/>
 					<p:inputText id="email" size="30" value="#{usuarioBean.usuario.email}"/>
 					<p:message for="email"/>
-					<p:commandButton value="Restaurar Senha" action="#{usuarioBean.resetarSenha}" update="msg" id="resetarSenha"/>
+					<p:commandButton value="Restaurar Senha" action="#{usuarioBean.resetarSenha}" update="msg" 
+					                 id="resetarSenha" rendered="#{usuarioBean.usuario.id != null}"/>
 				</h:panelGrid>
 			</p:fieldset>
-					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{usuarioBean.cancelar}" ajax="false" 
+					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{usuarioBean.cancelar}" 
 								icon="ui-icon-arrowreturnthick-1-w"/>		
-					<p:commandButton id="botaoSalvar" value="Salvar" action="#{usuarioBean.salvar}" ajax="false" update="msg" 
+					<p:commandButton id="botaoSalvar" value="Salvar" action="#{usuarioBean.salvar}" update="@form" 
 								icon="ui-icon-disk"/>
 
 		</h:form>

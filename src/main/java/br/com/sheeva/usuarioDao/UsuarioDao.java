@@ -16,5 +16,7 @@ public interface UsuarioDao {
 	public Usuario getById(Integer id);
 	
 	public Usuario getByLogin(String login);
+	
+	public Usuario getByEmail(String email);
 
 }

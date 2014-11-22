@@ -26,7 +26,7 @@
 					<p:dataTable id="usuarioTable" var="usuario"
 						value="#{usuarioBean.usuarios}" rowKey="#{usuario.id}"
 						paginator="true" rows="7" tableStyle="font-size: 12px;"
-						emptyMessage="Nenhum usuario cadastrado">>
+						emptyMessage="Nenhum usuário cadastrado">>
 							<p:column headerText="Nome Usuario" sortBy="#{usuario.nome}"
 							filterBy="#{usuario.nome}" id="nome">
             					#{usuario.nome}
@@ -39,37 +39,17 @@
 							</p:commandButton>
 						</p:column>
 						<p:column headerText="Excluir" style="width:32px">
-							<p:commandButton title="Excluir" icon="ui-icon ui-icon-close"
-								id="botaoExcluir" onclick="confirmacaoDialog.show()">
-								<f:setPropertyActionListener value="#{usuario}"
-									target="#{usuarioBean.usuario}" />
-							</p:commandButton>
-							<p:confirmDialog
-								message="Você realmente deseja deletar este usuário?"
-								header="Deletar Usuário" severity="alert"
-								widgetVar="confirmacaoDialog" appendToBody="true">
-								<p:commandButton value="Sim" action="#{usuarioBean.excluir}"
-									onsuccess="confirmacaoDialog.hide()"
-									update=":formUsuario:fieldUsuarios :formUsuario:msg">
-								</p:commandButton>
-								<p:commandButton value="Não" onclick="confirmacaoDialog.hide();" />
-							</p:confirmDialog>
-						</p:column>
+       							 <p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
+       							                  actionListener="#{usuarioBean.excluir}" update=":formUsuario:fieldUsuarios :formUsuario:msg"> 
+       							    <f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" /> 
+						         	<p:confirm header="Deletar Usuário" message="Você realmente deseja deletar este usuário?" 
+						         	           icon="ui-icon-alert" />
+						         </p:commandButton>
+       						</p:column>
 					</p:dataTable>
 
 				</p:fieldset>
 			</p:panel>
-			<p:confirmDialog message="Deseja realmente excluir este usuário?"
-				appendToBody="true" showEffect="puff" hideEffect="puff"
-				severity="alert" widgetVar="confirmarExcluir"
-				styleClass="confirmDialogCustomizado">
-				<p:commandButton value="Sim" onsuccess="window.close()"
-					oncomplete="confirmarExcluir.hide()"
-					action="#{usuarioBean.excluir}"
-					update=":formUsuario:fieldUsuarios :formUsuario:msg" />
-				<p:commandButton value="Não" onclick="confirmarExcluir.hide()"
-					type="button" />
-			</p:confirmDialog>
 		</h:form>
 
 	</ui:define>

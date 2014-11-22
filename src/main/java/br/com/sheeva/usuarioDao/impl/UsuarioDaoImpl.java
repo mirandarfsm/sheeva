@@ -41,19 +41,19 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	}
 
 	public Usuario getByLogin(String login) {
-		Usuario usuario = (Usuario) entityManager.createNamedQuery("Usuario.obterPeloLogin").setParameter("login", login).getSingleResult();
-		return usuario;
+		List<Usuario> usuarios = entityManager.createNamedQuery("Usuario.obterPeloLogin").setParameter("login", login).getResultList();
+		if (usuarios == null || usuarios.isEmpty()) {
+			return null;
+		}
+		return usuarios.get(0);
 	}
 	
-	public boolean verificarLoginEmUso(Usuario usuario) {
-		if(usuario.getId() == null){
-			Usuario usuarioExistente = getByLogin(usuario.getLogin());
-			if (usuarioExistente != null && !usuarioExistente.equals(usuario)) {
-				String message = "Já existe pessoa cadastrada com este login");
-				throw new SigadaerException(message);
-			}
-
+	public Usuario getByEmail(String email) {
+		List<Usuario> usuarios = entityManager.createNamedQuery("Usuario.obterPeloEmail").setParameter("email", email).getResultList();
+		if (usuarios == null || usuarios.isEmpty()) {
+			return null;
 		}
+		return usuarios.get(0);
 	}
 
 }
