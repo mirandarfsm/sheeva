@@ -6,10 +6,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import br.com.sheeva.dao.ServidorDao;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Usuario;
 
-public class ServidorDaoImpl {
+public class ServidorDaoImpl implements ServidorDao {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
