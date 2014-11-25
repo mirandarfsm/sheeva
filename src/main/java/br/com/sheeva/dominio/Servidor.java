@@ -1,15 +1,65 @@
 package br.com.sheeva.dominio;
 
-import antlr.collections.List;
+import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+
+@NamedQueries({
+	@NamedQuery(name="Servidor.removeById", query="DELETE FROM Servidor server WHERE server.id = :idServer"),
+	@NamedQuery(name="Servidor.searchAll", query="SELECT server FROM Servidor server"),
+	@NamedQuery(name="Servidor.searchById", query="SELECT server FROM Servidor server WHERE server.id = :idServidor"),
+	@NamedQuery(name="Servidor.obterPeloNome", query="SELECT server FROM Servidor server WHERE server.nome = :nome"),
+	@NamedQuery(name="Servidor.obterPeloNomeInstancia", query="SELECT user FROM Usuario user WHERE user.email = :email " + "and user.excluido = false")})
+
+@Entity
+@Table(name = "servidor")
 public class Servidor {
 
+	private	Integer id;
 	private String nome;
 	private String endereco;
 	private String login;
 	private String senha;
-	private List instancias;
+	private List<Instancia> instancias;
 
+	public Servidor(){
+		super();
+	}
+	
+	public Servidor(Integer id, String nome, String endereco, String login,
+			String senha, List<Instancia> instancias) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.endereco = endereco;
+		this.login = login;
+		this.senha = senha;
+		this.instancias = instancias;
+	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_servidor")
+	@SequenceGenerator(name = "seq_servidor", sequenceName = "seq_servidor", allocationSize = 1, initialValue = 10000)
+	@Column(unique = true, nullable = false, updatable = false, insertable = true)
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	@Column(unique = true)
 	public String getNome() {
 		return nome;
 	}
@@ -26,12 +76,12 @@ public class Servidor {
 		this.endereco = endereco;
 	}
 
-	public String getUsuario() {
+	public String getLogin() {
 		return login;
 	}
 
-	public void setUsuario(String usuario) {
-		this.login = usuario;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public String getSenha() {
@@ -42,14 +92,16 @@ public class Servidor {
 		this.senha = senha;
 	}
 
-	public List getInstancias() {
+
+	@OneToMany
+	public List<Instancia> getInstancias() {
 		return instancias;
 	}
 
-	public void setInstancias(List instancias) {
+	public void setInstancias(List<Instancia> instancias) {
 		this.instancias = instancias;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

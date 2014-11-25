@@ -1,9 +1,46 @@
 package br.com.sheeva.dominio;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "instancia")
 public class Instancia {
+	
+	private Integer id;
 	private String nome;
 	private String diretorioPrincipal;
 	private String arquivoConfiguração;
+
+	public Instancia() {
+		super();
+	}
+	
+	public Instancia(Integer id, String nome, String diretorioPrincipal,
+			String arquivoConfiguração) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.diretorioPrincipal = diretorioPrincipal;
+		this.arquivoConfiguração = arquivoConfiguração;
+	}
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_instancia")
+	@SequenceGenerator(name = "seq_instancia", sequenceName = "seq_instancia", allocationSize = 1, initialValue = 10000)
+	@Column(unique = true, nullable = false, updatable = false, insertable = true)
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getNome() {
 		return nome;
