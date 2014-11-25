@@ -18,7 +18,7 @@
 	margin-top: 50px;
 }
 
-form#formUsuario .ui-fieldset-legend {
+.fieldSet .ui-fieldset-legend {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
@@ -40,11 +40,6 @@ form#formUsuario .ui-fieldset-legend {
 
 form#formUsuario .ui-fieldset {
 
-}
-
-form#formUsuario:usuarioTable_head {
-	background: none;
-	border: none;
 }
 
 .blink_me {

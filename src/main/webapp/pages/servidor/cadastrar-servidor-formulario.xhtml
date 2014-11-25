@@ -17,17 +17,17 @@
 			<p:fieldset legend="Dados Cadastrais">
 				<h:panelGrid columns="3">
 					<h:outputText value="Nome: "/>
-					<p:inputText id="nome" size="50" value="#{servidorBean.servidor.nome}" /> 
-					<p:message for="nome"/>
-					<h:outputText value="Endereço "/>
-					<p:inputText id="endereco" size="30" value="#{servidorBean.servidor.endereco}"/>
-					<p:message for="endereco"/>
-					<h:outputText value="Login "/>
-					<p:inputText id="login" size="30" value="#{servidorBean.servidor.login}"/>
-					<p:message for="login"/>
-					<h:outputText value="Senha "/>
-					<p:password id="senha" size="30" value="#{servidorBean.servidor.senha}"/>
-					<p:message for="senha"/>
+					<p:inputText id="nomeServidor" size="50" value="#{servidorBean.servidor.nome}" /> 
+					<p:message for="nomeServidor"/>
+					<h:outputText value="Endereço: "/>
+					<p:inputText id="enderecoServidor" size="30" value="#{servidorBean.servidor.endereco}"/>
+					<p:message for="enderecoServidor"/>
+					<h:outputText value="Login: "/>
+					<p:inputText id="loginServidor" size="30" value="#{servidorBean.servidor.login}"/>
+					<p:message for="loginServidor"/>
+					<h:outputText value="Senha: "/>
+					<p:password id="senhaServidor" size="30" value="#{servidorBean.servidor.senha}"/>
+					<p:message for="senhaServidor"/>
 				</h:panelGrid>
 			</p:fieldset>
 					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{servidorBean.cancelar}" 

@@ -14,15 +14,13 @@
 		<div class="vgap-10" />
 		<h:form id="formServidor">
 			<p:messages id="msg" showIcon="false" autoUpdate="true" />
-			<p:panel header="Servidor" style="font-size: 12px;">
-				<p:fieldset legend="Cadastrar Servidor">
+			<p:panel  style="font-size: 14px; border: none;">
+				<div class="container" style="width: 100%;">
 					<p:commandButton value="Novo Servidor" action="#{servidorBean.novo}"
-						ajax="false" id="botaoNovoServidor"
-						style="margin-bottom: 5px; margin-top: 20px;" />
-				</p:fieldset>
-				<p:fieldset
-					legend="#{servidorBean.servidores.size()} Servidores Cadastrados"
-					id="fieldServidores">
+						ajax="false" id="botaoNovoServidor" style="margin-bottom: 10px;" />
+				</div>
+				<p:fieldset styleClass="fieldSet"
+					legend="#{servidorBean.servidores.size()} Servidores Cadastrados" id="fieldServidores">
 					<p:dataTable id="servidorTable" var="servidor"
 						value="#{servidorBean.servidores}" rowKey="#{servidor.id}"
 						paginator="true" rows="7" tableStyle="font-size: 12px;"
@@ -31,14 +29,14 @@
 							filterBy="#{servidor.nome}" id="nome">
             					#{servidor.nome}
        						</p:column>
-						<p:column headerText="Alterar" style="width:32px">
+						<p:column headerText="Alterar" style="width:60px">
 							<p:commandButton action="#{servidorBean.editar}" title="Alterar"
 								icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
 								<f:setPropertyActionListener value="#{servidor}"
 									target="#{servidorBean.servidor}" />
 							</p:commandButton>
 						</p:column>
-						<p:column headerText="Excluir" style="width:32px">
+						<p:column headerText="Excluir" style="width:60px">
        							 <p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
        							                  actionListener="#{servidorBean.excluir}" update=":formServidor:fieldServidores :formServidor:msg"> 
        							    <f:setPropertyActionListener value="#{servidor}" target="#{servidorBean.servidor}" /> 

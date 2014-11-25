@@ -19,7 +19,7 @@
 					<p:commandButton value="Novo Usuario" action="#{usuarioBean.novo}" ajax="false" id="botaoNovoUsuario"
 						style="margin-bottom: 10px;" />
 				</div>
-				<p:fieldset
+				<p:fieldset styleClass="fieldSet"
 					legend="#{usuarioBean.usuarios.size()} Usuarios Cadastrados" 
 					id="fieldUsuarios">
 					<p:dataTable id="usuarioTable" var="usuario"
