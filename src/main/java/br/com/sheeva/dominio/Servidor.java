@@ -62,7 +62,11 @@ public class Servidor {
 		this.id = id;
 	}
 	
+<<<<<<< HEAD
 	@NotBlank(message="O campo NOME é obrigatório.")
+=======
+	@Column(unique = true)
+>>>>>>> refs/heads/Server
 	public String getNome() {
 		return nome;
 	}
@@ -80,7 +84,10 @@ public class Servidor {
 		this.endereco = endereco;
 	}
 
+<<<<<<< HEAD
 	@NotBlank(message="O campo LOGIN é obrigatório.")
+=======
+>>>>>>> refs/heads/Server
 	public String getLogin() {
 		return login;
 	}
@@ -98,7 +105,12 @@ public class Servidor {
 		this.senha = senha;
 	}
 
+<<<<<<< HEAD
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+=======
+
+	@OneToMany
+>>>>>>> refs/heads/Server
 	public List<Instancia> getInstancias() {
 		return instancias;
 	}
