@@ -18,5 +18,10 @@
 		<pattern value="/usuario" />
 		<view-id value="/pages/usuario/cadastrar-usuario-lista.jsf" />
 	</url-mapping>
+	
+	<url-mapping id="cadastrar-servidor-lista">
+		<pattern value="/servidor" />
+		<view-id value="/pages/servidor/cadastrar-servidor-lista.jsf" />
+	</url-mapping>
 
 </pretty-config>
