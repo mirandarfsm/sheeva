@@ -6,10 +6,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import br.com.sheeva.dao.ServidorDao;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Usuario;
 
+@Service("servidorDao")
+@Transactional
 public class ServidorDaoImpl implements ServidorDao {
 	
 	@PersistenceContext
