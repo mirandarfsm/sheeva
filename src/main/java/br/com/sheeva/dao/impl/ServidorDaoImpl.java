@@ -8,7 +8,6 @@ import javax.persistence.Query;
 
 import br.com.sheeva.dao.ServidorDao;
 import br.com.sheeva.dominio.Servidor;
-import br.com.sheeva.dominio.Usuario;
 
 public class ServidorDaoImpl implements ServidorDao {
 	
