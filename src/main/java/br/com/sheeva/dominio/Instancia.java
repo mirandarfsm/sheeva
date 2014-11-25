@@ -50,6 +50,7 @@ public class Instancia {
 		this.nome = nome;
 	}
 
+	@Column(name="diretorio_principal")
 	public String getDiretorioPrincipal() {
 		return diretorioPrincipal;
 	}
@@ -58,6 +59,7 @@ public class Instancia {
 		this.diretorioPrincipal = diretorioPrincipal;
 	}
 
+	@Column(name="arquivo_configuracao")
 	public String getArquivoConfiguração() {
 		return arquivoConfiguração;
 	}

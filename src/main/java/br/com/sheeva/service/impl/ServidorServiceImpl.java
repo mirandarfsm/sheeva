@@ -31,17 +31,4 @@ public class ServidorServiceImpl implements ServidorService {
 	public Servidor buscarPeloId(Integer id) {
 		return servidorDao.getById(id);
 	}
-
-	public Servidor buscarPeloNome(String nome) {
-		return servidorDao.getByNome(nome);
-	}
-
-	public boolean isNomeEmUso(Servidor servidor) {
-		Servidor servidorExistente = servidorDao.getByNome(servidor.getNome());
-		if (servidorExistente != null && !servidorExistente.equals(servidor.getNome())) {
-			return true;
-		}
-		return false;
-	}
-
 }

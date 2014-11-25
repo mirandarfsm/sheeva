@@ -41,11 +41,6 @@ public class ServidorBean {
 	}
 
 	public void salvar() {
-		if (servidorService.isNomeEmUso(servidor)) {
-			Mensagem.msgErro("Já existe um servidor cadastrada com este nome.");
-			return;
-		}
-		
 		servidorService.salvar(servidor);
 		if(servidor.getId() == null){
 			Mensagem.msgInformacao("Servidor salvo com sucesso");

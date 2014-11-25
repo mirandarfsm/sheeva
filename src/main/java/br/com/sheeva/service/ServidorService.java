@@ -14,8 +14,4 @@ public interface ServidorService {
 	
 	public Servidor buscarPeloId(Integer id);
 
-	public Servidor buscarPeloNome(String login);
-
-	public boolean isNomeEmUso(Servidor servidor);
-
 }

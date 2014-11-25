@@ -14,8 +14,4 @@ public interface ServidorDao {
 
 	public Servidor getById(Integer id);
 	
-	public Servidor getByNome(String nome);
-	
-	public Servidor getByInstanceName(String login);
-
 }

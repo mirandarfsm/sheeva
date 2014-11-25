@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sheeva.dao.ServidorDao;
 import br.com.sheeva.dominio.Servidor;
-import br.com.sheeva.dominio.Usuario;
 
 @Service("servidorDao")
 @Transactional
@@ -41,20 +40,4 @@ public class ServidorDaoImpl implements ServidorDao {
 		return servidor;
 	}
 	
-	public Servidor getByNome(String nome) {
-		List<Servidor> servidores = entityManager.createNamedQuery("Servidor.obterPeloNome").setParameter("nome", nome).getResultList();
-		if (servidores == null || servidores.isEmpty()) {
-			return null;
-		}
-		return servidores.get(0);
-	}
-	
-	public Servidor getByInstanceName(String instanceName) {
-		List<Servidor> servidores = entityManager.createNamedQuery("Servidor.obterPeloNomeInstancia").setParameter("nomeInstancia", instanceName).getResultList();
-		if (servidores == null || servidores.isEmpty()) {
-			return null;
-		}
-		return servidores.get(0);
-	}
-
 }

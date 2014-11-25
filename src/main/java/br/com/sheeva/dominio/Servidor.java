@@ -2,8 +2,10 @@ package br.com.sheeva.dominio;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,13 +15,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 
 @NamedQueries({
-	@NamedQuery(name="Servidor.removeById", query="DELETE FROM Servidor server WHERE server.id = :idServer"),
+	@NamedQuery(name="Servidor.removeById", query="DELETE FROM Servidor server WHERE server.id = :idServidor"),
 	@NamedQuery(name="Servidor.searchAll", query="SELECT server FROM Servidor server"),
-	@NamedQuery(name="Servidor.searchById", query="SELECT server FROM Servidor server WHERE server.id = :idServidor"),
-	@NamedQuery(name="Servidor.obterPeloNome", query="SELECT server FROM Servidor server WHERE server.nome = :nome"),
-	@NamedQuery(name="Servidor.obterPeloNomeInstancia", query="SELECT user FROM Usuario user WHERE user.email = :email " + "and user.excluido = false")})
+	@NamedQuery(name="Servidor.searchById", query="SELECT server FROM Servidor server WHERE server.id = :idServidor")
+})
 
 @Entity
 @Table(name = "servidor")
@@ -59,7 +62,7 @@ public class Servidor {
 		this.id = id;
 	}
 	
-	@Column(unique = true)
+	@NotBlank(message="O campo NOME é obrigatório.")
 	public String getNome() {
 		return nome;
 	}
@@ -68,6 +71,7 @@ public class Servidor {
 		this.nome = nome;
 	}
 
+	@NotBlank(message="O campo ENDEREÇO é obrigatório.")
 	public String getEndereco() {
 		return endereco;
 	}
@@ -76,6 +80,7 @@ public class Servidor {
 		this.endereco = endereco;
 	}
 
+	@NotBlank(message="O campo LOGIN é obrigatório.")
 	public String getLogin() {
 		return login;
 	}
@@ -84,6 +89,7 @@ public class Servidor {
 		this.login = login;
 	}
 
+	@NotBlank(message="O campo SENHA é obrigatório.")
 	public String getSenha() {
 		return senha;
 	}
@@ -92,8 +98,7 @@ public class Servidor {
 		this.senha = senha;
 	}
 
-
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public List<Instancia> getInstancias() {
 		return instancias;
 	}
