@@ -42,31 +42,6 @@ public class Instancia {
 		this.id = id;
 	}
 
-	public Instancia() {
-		super();
-	}
-	
-	public Instancia(Integer id, String nome, String diretorioPrincipal,
-			String arquivoConfiguração) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.diretorioPrincipal = diretorioPrincipal;
-		this.arquivoConfiguração = arquivoConfiguração;
-	}
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_instancia")
-	@SequenceGenerator(name = "seq_instancia", sequenceName = "seq_instancia", allocationSize = 1, initialValue = 10000)
-	@Column(unique = true, nullable = false, updatable = false, insertable = true)
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	public String getNome() {
 		return nome;
 	}
