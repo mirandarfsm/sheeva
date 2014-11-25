@@ -18,7 +18,7 @@
   <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/js/bootstrap.min.js" />
   <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/js/bootstrap.js" />
   <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/js/npm.js" />
-  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/font-awesome/font-awesome.css" />
+  <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/correcoes.css" />
   <ui:insert name="html-head" />
 </h:head>
@@ -40,9 +40,10 @@
 	<div class="vgap-30"></div>
 	<ui:insert name="dialogs" />
   
-  <p:dialog id="loading-dialog" widgetVar="loadingDialog" resizable="false" styleClass="loading-dialog" >
-    <h:panelGroup styleClass="fa fa-cog fa-spin"/> Carregando..
+  <p:dialog id="loading-dialog" widgetVar="loadingDialog" resizable="false" styleClass="loading-dialog" showHeader="false">
+    <button class="btn btn-lg btn-warning"><i class="fa fa-refresh fa-spin"></i> Carregando...</button>
   </p:dialog>
+  
   <p:ajaxStatus onstart="PF('loadingDialog').show()" onsuccess="PF('loadingDialog').hide()" />
   
   <h:form id="global-dialog-form">

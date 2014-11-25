@@ -18,6 +18,35 @@
 	margin-top: 50px;
 }
 
+form#formUsuario .ui-fieldset-legend {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color -moz-use-text-color #e5e5e5;
+    border-image: none;
+    border-style: none none solid;
+    border-width: 0 0 1px;
+    color: #ffffff;
+    display: block;
+    font-size: 16px;
+    text-shadow: none;
+    line-height: inherit;
+    margin-bottom: 20px;
+    padding: 5px;
+    width: 100%;
+    background: #337ab7;
+}
+
+form#formUsuario .ui-fieldset {
+
+}
+
+form#formUsuario:usuarioTable_head {
+	background: none;
+	border: none;
+}
+
 .blink_me {
 	-webkit-animation-name: blinker;
 	-webkit-animation-duration: 1s;
@@ -41,22 +70,32 @@
 50%
 {
 opacity
+
+
 :
+
  
+
 0
 .0
+
+
 ;
- 
 }
 100%
 {
 opacity
+
+
 :
+
  
+
 1
 .0
+
+
 ;
- 
 }
 }
 @
@@ -67,22 +106,32 @@ opacity
 50%
 {
 opacity
+
+
 :
+
  
+
 0
 .0
+
+
 ;
- 
 }
 100%
 {
 opacity
+
+
 :
+
  
+
 1
 .0
+
+
 ;
- 
 }
 }
 @
@@ -92,21 +141,35 @@ keyframes blinker { 0% {
 50%
 {
 opacity
+
+
 :
+
  
+
 0
 .0
+
+
 ;
- 
 }
 100%
 {
 opacity
+
+
 :
+
  
+
 1
 .0
+
+
 ;
- 
 }
 }
+
+
+
+
