@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="html-title">Cadastrar servidor</ui:define>
+	<ui:define name="main">
+		<h3>Cadastro de Servidor</h3>
+		<p:separator />
+		<div class="vgap-10" />
+		<h:form id="formServidor">
+			<p:messages id="msg" showIcon="false" autoUpdate="true" />
+			<p:panel header="Servidor" style="font-size: 12px;">
+				<p:fieldset legend="Cadastrar Servidor">
+					<p:commandButton value="Novo Servidor" action="#{servidorBean.novo}"
+						ajax="false" id="botaoNovoServidor"
+						style="margin-bottom: 5px; margin-top: 20px;" />
+				</p:fieldset>
+				<p:fieldset
+					legend="#{servidorBean.servidores.size()} Servidores Cadastrados"
+					id="fieldServidores">
+					<p:dataTable id="servidorTable" var="servidor"
+						value="#{servidorBean.servidores}" rowKey="#{servidor.id}"
+						paginator="true" rows="7" tableStyle="font-size: 12px;"
+						emptyMessage="Nenhum servidor cadastrado">>
+							<p:column headerText="Nome Servidor" sortBy="#{servidor.nome}"
+							filterBy="#{servidor.nome}" id="nome">
+            					#{servidor.nome}
+       						</p:column>
+						<p:column headerText="Alterar" style="width:32px">
+							<p:commandButton action="#{servidorBean.editar}" title="Alterar"
+								icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
+								<f:setPropertyActionListener value="#{servidor}"
+									target="#{servidorBean.servidor}" />
+							</p:commandButton>
+						</p:column>
+						<p:column headerText="Excluir" style="width:32px">
+       							 <p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
+       							                  actionListener="#{servidorBean.excluir}" update=":formServidor:fieldServidor :formServidor:msg"> 
+       							    <f:setPropertyActionListener value="#{servidor}" target="#{servidorBean.servidor}" /> 
+						         	<p:confirm header="Deletar Servidor" message="Você realmente deseja deletar este servidor?" 
+						         	           icon="ui-icon-alert" />
+						         </p:commandButton>
+       						</p:column>
+					</p:dataTable>
+
+				</p:fieldset>
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
