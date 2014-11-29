@@ -73,8 +73,8 @@ public class UsuarioBean {
 		return "/pages/usuario/cadastrar-usuario-formulario.xhtml";
 	}
 
-	public String cancelar() {
-		return "/pages/usuario/cadastrar-usuario-lista.xhtml";
+	public void cancelar() {
+		ManagedBeanUtils.redirecionar("/usuario");
 	}
 
 	public SelectItem[] getListaPerfis() {
