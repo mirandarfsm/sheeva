@@ -28,5 +28,10 @@
 		<pattern value="/servidor" />
 		<view-id value="/pages/servidor/cadastrar-servidor-lista.jsf" />
 	</url-mapping>
+	
+	<url-mapping id="cadastrar-instancia-lista">
+		<pattern value="/instancia" />
+		<view-id value="/pages/instancia/cadastrar-instancia-lista.jsf" />
+	</url-mapping>
 
 </pretty-config>

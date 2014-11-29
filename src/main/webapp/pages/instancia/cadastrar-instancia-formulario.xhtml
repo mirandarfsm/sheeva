@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="html-title">Cadastrar instancia</ui:define>
+	<ui:define name="main">
+		<h3>Cadastro de Instancia</h3>
+		<p:separator />
+		<div class="vgap-10" />
+		<h:form id="formInstancia">
+			<p:messages id="msg" globalOnly="true" showIcon="false" autoUpdate="true"/>
+			<p:fieldset legend="Dados Cadastrais">
+				<h:panelGrid columns="3">
+					<h:outputText value="Nome: "/>
+					<p:inputText id="nomeInstancia" size="50" value="#{instanciaBean.instancia.nome}" /> 
+					<p:message for="nomeInstancia"/>
+					<h:outputText value="Diretorio Principal: "/>
+					<p:inputText id="diretorioPrincipal" size="30" value="#{instanciaBean.instancia.diretorioPrincipal}"/>
+					<p:message for="diretorioPrincipal"/>
+					<h:outputText value="Arquivo Configuracao: "/>
+					<p:inputText id="arquivoConfiguracao" size="30" value="#{instanciaBean.instancia.arquivoConfiguracao}"/>
+					<p:message for="arquivoConfiguracao"/>
+				</h:panelGrid>
+			</p:fieldset>
+					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{instanciaBean.cancelar}" 
+								icon="ui-icon-arrowreturnthick-1-w"/>		
+					<p:commandButton id="botaoSalvar" value="Salvar" action="#{instanciaBean.salvar}" update="@form" 
+								icon="ui-icon-disk"/>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
