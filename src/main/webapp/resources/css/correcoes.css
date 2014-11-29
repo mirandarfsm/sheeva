@@ -18,6 +18,11 @@
 	margin-top: 50px;
 }
 
+.loading-dialog {
+	left: 0px !important;
+    top: 0px !important;
+}
+
 .fieldSet .ui-fieldset-legend {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
