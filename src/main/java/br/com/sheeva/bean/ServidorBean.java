@@ -63,7 +63,7 @@ public class ServidorBean {
 	}
 
 	public void cancelar() {
-		ManagedBeanUtils.redirecionar("/usuario");
+		ManagedBeanUtils.redirecionar("/servidor");
 	}
 
 	public Servidor getServidor() {
