@@ -62,8 +62,8 @@ public class ServidorBean {
 		return "/pages/servidor/cadastrar-servidor-formulario.xhtml";
 	}
 
-	public String cancelar() {
-		return "/pages/servidor/cadastrar-servidor-lista.xhtml";
+	public void cancelar() {
+		ManagedBeanUtils.redirecionar("/usuario");
 	}
 
 	public Servidor getServidor() {
