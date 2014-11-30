@@ -25,6 +25,11 @@
 					<h:outputText value="Arquivo Configuracao: "/>
 					<p:inputText id="arquivoConfiguracao" size="30" value="#{instanciaBean.instancia.arquivoConfiguracao}"/>
 					<p:message for="arquivoConfiguracao"/>
+					<h:outputText value="Tipo de Instância: "/>
+					<h:selectOneMenu value="#{instanciaBean.instancia.tipoInstancia}" converter="tipoInstanciaConverter" 
+					                 style="margin-top: 5px;">
+								<f:selectItems value="#{instanciaBean.listaTipoInstancia}" />
+					</h:selectOneMenu>
 				</h:panelGrid>
 			</p:fieldset>
 					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{instanciaBean.cancelar}" 

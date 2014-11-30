@@ -3,12 +3,15 @@ package br.com.sheeva.bean;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.model.SelectItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import br.com.sheeva.dominio.Instancia;
+import br.com.sheeva.enu.EnumSelectItemsCreator;
+import br.com.sheeva.enu.TipoInstancia;
 import br.com.sheeva.service.InstanciaService;
 import br.com.sheeva.utils.LayoutIndexManager;
 import br.com.sheeva.utils.ManagedBeanUtils;
@@ -23,10 +26,6 @@ public class InstanciaBean {
 
 	@Autowired
 	private InstanciaService instanciaService;
-
-	public InstanciaBean() {
-
-	}
 
 	@PostConstruct
 	public void init() {
@@ -53,7 +52,7 @@ public class InstanciaBean {
 	public void excluir() {
 		instanciaService.remover(instancia.getId());
 		instancias = instanciaService.listarTodos();
-		Mensagem.msgInformacao("Instancia excluído com sucesso");
+		Mensagem.msgInformacao("Instancia excluída com sucesso");
 	}
 
 	public String editar() {
@@ -63,6 +62,10 @@ public class InstanciaBean {
 
 	public void cancelar() {
 		ManagedBeanUtils.redirecionar("/instancia");
+	}
+	
+	public SelectItem[] getListaTipoInstancia(){
+		return EnumSelectItemsCreator.items(TipoInstancia.class, "nome");
 	}
 
 	public Instancia getInstancia() {
