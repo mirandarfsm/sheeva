@@ -211,6 +211,17 @@
 			<artifactId>font-awesome</artifactId>
 			<version>4.2.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.51</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fusesource.jansi</groupId>
+			<artifactId>jansi</artifactId>
+			<version>1.11</version>
+		</dependency>
+
 
 	</dependencies>
 </project>

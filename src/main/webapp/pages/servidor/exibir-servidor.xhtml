@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="html-title">Servidor</ui:define>
+	<ui:define name="main">
+		<h3>Servidor</h3>
+		<p:separator />
+		<div class="vgap-10" />
+		<h:form id="formServidor">
+			<p:messages id="msg" globalOnly="true" showIcon="false"	autoUpdate="true" />
+
+			<p:tabView dynamic="true" cache="true">
+				<p:tab title="Dados">
+					<p:fieldset legend="Dados Cadastrais" styleClass="fieldSet">
+						<h:panelGrid columns="2">
+							<h:outputText value="Nome: " />
+							<h:outputText id="nomeServidor" size="50" value="#{servidorBean.servidor.nome}" />
+							<h:outputText value="Endereço: " />
+							<h:outputText id="enderecoServidor" size="30" value="#{servidorBean.servidor.endereco}" />
+							<h:outputText value="Porta: " />
+							<h:outputText id="porta" size="30" value="#{servidorBean.servidor.porta}" />
+							<h:outputText value="Login: " />
+							<h:outputText id="loginServidor" size="30" value="#{servidorBean.servidor.login}" />
+						</h:panelGrid>
+					</p:fieldset>
+					<p:commandButton id="botaoCancelar" value="Voltar" immediate="true"
+						action="#{servidorBean.cancelar}" icon="ui-icon-arrowreturnthick-1-w" />
+				</p:tab>
+				<p:tab title="Terminal">
+					<p:terminal styleClass="terminal" height="300px" welcomeMessage="Welcome..." prompt="&gt;" 
+			            commandHandler="#{terminalBean.handleCommand}">
+			        </p:terminal>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

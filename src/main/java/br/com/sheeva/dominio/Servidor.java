@@ -14,29 +14,31 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 @NamedQueries({
-		@NamedQuery(name = "Servidor.removeById", query = "DELETE FROM Servidor server WHERE server.id = :idServidor"),
-		@NamedQuery(name = "Servidor.searchAll", query = "SELECT server FROM Servidor server"),
-		@NamedQuery(name = "Servidor.searchById", query = "SELECT server FROM Servidor server WHERE server.id = :idServidor") })
+	@NamedQuery(name="Servidor.removeById", query="DELETE FROM Servidor server WHERE server.id = :idServidor"),
+	@NamedQuery(name="Servidor.searchAll", query="SELECT server FROM Servidor server"),
+	@NamedQuery(name="Servidor.searchById", query="SELECT server FROM Servidor server WHERE server.id = :idServidor")
+})
 @Entity
 @Table(name = "servidor")
 public class Servidor {
 
-	private Integer id;
+	private	Integer id;
 	private String nome;
 	private String endereco;
-	private String porta;
+	private Integer porta;
 	private String login;
 	private String senha;
 	private List<Instancia> instancias;
 
-	public Servidor() {
+	public Servidor(){
 		super();
 	}
-
+	
 	public Servidor(Integer id, String nome, String endereco, String login,
 			String senha, List<Instancia> instancias) {
 		super();
@@ -60,7 +62,7 @@ public class Servidor {
 		this.id = id;
 	}
 
-	@NotBlank(message = "O campo NOME é obrigatório.")
+	@NotBlank(message="O campo NOME é obrigatório.")
 	public String getNome() {
 		return nome;
 	}
@@ -69,7 +71,7 @@ public class Servidor {
 		this.nome = nome;
 	}
 
-	@NotBlank(message = "O campo ENDEREÇO é obrigatório.")
+	@NotBlank(message="O campo ENDEREÇO é obrigatório.")
 	public String getEndereco() {
 		return endereco;
 	}
@@ -78,15 +80,16 @@ public class Servidor {
 		this.endereco = endereco;
 	}
 
-	public String getPorta() {
+	@NotNull(message="O campo PORTA é obrigatório.")
+	public Integer getPorta() {
 		return porta;
 	}
 
-	public void setPorta(String porta) {
+	public void setPorta(Integer porta) {
 		this.porta = porta;
 	}
 
-	@NotBlank(message = "O campo LOGIN é obrigatório.")
+	@NotBlank(message="O campo LOGIN é obrigatório.")
 	public String getLogin() {
 		return login;
 	}
@@ -95,7 +98,7 @@ public class Servidor {
 		this.login = login;
 	}
 
-	@NotBlank(message = "O campo SENHA é obrigatório.")
+	@NotBlank(message="O campo SENHA é obrigatório.")
 	public String getSenha() {
 		return senha;
 	}
@@ -112,7 +115,7 @@ public class Servidor {
 	public void setInstancias(List<Instancia> instancias) {
 		this.instancias = instancias;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

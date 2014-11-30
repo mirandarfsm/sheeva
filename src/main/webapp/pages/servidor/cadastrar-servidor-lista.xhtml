@@ -29,6 +29,13 @@
 							filterBy="#{servidor.nome}" id="nome">
             					#{servidor.nome}
        						</p:column>
+       						<p:column headerText="Exibir" style="width:60px">
+							<p:commandButton action="#{servidorBean.exibir}" title="Exibir"
+								icon="ui-icon-search" ajax="false" id="exibirServidor">
+								<f:setPropertyActionListener value="#{servidor}"
+									target="#{servidorBean.servidor}" />
+							</p:commandButton>
+						</p:column>
 						<p:column headerText="Alterar" style="width:60px">
 							<p:commandButton action="#{servidorBean.editar}" title="Alterar"
 								icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
@@ -37,19 +44,18 @@
 							</p:commandButton>
 						</p:column>
 						<p:column headerText="Excluir" style="width:60px">
-       							 <p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
-       							                  actionListener="#{servidorBean.excluir}" update=":formServidor:fieldServidores :formServidor:msg"> 
-       							    <f:setPropertyActionListener value="#{servidor}" target="#{servidorBean.servidor}" /> 
-						         	<p:confirm header="Deletar Servidor" message="Você realmente deseja deletar este servidor?" 
-						         	           icon="ui-icon-alert" />
-						         </p:commandButton>
-       						</p:column>
+       						<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
+       					                     actionListener="#{servidorBean.excluir}" update=":formServidor:fieldServidores :formServidor:msg"> 
+       						    <f:setPropertyActionListener value="#{servidor}" target="#{servidorBean.servidor}" /> 
+						       	<p:confirm header="Deletar Servidor" message="Você realmente deseja deletar este servidor?" 
+						       	           icon="ui-icon-alert" />
+						    </p:commandButton>
+       					</p:column>
 					</p:dataTable>
 
 				</p:fieldset>
 			</p:panel>
 		</h:form>
-
 	</ui:define>
 
 </ui:composition>

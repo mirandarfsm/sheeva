@@ -18,17 +18,17 @@
 		<pattern value="/usuario" />
 		<view-id value="/pages/usuario/cadastrar-usuario-lista.jsf" />
 	</url-mapping>
-	
-	<url-mapping id="cadastrar-servidor-lista">
-		<pattern value="/servidor" />
-		<view-id value="/pages/servidor/cadastrar-servidor-lista.jsf" />
-	</url-mapping>
 
 	<url-mapping id="cadastrar-servidor-lista">
 		<pattern value="/servidor" />
 		<view-id value="/pages/servidor/cadastrar-servidor-lista.jsf" />
 	</url-mapping>
-	
+
+	<url-mapping id="exibir-servidor">
+		<pattern value="/exibir-servidor" />
+		<view-id value="/pages/servidor/exibir-servidor.jsf" />
+	</url-mapping>
+
 	<url-mapping id="cadastrar-instancia-lista">
 		<pattern value="/instancia" />
 		<view-id value="/pages/instancia/cadastrar-instancia-lista.jsf" />

@@ -25,10 +25,6 @@ public class ServidorBean {
 	@Autowired
 	private ServidorService servidorService;
 	
-	public ServidorBean() {
-	
-	}
-	
 	@PostConstruct
 	public void init(){
 		servidores = servidorService.listarTodos();
@@ -60,6 +56,11 @@ public class ServidorBean {
 	public String editar() {
 		servidor = servidorService.buscarPeloId(servidor.getId());
 		return "/pages/servidor/cadastrar-servidor-formulario.xhtml";
+	}
+	
+	public String exibir() {
+		servidor = servidorService.buscarPeloId(servidor.getId());
+		return "/pages/servidor/exibir-servidor.xhtml";
 	}
 
 	public void cancelar() {
