@@ -31,6 +31,7 @@
 					</p:fieldset>
 					<p:commandButton id="botaoCancelar" value="Voltar" immediate="true"
 						action="#{servidorBean.cancelar}" icon="ui-icon-arrowreturnthick-1-w" />
+						<p:commandLink value="Terminal" immediate="true" target="_blank" action="#{servidorBean.abrirTerminal}" />
 				</p:tab>
 				<p:tab title="Terminal">
 					<p:terminal styleClass="terminal" height="300px" welcomeMessage="Welcome..." prompt="&gt;" 
