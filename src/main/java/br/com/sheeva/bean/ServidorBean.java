@@ -71,6 +71,10 @@ public class ServidorBean {
 	}
 	
 	public void abrirTerminal() {
+    	ManagedBeanUtils.redirecionarUrlExterna(obterUrlSsh());
+	}
+	
+	private String obterUrlSsh() {
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("ssh://");
 		stringBuffer.append(servidor.getLogin());
@@ -80,12 +84,7 @@ public class ServidorBean {
 		stringBuffer.append(servidor.getEndereco());
 		stringBuffer.append(":");
 		stringBuffer.append(servidor.getPorta());
-		String urlSsh = stringBuffer.toString();
-	    try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect(urlSsh);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return stringBuffer.toString();
 	}
 
 	public Servidor getServidor() {

@@ -20,6 +20,14 @@ public class ManagedBeanUtils {
 		}
 	}
 	
+	public static void redirecionarUrlExterna(String url){
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+	
 	public static void showDialog(String nome){
 		String function = PF_DIALOG_FUNCTION + ".show()";
 		RequestContext.getCurrentInstance().execute(function.replace(":nome", nome));
