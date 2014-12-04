@@ -74,17 +74,16 @@ public class ServidorBean {
     	ManagedBeanUtils.redirecionarUrlExterna(obterUrlSsh());
 	}
 	
-	private String obterUrlSsh() {
+	public String obterUrlSsh() {
 		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append("ssh://");
-		stringBuffer.append(servidor.getLogin());
-		stringBuffer.append(":");
-		stringBuffer.append(servidor.getSenha());
-		stringBuffer.append("@");
-		stringBuffer.append(servidor.getEndereco());
-		stringBuffer.append(":");
-		stringBuffer.append(servidor.getPorta());
-		return stringBuffer.toString();
+		return stringBuffer.append("ssh://")
+				.append(servidor.getLogin())
+				.append(":")
+				.append(servidor.getSenha())
+				.append("@")
+				.append(servidor.getEndereco())
+				.append(":")
+				.append(servidor.getPorta()).toString();
 	}
 
 	public Servidor getServidor() {
