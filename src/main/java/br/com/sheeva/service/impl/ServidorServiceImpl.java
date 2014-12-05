@@ -9,13 +9,8 @@ import br.com.sheeva.dao.ServidorDao;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.service.ServidorService;
 
-import com.jcraft.jsch.JSch;
-
 @Service("servidorService")
 public class ServidorServiceImpl implements ServidorService {
-
-	@Autowired
-	private JSch jsch;
 	
 	@Autowired
 	private ServidorDao servidorDao;

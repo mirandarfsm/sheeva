@@ -68,8 +68,6 @@
 	<bean id="persistenceExceptionTranslationPostProcessor" 
 	      class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 	      
-	<bean id="jsch" class="com.jcraft.jsch.JSch" />
-
     <import resource="security.xml"/>	
 
 </beans>
