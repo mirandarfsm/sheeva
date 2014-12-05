@@ -9,10 +9,7 @@ import br.com.sheeva.dao.ServidorDao;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.service.ServidorService;
 
-import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 
 @Service("servidorService")
 public class ServidorServiceImpl implements ServidorService {
