@@ -1,12 +1,9 @@
 package br.com.sheeva.bean;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 
-import org.apache.struts.chain.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;

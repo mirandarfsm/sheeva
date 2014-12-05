@@ -41,34 +41,4 @@ public class ServidorServiceImpl implements ServidorService {
 		return servidorDao.getById(id);
 	}
 
-	public Channel getCanalDeComunicacao(Servidor servidor) {
-		Session sessao = getSessao(servidor.getEndereco(), servidor.getLogin(), servidor.getPorta(), servidor.getSenha());
-		Channel canal = abrirCanal(sessao);
-		return canal;
-	}
-	
-	private Session getSessao(String endereco, String usuario, Integer porta, String senha) {
-		Session sessao = null;
-		try {
-			sessao = jsch.getSession(usuario, endereco, porta);
-			sessao.setConfig("StrictHostKeyChecking", "no");
-			sessao.setPassword(senha);
-			sessao.connect(TIMEOUT);
-		} catch (JSchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return sessao;
-	}
-	
-	private Channel abrirCanal(Session sessao){
-		Channel canal = null;
-		try {
-			canal = sessao.openChannel("shell");
-		} catch (JSchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return canal;
-	}
 }

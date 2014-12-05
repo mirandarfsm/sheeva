@@ -41,7 +41,7 @@ public class InstanciaBean {
 	public void salvar() {
 		instanciaService.salvar(instancia);
 		if (instancia.getId() == null) {
-			Mensagem.msgInformacao("Instancia salvo com sucesso");
+			Mensagem.msgInformacao("Instancia salva com sucesso");
 		} else {
 			Mensagem.msgInformacao("Instancia alterado com sucesso");
 		}
