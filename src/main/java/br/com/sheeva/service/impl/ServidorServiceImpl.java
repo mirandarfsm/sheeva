@@ -14,8 +14,6 @@ import com.jcraft.jsch.JSch;
 @Service("servidorService")
 public class ServidorServiceImpl implements ServidorService {
 
-	private static final int TIMEOUT = 5000;
-	
 	@Autowired
 	private JSch jsch;
 	
