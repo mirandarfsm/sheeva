@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="html-title">Instancia</ui:define>
+	<ui:define name="main">
+		<h3>Instancia</h3>
+		<p:separator />
+		<div class="vgap-10" />
+		<p:tabView dynamic="true" cache="true">
+			<p:tab title="Dados">
+				<p:fieldset legend="Dados Cadastrais" styleClass="fieldSet">
+					<h:panelGrid columns="2">
+						<h:outputText value="Nome: " />
+						<h:outputText id="nomeInstancia" size="50"
+							value="#{arquivoConfiguracaoBean.instancia.nome}" />
+						<h:outputText value="Arquivo Configuracao: " />
+						<h:outputText id="arquivoConfiguracao" size="30"
+							value="#{arquivoConfiguracaoBean.instancia.arquivoConfiguracao}" />
+						<h:outputText value="Tipo Instancia: " />
+						<h:outputText id="tipoInstancia" size="30"
+							value="#{arquivoConfiguracaoBean.instancia.tipoInstancia}" />
+						<h:outputText value="Diretorio Principal: " />
+						<h:outputText id="diretorioPrincipal" size="30"
+							value="#{arquivoConfiguracaoBean.instancia.diretorioPrincipal}" />
+					</h:panelGrid>
+				</p:fieldset>
+
+				<p:commandButton id="botaoCancelar" value="Voltar" immediate="true"
+					action="#{arquivoConfiguracaoBean.cancelar}"
+					icon="ui-icon-arrowreturnthick-1-w" />
+			</p:tab>
+
+			<p:tab title="Arquivo Configuracao">
+				<h:form id="formArquivoConfiguracao">
+<!-- 					<p:messages id="msg" globalOnly="true" showIcon="false" -->
+<!-- 						autoUpdate="true" /> -->
+<!-- 					<p:outputLabel for="console" value="Servidor:" /> -->
+<!-- 					<p:selectOneMenu id="console" -->
+<!-- 						value="#{arquivoConfiguracaoBean.servidor}" style="width:125px"> -->
+<!-- 						<f:selectItems value="#{arquivoConfiguracaoBean.servidores}" -->
+<!-- 							var="servidor" itemLabel="#{servidor.nome}" -->
+<!-- 							itemValue="#{servidor}" /> -->
+<!-- 					</p:selectOneMenu> -->
+					<p:editor id="editor" widgetVar="editorWidget"
+						value="#{arquivoConfiguracaoBean.configuracao}" width="600" />
+
+					<h:panelGrid columns="3" style="margin-top: 10px">
+						<p:commandButton id="botaoSalvar" value="Salvar"
+							action="#{arquivoConfiguracaoBean.salvar}" update="@form"
+							icon="ui-icon-disk" />
+						<p:commandButton value="Submit"
+							action="#{arquivoConfiguracaoBean.submit}" icon="ui-icon-disk" />
+						<p:commandButton value="Clear" type="button"
+							onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
+					</h:panelGrid>
+				</h:form>
+			</p:tab>
+		</p:tabView>
+	</ui:define>
+
+</ui:composition>

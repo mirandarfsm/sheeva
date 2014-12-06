@@ -29,6 +29,13 @@
 							filterBy="#{instancia.nome}" id="nome">
             					#{instancia.nome}
        						</p:column>
+       					<p:column headerText="Exibir" style="width:60px">
+							<p:commandButton action="#{instanciaBean.exibir}" title="Exibir"
+								icon="ui-icon-search" ajax="false" id="exibirInstancia">
+								<f:setPropertyActionListener value="#{instancia}"
+									target="#{instanciaBean.instancia}" />
+							</p:commandButton>
+						</p:column>
 						<p:column headerText="Alterar" style="width:60px">
 							<p:commandButton action="#{instanciaBean.editar}" title="Alterar"
 								icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
