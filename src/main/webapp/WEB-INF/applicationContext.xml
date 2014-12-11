@@ -62,12 +62,15 @@
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<context:annotation-config />
-		<context:component-scan base-package="br.com.sheeva">
+	<context:component-scan base-package="br.com.sheeva">
 	</context:component-scan>
 
 	<bean id="persistenceExceptionTranslationPostProcessor" 
 	      class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 	      
+	      
+	 <bean id="jsch" class="com.jcraft.jsch.JSch"/>
+	 
     <import resource="security.xml"/>	
 
 </beans>
