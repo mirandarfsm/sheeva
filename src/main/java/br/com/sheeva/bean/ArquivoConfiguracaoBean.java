@@ -54,7 +54,7 @@ public class ArquivoConfiguracaoBean {
 	public void cancelar() {
 		ManagedBeanUtils.redirecionar("/instancia");
 	}
-
+	
 	public String getConfiguracao() {
 		return configuracao;
 	}

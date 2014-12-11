@@ -59,6 +59,11 @@ public class InstanciaBean {
 		instancia = instanciaService.buscarPeloId(instancia.getId());
 		return "/pages/instancia/cadastrar-instancia-formulario.xhtml";
 	}
+	
+	public String exibir() {
+		instancia = instanciaService.buscarPeloId(instancia.getId());
+		return "/pages/instancia/configuracao-instancia.xhtml";
+	}
 
 	public void cancelar() {
 		ManagedBeanUtils.redirecionar("/instancia");
