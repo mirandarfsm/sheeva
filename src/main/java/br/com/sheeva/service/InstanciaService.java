@@ -20,7 +20,7 @@ public interface InstanciaService {
 
 	public Instancia buscarPeloNome(String nome);
 	
-	public String getArquivoConfiguracao(Servidor servidor,String arquivoConfiguracao);
+	public String getArquivoConfiguracao(Servidor servidor,Instancia instancia);
 
-	public void setArquivoConfiguracao(Servidor servidor, String arquivoConfiguracao,String configuracao);
+	public void setArquivoConfiguracao(Servidor servidor, Instancia instancia,String configuracao);
 }
