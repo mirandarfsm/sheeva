@@ -54,7 +54,7 @@ public class InstanciaBean {
 		instancias = instanciaService.listarTodos();
 		Mensagem.msgInformacao("Instancia excluída com sucesso");
 	}
-
+	
 	public String editar() {
 		instancia = instanciaService.buscarPeloId(instancia.getId());
 		return "/pages/instancia/cadastrar-instancia-formulario.xhtml";

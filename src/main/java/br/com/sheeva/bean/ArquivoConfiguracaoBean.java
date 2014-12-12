@@ -38,17 +38,17 @@ public class ArquivoConfiguracaoBean {
 		servidores = servidorService.listarTodos();
 		instancia = instanciaBean.getInstancia();
 		servidor = servidores.get(0);
-		configuracao = instanciaService.getArquivoConfiguracao(servidor, instancia.getDiretorioPrincipal()+instancia.getArquivoConfiguracao()).replaceAll("\n", "<br>");
+		configuracao = instanciaService.getArquivoConfiguracao(servidor, instancia).replaceAll("\n", "<br>");
 	}
 	
 	public void salvar(){
-		instanciaService.setArquivoConfiguracao(servidor, instancia.getDiretorioPrincipal()+instancia.getArquivoConfiguracao(),configuracao.replaceAll("<br>" , "\n"));
+		instanciaService.setArquivoConfiguracao(servidor, instancia,configuracao.replaceAll("<br>" , "\n"));
 		Mensagem.msgInformacao("Arquivo Configuracao alterado com sucesso");
 		ManagedBeanUtils.redirecionar("/instancia");
 	}
 	
 	public void submit(){
-		configuracao = instanciaService.getArquivoConfiguracao(servidor,instancia.getArquivoConfiguracao()).replaceAll("\n", "<br>");
+		configuracao = instanciaService.getArquivoConfiguracao(servidor,instancia).replaceAll("\n", "<br>");
 	}
 
 	public void cancelar() {

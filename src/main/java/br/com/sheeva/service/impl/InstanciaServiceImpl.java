@@ -1,12 +1,16 @@
 package br.com.sheeva.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,8 +58,8 @@ public class InstanciaServiceImpl implements InstanciaService {
 	}
 
 	public String getArquivoConfiguracao(Servidor servidor,
-			String arquivoConfiguracao) {
-		String command = "cat " + arquivoConfiguracao;
+			Instancia instancia) {
+		String command = "cat " +instancia.getDiretorioPrincipal()+instancia.getArquivoConfiguracao();
 
 		Channel channel = getCanal(servidor, command);
 
@@ -72,12 +76,25 @@ public class InstanciaServiceImpl implements InstanciaService {
 		} catch (JSchException e) {
 			e.printStackTrace();
 		}
+		
+		try {
+			FileUtils.copyInputStreamToFile(in, new File("${user.home}/.sheeva/"+servidor.getNome()+"/"+instancia.getNome()+"/"+instancia.getArquivoConfiguracao()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		return streamToString(in);
 	}
 
 	public void setArquivoConfiguracao(Servidor servidor,
-			String arquivoConfiguracao, String configuracao) {
-		String command = "printf '" + configuracao + "'>" + arquivoConfiguracao;
+			Instancia instancia, String configuracao) {
+		
+		gerarBackup(servidor, instancia);
+		
+		StringBuilder configuracaoSheeva = new StringBuilder("### Arquivo gerado por SHEEVA em DD/MM/YYY HH:MM ###\n");
+		configuracaoSheeva.append(configuracao);
+		
+		String command = "printf '" + configuracaoSheeva + "'>" +instancia.getDiretorioPrincipal()+instancia.getArquivoConfiguracao();
 
 		Channel channel = getCanal(servidor, command);
 
@@ -94,7 +111,7 @@ public class InstanciaServiceImpl implements InstanciaService {
 		} catch (JSchException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Arquivo de Configuracao: "+arquivoConfiguracao+" do servidor: "+servidor.toString()+"Atualizado");
+		System.out.println("Arquivo de Configuracao: "+instancia.getArquivoConfiguracao()+" do servidor: "+servidor.toString()+"Atualizado");
 	}
 	
 	private Session getSessao(Servidor servidor) {
@@ -133,6 +150,12 @@ public class InstanciaServiceImpl implements InstanciaService {
 	private static String streamToString(InputStream is) {
 		Scanner s = new Scanner(is).useDelimiter("\\A");
 		return s.hasNext() ? s.next() : "";
+	}
+	
+	private void gerarBackup(Servidor servidor, Instancia instancia){
+		Calendar date = new GregorianCalendar();
+		File configuracao = new File("${user.home}/.sheeva/"+servidor.getNome()+"/"+instancia.getNome()+"/"+instancia.getArquivoConfiguracao());
+		configuracao.renameTo(new File("${user.home}/.sheeva/"+servidor.getNome()+"/"+instancia.getNome()+"/"+instancia.getArquivoConfiguracao()+"."+date));
 	}
 
 }
