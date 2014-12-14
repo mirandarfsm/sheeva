@@ -31,4 +31,19 @@ public class ServidorServiceImpl implements ServidorService {
 		return servidorDao.getById(id);
 	}
 
+	public String getConfiguracaoServidor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getLog() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void gerenciarServico() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

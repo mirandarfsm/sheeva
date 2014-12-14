@@ -14,33 +14,32 @@ import br.com.sheeva.utils.LayoutIndexManager;
 import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
-
 @Service("servidorBean")
 @Scope(value = "session")
 public class ServidorBean {
 
 	private Servidor servidor;
 	private List<Servidor> servidores;
-	
+
 	@Autowired
 	private ServidorService servidorService;
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		servidores = servidorService.listarTodos();
 		LayoutIndexManager.atualizarIndice(1);
 	}
-	
-	public String novo(){
+
+	public String novo() {
 		servidor = new Servidor();
 		return "/pages/servidor/cadastrar-servidor-formulario.xhtml";
 	}
 
 	public void salvar() {
 		servidorService.salvar(servidor);
-		if(servidor.getId() == null){
+		if (servidor.getId() == null) {
 			Mensagem.msgInformacao("Servidor salvo com sucesso");
-		}else {
+		} else {
 			Mensagem.msgInformacao("Servidor alterado com sucesso");
 		}
 		servidores = servidorService.listarTodos();
@@ -57,7 +56,7 @@ public class ServidorBean {
 		servidor = servidorService.buscarPeloId(servidor.getId());
 		return "/pages/servidor/cadastrar-servidor-formulario.xhtml";
 	}
-	
+
 	public String exibir() {
 		servidor = servidorService.buscarPeloId(servidor.getId());
 		return "/pages/servidor/exibir-servidor.xhtml";
@@ -66,20 +65,16 @@ public class ServidorBean {
 	public void cancelar() {
 		ManagedBeanUtils.redirecionar("/servidor");
 	}
-	
+
 	public void abrirTerminal() {
-    	ManagedBeanUtils.redirecionarUrlExterna(obterUrlSsh());
+		ManagedBeanUtils.redirecionarUrlExterna(obterUrlSsh());
 	}
-	
+
 	public String obterUrlSsh() {
 		StringBuffer stringBuffer = new StringBuffer();
-		return stringBuffer.append("ssh://")
-				.append(servidor.getLogin())
-				.append(":")
-				.append(servidor.getSenha())
-				.append("@")
-				.append(servidor.getEndereco())
-				.append(":")
+		return stringBuffer.append("ssh://").append(servidor.getLogin())
+				.append(":").append(servidor.getSenha()).append("@")
+				.append(servidor.getEndereco()).append(":")
 				.append(servidor.getPorta()).toString();
 	}
 
@@ -98,6 +93,5 @@ public class ServidorBean {
 	public void setServidores(List<Servidor> servidores) {
 		this.servidores = servidores;
 	}
-	
-	
+
 }

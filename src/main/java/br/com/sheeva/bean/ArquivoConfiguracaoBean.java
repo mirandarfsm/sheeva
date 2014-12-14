@@ -1,12 +1,16 @@
 package br.com.sheeva.bean;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.bean.SessionScoped;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+
+import com.jcraft.jsch.JSchException;
 
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
@@ -15,8 +19,8 @@ import br.com.sheeva.service.ServidorService;
 import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
-@Service("arquivoConfiguracaoBean")
 @Scope(value = "session")
+@Service("arquivoConfiguracaoBean")
 public class ArquivoConfiguracaoBean {
 
 	private String configuracao;
@@ -29,32 +33,38 @@ public class ArquivoConfiguracaoBean {
 
 	@Autowired
 	private ServidorService servidorService;
-	
-	@Autowired
-	private InstanciaBean instanciaBean;
 
 	@PostConstruct
-	public void init() {
+	public void init() throws IOException, JSchException {
 		servidores = servidorService.listarTodos();
-		instancia = instanciaBean.getInstancia();
 		servidor = servidores.get(0);
-		configuracao = instanciaService.getArquivoConfiguracao(servidor, instancia).replaceAll("\n", "<br>");
+		instancia = obterInstancia();
+		configuracao = instanciaService.getArquivoConfiguracao(servidor,
+				instancia).replaceAll("\n", "<br>");
 	}
-	
-	public void salvar(){
-		instanciaService.setArquivoConfiguracao(servidor, instancia,configuracao.replaceAll("<br>" , "\n"));
+
+	private Instancia obterInstancia() {
+		String id = ManagedBeanUtils.obterParametroRequest("id");
+		return instanciaService.buscarPeloId(Integer.valueOf(id));
+	}
+
+	public void salvar() throws IOException, JSchException {
+		instanciaService.setArquivoConfiguracao(servidor, instancia,
+				configuracao.replaceAll("<br>", "\n"));
 		Mensagem.msgInformacao("Arquivo Configuracao alterado com sucesso");
 		ManagedBeanUtils.redirecionar("/instancia");
 	}
-	
-	public void submit(){
-		configuracao = instanciaService.getArquivoConfiguracao(servidor,instancia).replaceAll("\n", "<br>");
+
+	public void submit() throws IOException, JSchException {
+		instancia = obterInstancia();
+		configuracao = instanciaService.getArquivoConfiguracao(servidor,
+				instancia).replaceAll("\n", "<br>");
 	}
 
 	public void cancelar() {
 		ManagedBeanUtils.redirecionar("/instancia");
 	}
-	
+
 	public String getConfiguracao() {
 		return configuracao;
 	}

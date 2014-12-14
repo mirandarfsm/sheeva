@@ -14,4 +14,10 @@ public interface ServidorService {
 	
 	public Servidor buscarPeloId(Integer id);
 	
+	public String getConfiguracaoServidor();
+	
+	public String getLog();
+	
+	public void gerenciarServico();
+	
 }

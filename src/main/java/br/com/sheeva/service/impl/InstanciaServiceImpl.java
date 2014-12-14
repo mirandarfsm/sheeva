@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -57,7 +58,8 @@ public class InstanciaServiceImpl implements InstanciaService {
 		return instanciaDao.getByNome(nome);
 	}
 
-	public String getArquivoConfiguracao(Servidor servidor, Instancia instancia) {
+	public String getArquivoConfiguracao(Servidor servidor, Instancia instancia)
+			throws IOException, JSchException {
 		String command = "cat " + instancia.getDiretorioPrincipal()
 				+ instancia.getArquivoConfiguracao();
 
@@ -65,39 +67,31 @@ public class InstanciaServiceImpl implements InstanciaService {
 
 		InputStream in = null;
 
-		try {
-			in = channel.getInputStream();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		in = channel.getInputStream();
 
-		try {
-			channel.connect();
-		} catch (JSchException e) {
-			e.printStackTrace();
-		}
+		channel.connect();
 
-		try {
-			FileUtils.copyInputStreamToFile(
-					in,
-					new File(".sheeva/" + servidor.getNome() + "/"
-							+ instancia.getNome() + "/"
-							+ instancia.getArquivoConfiguracao()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String result = streamToString(in);
 
-		return streamToString(in);
+		FileUtils
+				.writeStringToFile(
+						new File(".sheeva/" + servidor.getNome() + "/"
+								+ instancia.getNome() + "/"
+								+ instancia.getArquivoConfiguracao()), result,
+						ENCODING);
+
+		return result;
 	}
 
 	public void setArquivoConfiguracao(Servidor servidor, Instancia instancia,
-			String configuracao) {
+			String configuracao) throws IOException, JSchException {
 
 		gerarBackup(servidor, instancia);
 
+		Calendar date = Calendar.getInstance();
 		StringBuilder configuracaoSheeva = new StringBuilder();
-		configuracaoSheeva
-				.append("### Arquivo gerado por SHEEVA em DD/MM/YYY HH:MM ###\n");
+		configuracaoSheeva.append("### Arquivo gerado por SHEEVA em "
+				+ date.getTime() + " ###\n");
 		configuracaoSheeva.append(configuracao);
 
 		String command = "printf '" + configuracaoSheeva + "'>"
@@ -108,17 +102,10 @@ public class InstanciaServiceImpl implements InstanciaService {
 
 		OutputStream ou = null;
 
-		try {
-			ou = channel.getOutputStream();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		ou = channel.getOutputStream();
 
-		try {
-			channel.connect();
-		} catch (JSchException e) {
-			e.printStackTrace();
-		}
+		channel.connect();
+
 		System.out.println("Arquivo de Configuracao: "
 				+ instancia.getArquivoConfiguracao() + " do servidor: "
 				+ servidor.getNome() + "Atualizado");
@@ -163,13 +150,21 @@ public class InstanciaServiceImpl implements InstanciaService {
 	}
 
 	private void gerarBackup(Servidor servidor, Instancia instancia) {
-		Calendar date = new GregorianCalendar();
-		File configuracao = new File(".sheeva/" + servidor.getNome() + "/"
-				+ instancia.getNome() + "/"
-				+ instancia.getArquivoConfiguracao());
-		configuracao.renameTo(new File(".sheeva/" + servidor.getNome() + "/"
-				+ instancia.getNome() + "/"
-				+ instancia.getArquivoConfiguracao() + "." + date));
+		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmm");
+		Date date = new Date();
+		try {
+			File configuracao = new File(".sheeva/" + servidor.getNome() + "/"
+					+ instancia.getNome() + "/"
+					+ instancia.getArquivoConfiguracao());
+			configuracao
+					.renameTo(new File(".sheeva/" + servidor.getNome() + "/"
+							+ instancia.getNome() + "/"
+							+ instancia.getArquivoConfiguracao() + "."
+							+ sdf.format(date)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

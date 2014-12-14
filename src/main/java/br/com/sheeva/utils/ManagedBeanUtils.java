@@ -4,12 +4,24 @@ import java.io.IOException;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.context.RequestContext;
 
 public class ManagedBeanUtils {
 	
 	private static final String PF_DIALOG_FUNCTION = "PF(':nome')";
+	
+	public static <T> T obter(String beanName, Class<T> beanClass) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		return beanClass.cast(context.getApplication().evaluateExpressionGet(
+				context, "#{" + beanName + "}", beanClass));
+	}
+	
+	public static String obterParametroRequest(String parameter){
+		HttpServletRequest req = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		return req.getParameter(parameter);		
+	}
 	
 	public static void redirecionar(String url){
 		try {
