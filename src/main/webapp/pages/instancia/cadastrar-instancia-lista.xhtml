@@ -14,13 +14,15 @@
 		<div class="vgap-10" />
 		<h:form id="formInstancia">
 			<p:messages id="msg" showIcon="false" autoUpdate="true" />
-			<p:panel  style="font-size: 14px; border: none;">
+			<p:panel style="font-size: 14px; border: none;">
 				<div class="container" style="width: 100%;">
-					<p:commandButton value="Novo Instancia" action="#{instanciaBean.novo}"
-						ajax="false" id="botaoNovoInstancia" style="margin-bottom: 10px;" />
+					<p:commandButton value="Novo Instancia"
+						action="#{instanciaBean.novo}" ajax="false"
+						id="botaoNovoInstancia" style="margin-bottom: 10px;" />
 				</div>
 				<p:fieldset styleClass="fieldSet"
-					legend="#{instanciaBean.instancias.size()} Instancias Cadastrados" id="fieldInstancias">
+					legend="#{instanciaBean.instancias.size()} Instancias Cadastrados"
+					id="fieldInstancias">
 					<p:dataTable id="instanciaTable" var="instancia"
 						value="#{instanciaBean.instancias}" rowKey="#{instancia.id}"
 						paginator="true" rows="7" tableStyle="font-size: 12px;"
@@ -29,12 +31,10 @@
 							filterBy="#{instancia.nome}" id="nome">
             					#{instancia.nome}
        						</p:column>
-       					<p:column headerText="Exibir" style="width:60px">
-							<p:commandButton action="#{instanciaBean.exibir}" title="Exibir"
-								icon="ui-icon-search" ajax="false" id="exibirInstancia">
-								<f:setPropertyActionListener value="#{instancia}"
-									target="#{instanciaBean.instancia}" />
-							</p:commandButton>
+						<p:column headerText="Exibir" style="width:60px">
+							<h:outputLink id="exibir" value="instancia/#{instancia.id}" title="Exibir">
+								<span id="exibir">exibir</span>
+							</h:outputLink>
 						</p:column>
 						<p:column headerText="Alterar" style="width:60px">
 							<p:commandButton action="#{instanciaBean.editar}" title="Alterar"
@@ -44,13 +44,16 @@
 							</p:commandButton>
 						</p:column>
 						<p:column headerText="Excluir" style="width:60px">
-       							 <p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
-       							                  actionListener="#{instanciaBean.excluir}" update=":formInstancia:fieldInstancias :formInstancia:msg"> 
-       							    <f:setPropertyActionListener value="#{instancia}" target="#{instanciaBean.instancia}" /> 
-						         	<p:confirm header="Deletar Instancia" message="Você realmente deseja deletar esta instancia?" 
-						         	           icon="ui-icon-alert" />
-						         </p:commandButton>
-       						</p:column>
+							<p:commandButton title="Excluir" icon="ui-icon ui-icon-close"
+								id="botaoExcluir" actionListener="#{instanciaBean.excluir}"
+								update=":formInstancia:fieldInstancias :formInstancia:msg">
+								<f:setPropertyActionListener value="#{instancia}"
+									target="#{instanciaBean.instancia}" />
+								<p:confirm header="Deletar Instancia"
+									message="Você realmente deseja deletar esta instancia?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
 					</p:dataTable>
 
 				</p:fieldset>
