@@ -33,5 +33,11 @@
 		<pattern value="/instancia" />
 		<view-id value="/pages/instancia/cadastrar-instancia-lista.jsf" />
 	</url-mapping>
+	
+	<url-mapping id="configuracao-instancia">
+		<pattern value="/instancia/#{id}" />
+		<view-id value="/pages/instancia/configuracao-instancia.jsf" />
+	</url-mapping>
+	
 
 </pretty-config>

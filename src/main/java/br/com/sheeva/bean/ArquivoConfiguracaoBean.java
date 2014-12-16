@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-
-import com.jcraft.jsch.JSchException;
 
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
@@ -18,6 +15,8 @@ import br.com.sheeva.service.InstanciaService;
 import br.com.sheeva.service.ServidorService;
 import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
+
+import com.jcraft.jsch.JSchException;
 
 @Scope(value = "session")
 @Service("arquivoConfiguracaoBean")

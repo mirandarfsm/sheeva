@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sheeva.dao.InstanciaDao;
 import br.com.sheeva.dominio.Instancia;
-import br.com.sheeva.dominio.Servidor;
-import br.com.sheeva.dominio.Usuario;
 
 @Service("instanciaDao")
 @Transactional
