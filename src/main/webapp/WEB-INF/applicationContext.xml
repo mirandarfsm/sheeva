@@ -71,6 +71,16 @@
 	      
 	 <bean id="jsch" class="com.jcraft.jsch.JSch"/>
 	 
+	 <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="view">
+					<bean class="br.com.sheeva.faces.ViewScope" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
     <import resource="security.xml"/>	
 
 </beans>
