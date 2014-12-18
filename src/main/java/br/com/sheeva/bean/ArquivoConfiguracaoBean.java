@@ -18,7 +18,7 @@ import br.com.sheeva.utils.Mensagem;
 
 import com.jcraft.jsch.JSchException;
 
-@Scope(value = "session")
+@Scope(value = "view")
 @Service("arquivoConfiguracaoBean")
 public class ArquivoConfiguracaoBean {
 

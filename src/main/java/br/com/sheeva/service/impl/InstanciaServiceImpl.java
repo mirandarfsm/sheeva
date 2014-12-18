@@ -30,7 +30,7 @@ import com.jcraft.jsch.Session;
 public class InstanciaServiceImpl implements InstanciaService {
 
 	private static final String ENCODING = "UTF-8";
-	private static final int TIMEOUT = 5000;
+	private static final int TIMEOUT = 60000;
 
 	@Autowired
 	private JSch jsch;
