@@ -2,14 +2,10 @@ package br.com.sheeva.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +14,14 @@ import org.springframework.stereotype.Service;
 import br.com.sheeva.dao.InstanciaDao;
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
+import br.com.sheeva.dominio.Sistema;
 import br.com.sheeva.service.InstanciaService;
-
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
+import br.com.sheeva.utils.LinuxUtil;
 
 @Service("instanciaService")
 public class InstanciaServiceImpl implements InstanciaService {
 
 	private static final String ENCODING = "UTF-8";
-	private static final int TIMEOUT = 60000;
-
-	@Autowired
-	private JSch jsch;
 
 	@Autowired
 	private InstanciaDao instanciaDao;
@@ -59,32 +47,22 @@ public class InstanciaServiceImpl implements InstanciaService {
 	}
 
 	public String getArquivoConfiguracao(Servidor servidor, Instancia instancia)
-			throws IOException, JSchException {
+			throws IOException {
 		String command = "cat " + instancia.getDiretorioPrincipal()
 				+ instancia.getArquivoConfiguracao();
 
-		Channel channel = getCanal(servidor, command);
-
-		InputStream in = null;
-
-		in = channel.getInputStream();
-
-		channel.connect();
-
-		String result = streamToString(in);
-
+		String result = LinuxUtil.executarBashRemoto(command, servidor);
 		FileUtils
 				.writeStringToFile(
 						new File(".sheeva/" + servidor.getNome() + "/"
 								+ instancia.getNome() + "/"
 								+ instancia.getArquivoConfiguracao()), result,
 						ENCODING);
-
 		return result;
 	}
 
 	public void setArquivoConfiguracao(Servidor servidor, Instancia instancia,
-			String configuracao) throws IOException, JSchException {
+			String configuracao) throws IOException {
 
 		gerarBackup(servidor, instancia);
 
@@ -98,55 +76,17 @@ public class InstanciaServiceImpl implements InstanciaService {
 				+ instancia.getDiretorioPrincipal()
 				+ instancia.getArquivoConfiguracao();
 
-		Channel channel = getCanal(servidor, command);
-
-		OutputStream ou = null;
-
-		ou = channel.getOutputStream();
-
-		channel.connect();
+		LinuxUtil.executarBashRemoto(command, servidor);
 
 		System.out.println("Arquivo de Configuracao: "
 				+ instancia.getArquivoConfiguracao() + " do servidor: "
 				+ servidor.getNome() + "Atualizado");
 	}
 
-	private Session getSessao(Servidor servidor) {
-		Session sessao = null;
-		try {
-			sessao = jsch.getSession(servidor.getLogin(),
-					servidor.getEndereco(), servidor.getPorta());
-			sessao.setConfig("StrictHostKeyChecking", "no");
-			sessao.setPassword(servidor.getSenha());
-			sessao.connect(TIMEOUT);
-		} catch (JSchException e) {
-			e.printStackTrace();
-		}
-		return sessao;
-	}
-
-	private Channel getCanal(Servidor servidor, String command) {
-		Channel channel = null;
-		Session sessao = getSessao(servidor);
-		try {
-			channel = sessao.openChannel("exec");
-		} catch (JSchException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			((ChannelExec) channel).setCommand(command.getBytes(ENCODING));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-
-		return channel;
-
-	}
-
-	private static String streamToString(InputStream is) {
-		Scanner s = new Scanner(is).useDelimiter("\\A");
-		return s.hasNext() ? s.next() : "";
+	public void atulizarInstancia(Sistema sistema, Servidor servidor) {
+		//TODO: Compactar arquivos de sistemas e enviar para o servidor (tar | scp)
+		//TODO: extrair arquivos no servidor remoto (tar)
+		//TODO: Executar atualizações até versao do sistema (For)
 	}
 
 	private void gerarBackup(Servidor servidor, Instancia instancia) {
@@ -156,11 +96,10 @@ public class InstanciaServiceImpl implements InstanciaService {
 			File configuracao = new File(".sheeva/" + servidor.getNome() + "/"
 					+ instancia.getNome() + "/"
 					+ instancia.getArquivoConfiguracao());
-			configuracao
-					.renameTo(new File(".sheeva/" + servidor.getNome() + "/"
-							+ instancia.getNome() + "/"
-							+ instancia.getArquivoConfiguracao() + "."
-							+ sdf.format(date)));
+			configuracao.renameTo(new File(".sheeva/" + servidor.getNome()
+					+ "/" + instancia.getNome() + "/"
+					+ instancia.getArquivoConfiguracao() + "."
+					+ sdf.format(date)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
