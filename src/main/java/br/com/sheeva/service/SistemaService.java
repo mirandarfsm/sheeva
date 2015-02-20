@@ -18,5 +18,4 @@ public interface SistemaService {
 
 	public Sistema buscarPeloNome(String nome);
 
-	public void salvarArquivos(List<UploadedFile> arquivos, Sistema sistema);
 }

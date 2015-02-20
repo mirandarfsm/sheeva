@@ -35,6 +35,6 @@ public class InstanciaServiceImpl implements InstanciaService {
 
 	public Instancia buscarPeloNome(String nome) {
 		return instanciaDao.getByNome(nome);
-	}
 
+	}
 }

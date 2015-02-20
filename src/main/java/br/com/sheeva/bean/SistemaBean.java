@@ -22,7 +22,7 @@ public class SistemaBean {
 
 	private Sistema sistema;
 	private List<Sistema> sistemas;
-	
+
 	private UploadedFile war;
 	private UploadedFile sql;
 	private UploadedFile arquivoConfiguracao;
@@ -62,10 +62,9 @@ public class SistemaBean {
 		sistema = sistemaService.buscarPeloId(sistema.getId());
 		return "/pages/sistema/cadastrar-sistema-formulario.xhtml";
 	}
-	
+
 	private void upload() {
-		if (war != null && sql != null && arquivoConfiguracao != null){
-			sistemaService.salvarArquivos(new ArrayList<UploadedFile>(), sistema);
+		if (war != null && sql != null && arquivoConfiguracao != null) {
 		}
 	}
 
@@ -112,7 +111,5 @@ public class SistemaBean {
 	public void setArquivoConfiguracao(UploadedFile arquivoConfiguracao) {
 		this.arquivoConfiguracao = arquivoConfiguracao;
 	}
-	
-	
 
 }

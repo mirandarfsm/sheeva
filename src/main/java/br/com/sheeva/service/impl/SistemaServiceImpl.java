@@ -36,9 +36,4 @@ public class SistemaServiceImpl implements SistemaService {
 		return sistemaDao.getByNome(nome);
 	}
 
-	public void salvarArquivos(List<UploadedFile> arquivos, Sistema sistema) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
