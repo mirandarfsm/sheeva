@@ -2,7 +2,6 @@ package br.com.sheeva.service.impl;
 
 import java.util.List;
 
-import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

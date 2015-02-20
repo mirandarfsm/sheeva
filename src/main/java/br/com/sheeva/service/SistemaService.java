@@ -2,8 +2,6 @@ package br.com.sheeva.service;
 
 import java.util.List;
 
-import org.primefaces.model.UploadedFile;
-
 import br.com.sheeva.dominio.Sistema;
 
 public interface SistemaService {
