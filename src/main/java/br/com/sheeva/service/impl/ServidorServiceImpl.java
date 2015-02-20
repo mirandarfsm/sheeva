@@ -10,6 +10,7 @@ import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Versao;
 import br.com.sheeva.service.ServidorService;
+import br.com.sheeva.utils.LinuxUtil;
 
 @Service("servidorService")
 public class ServidorServiceImpl implements ServidorService {
@@ -34,7 +35,7 @@ public class ServidorServiceImpl implements ServidorService {
 	}
 
 	public void atualizarInstancia(Servidor servidor, Versao versao) {
-		
+		LinuxUtil.enviarArquivos(servidor, versao.getArquivos());
 		
 	}
 
