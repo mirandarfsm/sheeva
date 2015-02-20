@@ -21,8 +21,6 @@ public class Sistema {
 
 	private Integer id;
 	private String nome;
-	private String arquivo;
-	private String versao;
 
 	public Sistema() {
 
@@ -31,8 +29,6 @@ public class Sistema {
 	public Sistema(Integer id, String nome, String arquivo, String versao) {
 		this.id = id;
 		this.nome = nome;
-		this.arquivo = arquivo;
-		this.versao = versao;
 	}
 
 	@Id
@@ -55,30 +51,12 @@ public class Sistema {
 		this.nome = nome;
 	}
 
-	public String getArquivo() {
-		return arquivo;
-	}
-
-	public void setArquivo(String arquivo) {
-		this.arquivo = arquivo;
-	}
-
-	public String getVersao() {
-		return versao;
-	}
-
-	public void setVersao(String versao) {
-		this.versao = versao;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arquivo == null) ? 0 : arquivo.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
 		return result;
 	}
 
@@ -91,11 +69,6 @@ public class Sistema {
 		if (getClass() != obj.getClass())
 			return false;
 		Sistema other = (Sistema) obj;
-		if (arquivo == null) {
-			if (other.arquivo != null)
-				return false;
-		} else if (!arquivo.equals(other.arquivo))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -105,11 +78,6 @@ public class Sistema {
 			if (other.nome != null)
 				return false;
 		} else if (!nome.equals(other.nome))
-			return false;
-		if (versao == null) {
-			if (other.versao != null)
-				return false;
-		} else if (!versao.equals(other.versao))
 			return false;
 		return true;
 	}

@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sheeva.dao.ServidorDao;
+import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
+import br.com.sheeva.dominio.Versao;
 import br.com.sheeva.service.ServidorService;
 
 @Service("servidorService")
 public class ServidorServiceImpl implements ServidorService {
-	
+
 	@Autowired
 	private ServidorDao servidorDao;
 
@@ -31,19 +33,36 @@ public class ServidorServiceImpl implements ServidorService {
 		return servidorDao.getById(id);
 	}
 
-	public String getConfiguracaoServidor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String getLog() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void gerenciarServico() {
+	public void atualizarInstancia(Servidor servidor, Versao versao) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	public void alterarArquivoConfiguracao(Servidor servidor, Versao versao,
+			String arquivoConfiguracao) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String pegarArquivoConfiguracao(Servidor servidor, Versao versao) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void reiniciarServidorWeb(Servidor servidor, boolean work) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void reiniciarAplicacao(Servidor servidor, Instancia instancia) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void pegarConfiguracaoServidor(Servidor servidor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

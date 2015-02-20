@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.sheeva.dominio.Sistema;
 
 public interface SistemaDao {
+
 	public void save(Sistema sistema);
 
 	public void remove(Integer id);

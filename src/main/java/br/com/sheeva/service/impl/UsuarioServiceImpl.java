@@ -15,13 +15,14 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Autowired
 	UsuarioDao usuarioDao;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	public void salvar(Usuario usuario) {
 		if (usuario.getId() == null) {
-			usuario.setSenha(passwordEncoder.encodePassword(usuario.getLogin(),null));
+			usuario.setSenha(passwordEncoder.encodePassword(usuario.getLogin(),
+					null));
 		}
 		usuarioDao.save(usuario);
 
@@ -42,10 +43,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario buscarPeloLogin(String login) {
 		return usuarioDao.getByLogin(login);
 	}
-	
+
 	public void mudarSenha(String login, String senhaAtual, String novaSenha) {
 		Usuario usuario = buscarPeloLogin(login);
-		if (!passwordEncoder.encodePassword(senhaAtual, null).equals(usuario.getSenha())) {
+		if (!passwordEncoder.encodePassword(senhaAtual, null).equals(
+				usuario.getSenha())) {
 			throw new RuntimeException("A senha atual inserida está incorreta!");
 		}
 		usuario.setSenha(passwordEncoder.encodePassword(novaSenha, null));
@@ -53,10 +55,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	public void resetSenha(Usuario usuario) {
-		usuario.setSenha(passwordEncoder.encodePassword(usuario.getLogin(), null));
+		usuario.setSenha(passwordEncoder.encodePassword(usuario.getLogin(),
+				null));
 		usuarioDao.save(usuario);
 	}
-	
+
 	public boolean isLoginEmUso(Usuario usuario) {
 		Usuario usuarioExistente = usuarioDao.getByLogin(usuario.getLogin());
 		if (usuarioExistente != null && !usuarioExistente.equals(usuario)) {
@@ -72,6 +75,5 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 		return false;
 	}
-
 
 }

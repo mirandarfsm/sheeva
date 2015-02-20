@@ -10,8 +10,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import br.com.sheeva.enu.TipoInstancia;
-
 @NamedQueries({
 		@NamedQuery(name = "Instancia.removeById", query = "DELETE FROM Instancia instance WHERE instance.id = :idInstancia"),
 		@NamedQuery(name = "Instancia.searchAll", query = "SELECT instance FROM Instancia instance"),
@@ -23,17 +21,15 @@ public class Instancia {
 
 	private Integer id;
 	private String nome;
-	private TipoInstancia tipoInstancia;
+	private Versao versao;
 	private String diretorioPrincipal;
 	private String arquivoConfiguracao;
 
 	public Instancia() {
-		super();
 	}
 
 	public Instancia(Integer id, String nome, String diretorioPrincipal,
 			String arquivoConfiguracao) {
-		super();
 		this.id = id;
 		this.nome = nome;
 		this.diretorioPrincipal = diretorioPrincipal;
@@ -60,15 +56,6 @@ public class Instancia {
 		this.nome = nome;
 	}
 
-	@Column(name = "tipo_instancia")
-	public TipoInstancia getTipoInstancia() {
-		return tipoInstancia;
-	}
-
-	public void setTipoInstancia(TipoInstancia tipoInstancia) {
-		this.tipoInstancia = tipoInstancia;
-	}
-
 	@Column(name = "diretorio_principal")
 	public String getDiretorioPrincipal() {
 		return diretorioPrincipal;
@@ -87,6 +74,14 @@ public class Instancia {
 		this.arquivoConfiguracao = arquivoConfiguracao;
 	}
 
+	public Versao getVersao() {
+		return versao;
+	}
+
+	public void setVersao(Versao versao) {
+		this.versao = versao;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -99,6 +94,7 @@ public class Instancia {
 				* result
 				+ ((diretorioPrincipal == null) ? 0 : diretorioPrincipal
 						.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
@@ -121,6 +117,11 @@ public class Instancia {
 			if (other.diretorioPrincipal != null)
 				return false;
 		} else if (!diretorioPrincipal.equals(other.diretorioPrincipal))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)

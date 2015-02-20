@@ -29,14 +29,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import br.com.sheeva.enu.Perfil;
 
 @NamedQueries({
-	@NamedQuery(name="Usuario.removeById", query="UPDATE Usuario user SET user.excluido = true WHERE user.id = :idUsuario"),
-	@NamedQuery(name="Usuario.searchById", query="SELECT user FROM Usuario user WHERE user.id = :idUsuario"),
-	@NamedQuery(name="Usuario.searchAll", query="SELECT user FROM Usuario user WHERE user.excluido = false"),
-	@NamedQuery(name="Usuario.obterPeloLogin", query="SELECT user FROM Usuario user WHERE user.login = :login " +
-			"and user.excluido = false"),
-	@NamedQuery(name="Usuario.obterPeloEmail", query="SELECT user FROM Usuario user WHERE user.email = :email " +
-			"and user.excluido = false")
-})
+		@NamedQuery(name = "Usuario.removeById", query = "UPDATE Usuario user SET user.excluido = true WHERE user.id = :idUsuario"),
+		@NamedQuery(name = "Usuario.searchById", query = "SELECT user FROM Usuario user WHERE user.id = :idUsuario"),
+		@NamedQuery(name = "Usuario.searchAll", query = "SELECT user FROM Usuario user WHERE user.excluido = false"),
+		@NamedQuery(name = "Usuario.obterPeloLogin", query = "SELECT user FROM Usuario user WHERE user.login = :login "
+				+ "and user.excluido = false"),
+		@NamedQuery(name = "Usuario.obterPeloEmail", query = "SELECT user FROM Usuario user WHERE user.email = :email "
+				+ "and user.excluido = false") })
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable, UserDetails {
@@ -53,7 +52,7 @@ public class Usuario implements Serializable, UserDetails {
 	public Usuario() {
 		super();
 	}
-	
+
 	public Usuario(Integer id, String nome, Set<Perfil> perfis) {
 		super();
 		this.id = id;
@@ -73,7 +72,7 @@ public class Usuario implements Serializable, UserDetails {
 		this.id = id;
 	}
 
-	@NotBlank(message="O campo NOME é obrigatório.")
+	@NotBlank(message = "O campo NOME é obrigatório.")
 	@Column(nullable = false)
 	public String getNome() {
 		return this.nome;
@@ -92,10 +91,10 @@ public class Usuario implements Serializable, UserDetails {
 		this.excluido = excluido;
 	}
 
-	@ElementCollection(fetch=FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.ORDINAL)
 	public Set<Perfil> getPerfis() {
-		if(perfis == null){
+		if (perfis == null) {
 			perfis = new HashSet<Perfil>();
 		}
 		return perfis;
@@ -105,7 +104,7 @@ public class Usuario implements Serializable, UserDetails {
 		this.perfis = perfis;
 	}
 
-	@NotBlank(message="O campo LOGIN é obrigatório.")
+	@NotBlank(message = "O campo LOGIN é obrigatório.")
 	@Column(nullable = false, unique = true)
 	public String getLogin() {
 		if (login != null) {
@@ -117,12 +116,12 @@ public class Usuario implements Serializable, UserDetails {
 	public void setLogin(String login) {
 		if (login != null) {
 			this.login = login.toLowerCase();
-		}else {
+		} else {
 			this.login = login;
 		}
 	}
 
-	@NotBlank(message="O campo SENHA é obrigatório.")
+	@NotBlank(message = "O campo SENHA é obrigatório.")
 	@Column(nullable = false)
 	public String getSenha() {
 		return senha;
@@ -132,8 +131,8 @@ public class Usuario implements Serializable, UserDetails {
 		this.senha = senha;
 	}
 
-	@Email(message="E-mail inválido.")
-	@NotBlank(message="O campo E-MAIL é obrigatório.")
+	@Email(message = "E-mail inválido.")
+	@NotBlank(message = "O campo E-MAIL é obrigatório.")
 	@Column(unique = true)
 	public String getEmail() {
 		return email;
@@ -145,16 +144,16 @@ public class Usuario implements Serializable, UserDetails {
 
 	@Transient
 	public Collection<GrantedAuthority> getAuthorities() {
-		Set<GrantedAuthority> authorities= new HashSet<GrantedAuthority>();
+		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 		authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
-		for(Perfil perfil : perfis){
+		for (Perfil perfil : perfis) {
 			authorities.add(new GrantedAuthorityImpl(perfil.toString()));
 		}
 		return authorities;
 	}
-	
+
 	@Transient
-	public boolean hasPerfil(Perfil perfil){
+	public boolean hasPerfil(Perfil perfil) {
 		return getPerfis().contains(perfil);
 	}
 
@@ -217,6 +216,5 @@ public class Usuario implements Serializable, UserDetails {
 			return false;
 		return true;
 	}
-
 
 }

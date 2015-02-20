@@ -14,7 +14,6 @@ import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.service.InstanciaService;
 import br.com.sheeva.service.ServidorService;
 import br.com.sheeva.utils.ManagedBeanUtils;
-import br.com.sheeva.utils.Mensagem;
 
 import com.jcraft.jsch.JSchException;
 
@@ -38,8 +37,6 @@ public class ArquivoConfiguracaoBean {
 		servidores = servidorService.listarTodos();
 		servidor = servidores.get(0);
 		instancia = obterInstancia();
-		configuracao = instanciaService.getArquivoConfiguracao(servidor,
-				instancia).replaceAll("\n", "<br>");
 	}
 
 	private Instancia obterInstancia() {
@@ -48,16 +45,9 @@ public class ArquivoConfiguracaoBean {
 	}
 
 	public void salvar() throws IOException, JSchException {
-		instanciaService.setArquivoConfiguracao(servidor, instancia,
-				configuracao.replaceAll("<br>", "\n"));
-		Mensagem.msgInformacao("Arquivo Configuracao alterado com sucesso");
-		ManagedBeanUtils.redirecionar("/instancia");
 	}
 
 	public void submit() throws IOException, JSchException {
-		instancia = obterInstancia();
-		configuracao = instanciaService.getArquivoConfiguracao(servidor,
-				instancia).replaceAll("\n", "<br>");
 	}
 
 	public void cancelar() {
