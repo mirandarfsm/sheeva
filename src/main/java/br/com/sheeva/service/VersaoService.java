@@ -9,4 +9,6 @@ import br.com.sheeva.dominio.Versao;
 public interface VersaoService {
 
 	void salvarArquivos(Versao versao, List<Arquivo> arquivos) throws IOException;
+	
+	void prepararVersao(Versao antiga, Versao nova);
 }

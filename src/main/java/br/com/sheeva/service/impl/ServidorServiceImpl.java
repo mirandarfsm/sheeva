@@ -1,5 +1,6 @@
 package br.com.sheeva.service.impl;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +35,31 @@ public class ServidorServiceImpl implements ServidorService {
 		return servidorDao.getById(id);
 	}
 
-	public void atualizarInstancia(Servidor servidor, Versao versao) {
-		LinuxUtil.enviarArquivos(servidor, versao.getArquivos());
-		
+	public void atualizarInstancias(Servidor servidor, Versao versao) {
+		for (Instancia instancia : servidor.getInstancias()) {
+			if (instancia.getVersao().getSistema().equals(versao.getSistema())) {
+				atualizarInstancia(servidor, versao, instancia);
+			}
+		}
+	}
+
+	public void atualizarInstancia(Servidor servidor, Versao versao,
+			Instancia instancia) {
+		// TODO Implementar - versaoDao.getVersoes(instancia.getVersao(),versao);
+		List<Versao> versoes = new LinkedList<Versao>(); 
+		for (Versao v : versoes) {
+			LinuxUtil.enviarArquivos(servidor, versao.getArquivos());
+			StringBuffer command = new StringBuffer();
+			command.append("bash /tmp/atualiza.sh ")
+					.append(instancia.getNome()).append(v.getVersao());
+			LinuxUtil.executarServidorRemoto(servidor, command.toString());
+		}
 	}
 
 	public void alterarArquivoConfiguracao(Servidor servidor, Versao versao,
 			String arquivoConfiguracao) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public String pegarArquivoConfiguracao(Servidor servidor, Versao versao) {
@@ -52,18 +69,17 @@ public class ServidorServiceImpl implements ServidorService {
 
 	public void reiniciarServidorWeb(Servidor servidor, boolean work) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void reiniciarAplicacao(Servidor servidor, Instancia instancia) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void pegarConfiguracaoServidor(Servidor servidor) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
 }

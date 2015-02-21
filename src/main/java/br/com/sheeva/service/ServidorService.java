@@ -16,7 +16,7 @@ public interface ServidorService {
 
 	public Servidor buscarPeloId(Integer id);
 	
-	void atualizarInstancia(Servidor servidor, Versao versao);
+	void atualizarInstancias(Servidor servidor, Versao versao);
 	
 	void alterarArquivoConfiguracao(Servidor servidor, Versao versao, String arquivoConfiguracao);
 	

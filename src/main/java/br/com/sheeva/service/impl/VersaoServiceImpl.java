@@ -54,5 +54,9 @@ public class VersaoServiceImpl implements VersaoService {
 		}
 
 	}
+	
+	public void prepararVersao(Versao antiga, Versao nova) {
+		// TODO Criar zip para as versões
+	}
 
 }
