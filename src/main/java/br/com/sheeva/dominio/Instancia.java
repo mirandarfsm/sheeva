@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
@@ -47,7 +49,7 @@ public class Instancia {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Column(name = "nome")
 	public String getNome() {
 		return nome;
 	}
@@ -73,7 +75,9 @@ public class Instancia {
 	public void setArquivoConfiguracao(String arquivoConfiguracao) {
 		this.arquivoConfiguracao = arquivoConfiguracao;
 	}
-
+	
+	@ManyToOne
+	@JoinColumn(name = "versao")
 	public Versao getVersao() {
 		return versao;
 	}

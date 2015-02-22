@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sheeva.dao.SistemaDao;
+import br.com.sheeva.dominio.Arquivo;
 import br.com.sheeva.dominio.Sistema;
+import br.com.sheeva.dominio.Versao;
 import br.com.sheeva.service.SistemaService;
 
 @Service("sistemaService")
@@ -33,6 +35,14 @@ public class SistemaServiceImpl implements SistemaService {
 
 	public Sistema buscarPeloNome(String nome) {
 		return sistemaDao.getByNome(nome);
+	}
+	
+	public void salvarArquivo(Versao versao, Arquivo arquivo){
+		// TODO implementar servico para upload
+	}
+	
+	public void baixarArquivo(Versao versao, Arquivo arquivo){
+		// TODO implementar servico para download
 	}
 
 }

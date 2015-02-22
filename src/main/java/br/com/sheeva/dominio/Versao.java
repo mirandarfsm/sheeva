@@ -1,21 +1,25 @@
 package br.com.sheeva.dominio;
 
+import javax.faces.bean.NoneScoped;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @NamedQueries({
 		@NamedQuery(name = "Versao.removeById", query = "DELETE FROM Versao version WHERE version.id = :idVersao"),
 		@NamedQuery(name = "Versao.searchAll", query = "SELECT version FROM Versao version"),
 		@NamedQuery(name = "Versao.searchById", query = "SELECT version FROM Versao version WHERE version.id = :idVersao"),
-		@NamedQuery(name = "Versao.obterPelaVersao", query = "SELECT version FROM Versao version WHERE version.versao = :versao") })
+		@NamedQuery(name = "Versao.obterPelaVersao", query = "SELECT version FROM Versao version WHERE version.versao = :versao"),
+		@NamedQuery(name = "Versao.obterListaVersao", query = "SELECT version FROM Versao version WHERE version.versao between :antiga and :nova") })
 @Entity
 @Table(name = "versao")
 public class Versao {
@@ -45,8 +49,8 @@ public class Versao {
 		this.id = id;
 	}
 
-	@OneToOne
-	@Column(name = "sistema")
+	@ManyToOne
+	@JoinColumn(name = "sistema")
 	public Sistema getSistema() {
 		return sistema;
 	}
@@ -63,9 +67,10 @@ public class Versao {
 	public void setVersao(String versao) {
 		this.versao = versao;
 	}
-
-	public String getArquivos() {
-		return "local/" + sistema.getNome() + "/" + this.versao;
+	
+	@Transient
+	public String getFolder() {
+		return sistema.getFolder() + "/" + this.versao;
 	}
 
 }

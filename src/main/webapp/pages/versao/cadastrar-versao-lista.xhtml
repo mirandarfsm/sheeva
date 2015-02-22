@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="html-title">Cadastrar versao</ui:define>
+	<ui:define name="main">
+		<h3>Cadastro de Versao</h3>
+		<p:separator />
+		<div class="vgap-10" />
+		<h:form id="formVersao">
+			<p:messages id="msg" showIcon="false" autoUpdate="true" />
+			<p:panel  style="font-size: 14px; border: none;">
+				<div class="container" style="width: 100%;">
+					<p:commandButton value="Novo Versao" action="#{versaoBean.novo}" ajax="false" id="botaoNovoVersao" style="margin-bottom: 10px;" />
+				</div>
+				<p:fieldset styleClass="fieldSet" legend="#{versaoBean.versoes.size()} Versaoes Cadastrados" id="fieldVersaoes">
+					<p:dataTable id="versaoTable" var="versao" value="#{versaoBean.versoes}" rowKey="#{versao.id}" paginator="true" rows="7" tableStyle="font-size: 12px;" emptyMessage="Nenhum versao cadastrado">>
+						
+						<p:column headerText="Nome Versao" sortBy="#{versao.versao}" filterBy="#{versao.versao}" id="versao">
+           					#{versao.versao}
+    					</p:column>
+
+						<p:column headerText="Sistema" sortBy="#{versao.sistema}" filterBy="#{versao.sistema}" id="sistema">
+           					#{versao.sistema.nome}
+    					</p:column>
+    					
+						<p:column headerText="Alterar" style="width:60px">
+							<p:commandButton action="#{versaoBean.editar}" title="Alterar" icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
+								<f:setPropertyActionListener value="#{versao}" target="#{versaoBean.versao}" />
+							</p:commandButton>
+						</p:column>
+						
+						<p:column headerText="Excluir" style="width:60px">
+       						<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" actionListener="#{versaoBean.excluir}" update=":formVersao:fieldVersaoes :formVersao:msg"> 
+       						    <f:setPropertyActionListener value="#{versao}" target="#{versaoBean.versao}" /> 
+						       	<p:confirm header="Deletar Versao" message="Você realmente deseja deletar este versao?" icon="ui-icon-alert" />
+						    </p:commandButton>
+       					</p:column>
+					
+					</p:dataTable>
+				</p:fieldset>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

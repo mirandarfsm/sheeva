@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="html-title">Cadastrar sistema</ui:define>
+	<ui:define name="main">
+		<h3>Cadastro de Sistema</h3>
+		<p:separator />
+		<div class="vgap-10" />
+		<h:form id="formSistema">
+			<p:messages id="msg" globalOnly="true" showIcon="false" autoUpdate="true"/>
+			<p:fieldset legend="Dados Cadastrais">
+				<h:panelGrid columns="3">
+					<h:outputText value="Nome: "/>
+					<p:inputText id="nomeSistema" size="50" value="#{sistemaBean.sistema.nome}" /> 
+					<p:message for="nomeSistema"/>
+				</h:panelGrid>
+			</p:fieldset>
+					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{sistemaBean.cancelar}" 
+								icon="ui-icon-arrowreturnthick-1-w"/>		
+					<p:commandButton id="botaoSalvar" value="Salvar" action="#{sistemaBean.salvar}" update="@form" 
+								icon="ui-icon-disk"/>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

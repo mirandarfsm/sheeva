@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -21,10 +20,6 @@ public class SistemaBean {
 
 	private Sistema sistema;
 	private List<Sistema> sistemas;
-
-	private UploadedFile war;
-	private UploadedFile sql;
-	private UploadedFile arquivoConfiguracao;
 
 	@Autowired
 	private SistemaService sistemaService;
@@ -48,7 +43,7 @@ public class SistemaBean {
 			Mensagem.msgInformacao("Sistema alterado com sucesso");
 		}
 		sistemas = sistemaService.listarTodos();
-		ManagedBeanUtils.redirecionar("/servidor");
+		ManagedBeanUtils.redirecionar("/sistema");
 	}
 
 	public void excluir() {
@@ -60,11 +55,6 @@ public class SistemaBean {
 	public String editar() {
 		sistema = sistemaService.buscarPeloId(sistema.getId());
 		return "/pages/sistema/cadastrar-sistema-formulario.xhtml";
-	}
-
-	private void upload() {
-		if (war != null && sql != null && arquivoConfiguracao != null) {
-		}
 	}
 
 	public void cancelar() {
@@ -85,30 +75,6 @@ public class SistemaBean {
 
 	public void setSistemas(List<Sistema> sistemas) {
 		this.sistemas = sistemas;
-	}
-
-	public UploadedFile getWar() {
-		return war;
-	}
-
-	public void setWar(UploadedFile war) {
-		this.war = war;
-	}
-
-	public UploadedFile getSql() {
-		return sql;
-	}
-
-	public void setSql(UploadedFile sql) {
-		this.sql = sql;
-	}
-
-	public UploadedFile getArquivoConfiguracao() {
-		return arquivoConfiguracao;
-	}
-
-	public void setArquivoConfiguracao(UploadedFile arquivoConfiguracao) {
-		this.arquivoConfiguracao = arquivoConfiguracao;
 	}
 
 }

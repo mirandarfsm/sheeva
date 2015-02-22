@@ -45,12 +45,14 @@ public class ServidorServiceImpl implements ServidorService {
 
 	public void atualizarInstancia(Servidor servidor, Versao versao,
 			Instancia instancia) {
-		// TODO Implementar - versaoDao.getVersoes(instancia.getVersao(),versao);
-		List<Versao> versoes = new LinkedList<Versao>(); 
+		// TODO Implementar -
+		// versaoDao.getVersoes(instancia.getVersao(),versao);
+		List<Versao> versoes = new LinkedList<Versao>();
 		for (Versao v : versoes) {
-			LinuxUtil.enviarArquivos(servidor, versao.getArquivos());
+			LinuxUtil.enviarArquivos(servidor, versao.getFolder());
 			StringBuffer command = new StringBuffer();
-			command.append("bash /tmp/atualiza.sh ")
+			command.append(
+					"bash /tmp/" + versao.getSistema().getNome() + ".sh ")
 					.append(instancia.getNome()).append(v.getVersao());
 			LinuxUtil.executarServidorRemoto(servidor, command.toString());
 		}
@@ -78,7 +80,7 @@ public class ServidorServiceImpl implements ServidorService {
 	}
 
 	public void pegarConfiguracaoServidor(Servidor servidor) {
-		// TODO Auto-generated method stub
+		// TODO implementar script para pegar dados do servidor
 
 	}
 

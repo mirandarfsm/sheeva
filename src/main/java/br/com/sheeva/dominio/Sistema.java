@@ -9,6 +9,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @NamedQueries({
 		@NamedQuery(name = "Sistema.removeById", query = "DELETE FROM Sistema system WHERE system.id = :idSistema"),
@@ -49,6 +50,11 @@ public class Sistema {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	@Transient
+	public String getFolder(){
+		return "/local/"+this.nome;
 	}
 
 	@Override

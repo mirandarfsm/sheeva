@@ -3,6 +3,7 @@ package br.com.sheeva.utils;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import br.com.sheeva.dominio.Arquivo;
 import br.com.sheeva.dominio.Servidor;
 
 public class LinuxUtil {
@@ -17,6 +18,18 @@ public class LinuxUtil {
 		String output = executeCommand(command.toString());
 		return output;
 	}
+
+	public static String enviarArquivo(Servidor servidor, Arquivo arquivo) {
+		StringBuilder command = new StringBuilder();
+		command.append("sshpass ").append(servidor.getSenha()).append(" scp ")
+				.append(" -P ").append(servidor.getPorta())
+				.append(arquivo.getNome()).append(" ").append(servidor.getLogin())
+				.append("@").append(servidor.getEndereco()).append(":/tmp");
+
+		String output = executeCommand(command.toString());
+		return output;
+	}
+
 	
 	public static String executarServidorRemoto(Servidor servidor, String command) {
 		StringBuilder remote = new StringBuilder();

@@ -39,22 +39,29 @@ public class VersaoServiceImpl implements VersaoService {
 	public Versao buscarPelaVersao(String versao) {
 		return versaoDao.getByVersion(versao);
 	}
-
+	
 	public void salvarArquivos(Versao versao, List<Arquivo> arquivos)
 			throws IOException {
-		File folder = new File(versao.getArquivos());
+		for (Arquivo arquivo : arquivos) {
+			salvarArquivo(versao, arquivo);
+		}
+	}
+
+	public void salvarArquivo(Versao versao, Arquivo arquivo)
+			throws IOException {
+		File folder = new File(versao.getFolder());
 		if (!folder.exists()) {
 			folder.mkdirs();
 		}
-
-		for (Arquivo arquivo : arquivos) {
-			FileOutputStream out = new FileOutputStream(folder.getPath()
-					+ arquivo.getNome());
-			IOUtils.copy(arquivo.getArquivo(), out);
-		}
-
+		FileOutputStream out = new FileOutputStream(folder.getPath()
+				+ arquivo.getNome());
+		IOUtils.copy(arquivo.getArquivo(), out);
 	}
 	
+	public void baixarArquivo(Versao versao, Arquivo arquivo){
+		// TODO implementar servico para download
+	}
+
 	public void prepararVersao(Versao antiga, Versao nova) {
 		// TODO Criar zip para as versões
 	}

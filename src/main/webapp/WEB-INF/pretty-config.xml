@@ -39,5 +39,14 @@
 		<view-id value="/pages/instancia/configuracao-instancia.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="cadastrar-versao-lista">
+		<pattern value="/versao" />
+		<view-id value="/pages/versao/cadastrar-versao-lista.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="cadastrar-sistema-lista">
+		<pattern value="/sistema" />
+		<view-id value="/pages/sistema/cadastrar-sistema-lista.jsf" />
+	</url-mapping>
 
 </pretty-config>

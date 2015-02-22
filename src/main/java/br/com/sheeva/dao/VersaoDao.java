@@ -15,5 +15,7 @@ public interface VersaoDao {
 	public Versao getById(Integer id);
 	
 	public Versao getByVersion(String versao);
+	
+	public List<Versao> getVersionList(Versao antiga,Versao nova);
 
 }

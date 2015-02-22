@@ -14,11 +14,11 @@ import br.com.sheeva.dominio.Versao;
 
 @Service("versaoDao")
 @Transactional
-public class VersaoDaoImpl implements VersaoDao{
+public class VersaoDaoImpl implements VersaoDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	public void save(Versao versao) {
 		entityManager.merge(versao);
 	}
@@ -51,8 +51,12 @@ public class VersaoDaoImpl implements VersaoDao{
 		}
 		return versoes.get(0);
 	}
-	
-	
 
-	
+	public List<Versao> getVersionList(Versao antiga, Versao nova) {
+		Query query = entityManager.createNamedQuery("Versao.obterListaVersao")
+				.setParameter("antiga", antiga).setParameter("nova", nova);
+		List<Versao> versoes = query.getResultList();
+		return versoes;
+	}
+
 }
