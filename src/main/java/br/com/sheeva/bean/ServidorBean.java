@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.service.ServidorService;
 import br.com.sheeva.utils.LayoutIndexManager;
@@ -64,6 +65,14 @@ public class ServidorBean {
 
 	public void cancelar() {
 		ManagedBeanUtils.redirecionar("/servidor");
+	}
+
+	public void adicionarInstancia() {
+		servidor.getInstancias().add(new Instancia());
+	}
+
+	public void removerInstancia(Instancia instancia) {
+		servidor.getInstancias().remove(instancia);
 	}
 
 	public void abrirTerminal() {

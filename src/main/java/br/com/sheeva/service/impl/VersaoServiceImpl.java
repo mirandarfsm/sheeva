@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,22 +41,22 @@ public class VersaoServiceImpl implements VersaoService {
 		return versaoDao.getByVersion(versao);
 	}
 	
-	public void salvarArquivos(Versao versao, List<Arquivo> arquivos)
+	public void salvarArquivos(Versao versao, List<UploadedFile> arquivos)
 			throws IOException {
-		for (Arquivo arquivo : arquivos) {
+		for (UploadedFile arquivo : arquivos) {
 			salvarArquivo(versao, arquivo);
 		}
 	}
 
-	public void salvarArquivo(Versao versao, Arquivo arquivo)
+	public void salvarArquivo(Versao versao, UploadedFile arquivo)
 			throws IOException {
 		File folder = new File(versao.getFolder());
 		if (!folder.exists()) {
 			folder.mkdirs();
 		}
 		FileOutputStream out = new FileOutputStream(folder.getPath()
-				+ arquivo.getNome());
-		IOUtils.copy(arquivo.getArquivo(), out);
+				+ arquivo.getFileName());
+		IOUtils.copy(arquivo.getInputstream(), out);
 	}
 	
 	public void baixarArquivo(Versao versao, Arquivo arquivo){

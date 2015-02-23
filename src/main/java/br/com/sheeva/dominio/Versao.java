@@ -1,6 +1,5 @@
 package br.com.sheeva.dominio;
 
-import javax.faces.bean.NoneScoped;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -67,10 +66,52 @@ public class Versao {
 	public void setVersao(String versao) {
 		this.versao = versao;
 	}
-	
+
 	@Transient
 	public String getFolder() {
-		return sistema.getFolder() + "/" + this.versao;
+		return sistema.getFolder() + this.versao + "/";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((sistema == null) ? 0 : sistema.hashCode());
+		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Versao other = (Versao) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (sistema == null) {
+			if (other.sistema != null)
+				return false;
+		} else if (!sistema.equals(other.sistema))
+			return false;
+		if (versao == null) {
+			if (other.versao != null)
+				return false;
+		} else if (!versao.equals(other.versao))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return this.sistema + " - " + this.versao;
 	}
 
 }

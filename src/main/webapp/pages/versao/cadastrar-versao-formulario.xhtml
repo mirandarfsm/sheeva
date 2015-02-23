@@ -26,6 +26,19 @@
 					<h:outputText value="Versao: "/>
 					<p:inputText id="versaoVersao" size="50" value="#{versaoBean.versao.versao}" /> 
 					<p:message for="versaoVersao"/>
+					
+					<p:fileUpload fileUploadListener="#{versaoBean.handleFileUpload}" mode="advanced" dragDropSupport="false" multiple="true" update="messages" sizeLimit="100000" fileLimit="5" />
+    				<p:growl id="messages" showDetail="true" />
+					
+<!-- 					<ui:repeat varStatus="i" value="#{versaoBean.arquivos}"> -->
+<!-- 						<h:outputText value="Nome: "/> -->
+<!-- 						<p:fileUpload id="arquivoVersao" size="50" value="#{versaoBean.arquivos[i.index]}" />  -->
+<!-- 						<p:message for="arquivoVersao"/> -->
+						
+<!-- 						<h:commandLink action="#{versaoBean.removerArquivo(versaoBean.arquivos[i.index])}" value="Remover"/> -->
+<!-- 						<br/> -->
+<!-- 					</ui:repeat> -->
+<!-- 					<h:commandLink action="#{VersaoBean.adicionarArquivo}" value="Adicionar"/> -->
 
 				</h:panelGrid>
 			</p:fieldset>

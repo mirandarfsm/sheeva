@@ -51,10 +51,10 @@ public class Sistema {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	@Transient
-	public String getFolder(){
-		return "/local/"+this.nome;
+	public String getFolder() {
+		return "/tmp/" + this.nome + "/";
 	}
 
 	@Override
@@ -86,6 +86,11 @@ public class Sistema {
 		} else if (!nome.equals(other.nome))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return this.nome;
 	}
 
 }

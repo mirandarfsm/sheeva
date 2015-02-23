@@ -19,27 +19,52 @@
 					<h:outputText value="Nome: "/>
 					<p:inputText id="nomeServidor" size="50" value="#{servidorBean.servidor.nome}" /> 
 					<p:message for="nomeServidor"/>
+					
 					<h:outputText value="Endereço: "/>
 					<p:inputText id="enderecoServidor" size="30" value="#{servidorBean.servidor.endereco}"/>
 					<p:message for="enderecoServidor"/>
+					
 					<h:outputText value="Porta: "/>
 					<p:inputText id="porta" size="30" value="#{servidorBean.servidor.porta}"/>
 					<p:message for="porta"/>
+					
 					<h:outputText value="Login: "/>
 					<p:inputText id="loginServidor" size="30" value="#{servidorBean.servidor.login}"/>
 					<p:message for="loginServidor"/>
+					
 					<h:outputText value="Senha: "/>
 					<p:password id="senhaServidor" size="30" value="#{servidorBean.servidor.senha}"/>
 					<p:message for="senhaServidor"/>
+					
+					<ui:repeat varStatus="i" value="#{servidorBean.servidor.instancias}">
+						<h:outputText value="Nome: "/>
+						<p:inputText id="nomeInstancia" size="50" value="#{servidorBean.servidor.instancias[i.index].nome}" /> 
+						<p:message for="nomeInstancia"/>
+						
+						<h:outputText value="Versão: "/>
+						<p:selectOneMenu id="versaoInstancia" value="#{servidorBean.servidor.instancias[i.index].versao}" converter="jsonConverter" >
+							<f:selectItems value="#{servidorBean.versoes}" var="versao" itemLabel="#{versao}" itemValue="#{versao}"/>
+						</p:selectOneMenu> 
+						<p:message for="versaoInstancia"/>
+						
+						<h:outputText value="Diretorio Principal: "/>
+						<p:inputText id="diretorioPrincipalInstancia" size="50" value="#{servidorBean.servidor.instancias[i.index].diretorioPrincipal}" /> 
+						<p:message for="diretorioPrincipalInstancia"/>
+						
+						<h:outputText value="Arquivo Configuração: "/>
+						<p:inputText id="arquivoConfiguracaoInstancia" size="50" value="#{servidorBean.servidor.instancias[i.index].arquivoConfiguracao}" /> 
+						<p:message for="arquivoConfiguracaoInstancia"/>
+						
+						<h:commandLink action="#{servidorBean.removerInstancia(servidorBean.servidor.instancias[i.index])}" value="Remover"/>
+						<br/>
+					</ui:repeat>
+				
+					<h:commandLink action="#{servidorBean.adicionarInstancia}" value="Adicionar"/>
 				</h:panelGrid>
 			</p:fieldset>
-					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{servidorBean.cancelar}" 
-								icon="ui-icon-arrowreturnthick-1-w"/>		
-					<p:commandButton id="botaoSalvar" value="Salvar" action="#{servidorBean.salvar}" update="@form" 
-								icon="ui-icon-disk"/>
+			<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{servidorBean.cancelar}" icon="ui-icon-arrowreturnthick-1-w"/>		
+			<p:commandButton id="botaoSalvar" value="Salvar" action="#{servidorBean.salvar}" update="@form" icon="ui-icon-disk"/>
 
 		</h:form>
-
 	</ui:define>
-
 </ui:composition>
