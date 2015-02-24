@@ -34,6 +34,47 @@
 						action="#{servidorBean.cancelar}" icon="ui-icon-arrowreturnthick-1-w" />
 						<p:commandLink value="Terminal" immediate="true" target="_blank" action="#{servidorBean.abrirTerminal}" />
 				</p:tab>
+				
+				<p:tab title="Status">
+					<p:fieldset legend="Dados Cadastrais" styleClass="fieldSet">
+						<h:panelGrid columns="2">
+							<h:outputText value="Cpu: " />
+							<h:outputText value="Teste" />
+							<h:outputText value="Mem: " />
+							<h:outputText value="Teste" />
+							<h:outputText value="Disk: " />
+							<h:outputText value="Teste" />
+							<h:outputText value="Backup: " />
+							<h:outputText value="Teste" />
+						</h:panelGrid>
+					</p:fieldset>
+				</p:tab>
+				
+				<p:tab title="Instancias">
+					<p:fieldset styleClass="fieldSet" legend="#{servidorBean.servidor.instancias.size()} Instancias Cadastradas" id="fieldInstancias">
+						<p:dataTable id="instanciaTable" var="instancia" value="#{servidorBean.servidor.instancias}" rowKey="#{instancia.id}" paginator="true" rows="7" emptyMessage="Nenhuma instancia cadastrada">
+								
+								<p:column headerText="Nome Instancia" sortBy="#{instancia.nome}" filterBy="#{instancia.nome}" id="nome">
+	            					#{instancia.nome}
+	       						</p:column>
+	       						<p:column headerText="Versão Instancia" sortBy="#{instancia.versao}" filterBy="#{instancia.versao}" id="versao">
+	            					#{instancia.versao}
+	       						</p:column>
+	       						<p:column headerText="Versão Instancia" id="novaVersao">
+	            					<p:selectOneMenu value="#{servidorBean.versao}" converter="jsonConverter">
+	            						<f:selectItems value="#{servidorBean.versoes}" var="versao" itemLabel="#{versao}" itemValue="#{versao}"/>
+	            					</p:selectOneMenu>
+	       						</p:column>
+								<p:column headerText="Atualizar" style="width:60px">
+									<p:commandButton action="#{servidorBean.atualizar}" title="Atualizar" icon="ui-icon ui-icon-pencil" ajax="true" id="botaoAtualizar">
+										<f:setPropertyActionListener value="#{instancia}" target="#{servidorBean.instancia}" />
+									</p:commandButton>
+								</p:column>
+						</p:dataTable>
+					</p:fieldset>
+					
+				</p:tab>
+				
 				<p:tab title="Terminal">
 					<iframe width="100%" height="300" name="tex" src="#{servidorBean.obterUrlSsh()}">
 					</iframe>

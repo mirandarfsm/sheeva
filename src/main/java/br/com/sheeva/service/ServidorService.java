@@ -27,6 +27,9 @@ public interface ServidorService {
 	void reiniciarAplicacao(Servidor servidor,Instancia instancia);
 	
 	void pegarConfiguracaoServidor(Servidor servidor);
+
+	void atualizarInstancia(Servidor servidor, Versao versao,
+			Instancia instancia);
 	
 
 }

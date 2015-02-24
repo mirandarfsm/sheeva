@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.primefaces.component.fileupload.FileUpload;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +79,7 @@ public class VersaoBean {
 
 	public void handleFileUpload(FileUploadEvent event) throws IOException {
 		arquivo = event.getFile();
-		versaoService.salvarArquivo(versao, arquivo);
+		versaoService.salvarArquivo(versao, arquivo.getInputstream(), arquivo.getFileName());
 	}
 
 	public void adicionarArquivo() {

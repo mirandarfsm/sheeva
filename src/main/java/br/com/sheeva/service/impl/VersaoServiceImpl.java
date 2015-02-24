@@ -3,6 +3,7 @@ package br.com.sheeva.service.impl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -16,7 +17,7 @@ import br.com.sheeva.dominio.Versao;
 import br.com.sheeva.service.VersaoService;
 
 @Service("versaoService")
-public class VersaoServiceImpl implements VersaoService {
+public class VersaoServiceImpl implements VersaoService{
 
 	@Autowired
 	private VersaoDao versaoDao;
@@ -40,26 +41,26 @@ public class VersaoServiceImpl implements VersaoService {
 	public Versao buscarPelaVersao(String versao) {
 		return versaoDao.getByVersion(versao);
 	}
-	
+
 	public void salvarArquivos(Versao versao, List<UploadedFile> arquivos)
 			throws IOException {
 		for (UploadedFile arquivo : arquivos) {
-			salvarArquivo(versao, arquivo);
+			// salvarArquivo(versao, arquivo);
 		}
 	}
 
-	public void salvarArquivo(Versao versao, UploadedFile arquivo)
+	public void salvarArquivo(Versao versao, InputStream arquivo, String nome)
 			throws IOException {
 		File folder = new File(versao.getFolder());
 		if (!folder.exists()) {
 			folder.mkdirs();
 		}
-		FileOutputStream out = new FileOutputStream(folder.getPath()
-				+ arquivo.getFileName());
-		IOUtils.copy(arquivo.getInputstream(), out);
+		FileOutputStream out = new FileOutputStream(folder.getPath() + "/"
+				+ nome);
+		IOUtils.copy(arquivo, out);
 	}
-	
-	public void baixarArquivo(Versao versao, Arquivo arquivo){
+
+	public void baixarArquivo(Versao versao, Arquivo arquivo) {
 		// TODO implementar servico para download
 	}
 

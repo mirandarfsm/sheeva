@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sheeva.dao.ServidorDao;
+import br.com.sheeva.dao.VersaoDao;
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Versao;
@@ -18,6 +19,9 @@ public class ServidorServiceImpl implements ServidorService {
 
 	@Autowired
 	private ServidorDao servidorDao;
+	
+	@Autowired
+	private VersaoDao versaoDao;
 
 	public void salvar(Servidor servidor) {
 		servidorDao.save(servidor);
@@ -46,8 +50,7 @@ public class ServidorServiceImpl implements ServidorService {
 	public void atualizarInstancia(Servidor servidor, Versao versao,
 			Instancia instancia) {
 		// TODO Implementar -
-		// versaoDao.getVersoes(instancia.getVersao(),versao);
-		List<Versao> versoes = new LinkedList<Versao>();
+		List<Versao> versoes = versaoDao.getVersionList(instancia.getVersao().getId(),versao.getId());
 		for (Versao v : versoes) {
 			LinuxUtil.enviarArquivos(servidor, versao.getFolder());
 			StringBuffer command = new StringBuffer();

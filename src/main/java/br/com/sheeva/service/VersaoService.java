@@ -1,6 +1,7 @@
 package br.com.sheeva.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.primefaces.model.UploadedFile;
@@ -19,7 +20,7 @@ public interface VersaoService {
 
 	public Versao buscarPelaVersao(String versao);
 
-	void salvarArquivo(Versao versao, UploadedFile arquivo) throws IOException;
+	void salvarArquivo(Versao versao, InputStream arquivo, String nome) throws IOException;
 	
 	void salvarArquivos(Versao versao, List<UploadedFile> arquivos) throws IOException;
 	
