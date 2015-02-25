@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
+import br.com.sheeva.dominio.Versao;
+import br.com.sheeva.service.InstanciaService;
 import br.com.sheeva.service.ServidorService;
+import br.com.sheeva.service.VersaoService;
 import br.com.sheeva.utils.LayoutIndexManager;
 import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
@@ -21,13 +24,21 @@ public class ServidorBean {
 
 	private Servidor servidor;
 	private List<Servidor> servidores;
+	private Instancia instancia;
+	private Versao versao;
+	private List<Versao> versoes;
 
 	@Autowired
 	private ServidorService servidorService;
+	@Autowired
+	private InstanciaService instanciaService;
+	@Autowired
+	private VersaoService versaoService;
 
 	@PostConstruct
 	public void init() {
 		servidores = servidorService.listarTodos();
+		versoes = versaoService.listarTodos();
 		LayoutIndexManager.atualizarIndice(1);
 	}
 
@@ -61,6 +72,12 @@ public class ServidorBean {
 	public String exibir() {
 		servidor = servidorService.buscarPeloId(servidor.getId());
 		return "/pages/servidor/exibir-servidor.xhtml";
+	}
+
+	public void atualizar() {
+		instancia = instanciaService.buscarPeloId(instancia.getId());
+		versao = versaoService.buscarPeloId(versao.getId());
+		servidorService.atualizarInstancia(servidor, versao, instancia);
 	}
 
 	public void cancelar() {
@@ -101,6 +118,30 @@ public class ServidorBean {
 
 	public void setServidores(List<Servidor> servidores) {
 		this.servidores = servidores;
+	}
+
+	public Instancia getInstancia() {
+		return instancia;
+	}
+
+	public void setInstancia(Instancia instancia) {
+		this.instancia = instancia;
+	}
+
+	public Versao getVersao() {
+		return versao;
+	}
+
+	public void setVersao(Versao versao) {
+		this.versao = versao;
+	}
+
+	public List<Versao> getVersoes() {
+		return versoes;
+	}
+
+	public void setVersoes(List<Versao> versoes) {
+		this.versoes = versoes;
 	}
 
 }

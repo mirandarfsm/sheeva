@@ -18,7 +18,7 @@ import javax.persistence.Transient;
 		@NamedQuery(name = "Versao.searchAll", query = "SELECT version FROM Versao version"),
 		@NamedQuery(name = "Versao.searchById", query = "SELECT version FROM Versao version WHERE version.id = :idVersao"),
 		@NamedQuery(name = "Versao.obterPelaVersao", query = "SELECT version FROM Versao version WHERE version.versao = :versao"),
-		@NamedQuery(name = "Versao.obterListaVersao", query = "SELECT version FROM Versao version WHERE version.versao between :antiga and :nova") })
+		@NamedQuery(name = "Versao.obterListaVersao", query = "SELECT version FROM Versao version WHERE version.id between :idAntiga and :idNova") })
 @Entity
 @Table(name = "versao")
 public class Versao {
@@ -32,6 +32,11 @@ public class Versao {
 
 	public Versao(Integer id, Sistema sistema, String versao) {
 		this.id = id;
+		this.sistema = sistema;
+		this.versao = versao;
+	}
+	
+	public Versao(Sistema sistema, String versao) {
 		this.sistema = sistema;
 		this.versao = versao;
 	}

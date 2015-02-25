@@ -27,8 +27,12 @@ public class Sistema {
 
 	}
 
-	public Sistema(Integer id, String nome, String arquivo, String versao) {
+	public Sistema(Integer id, String nome) {
 		this.id = id;
+		this.nome = nome;
+	}
+
+	public Sistema(String nome) {
 		this.nome = nome;
 	}
 
@@ -54,7 +58,7 @@ public class Sistema {
 
 	@Transient
 	public String getFolder() {
-		return "/tmp/" + this.nome + "/";
+		return System.getProperty("user.home") + "/.sheeva/sistema/" + this.nome + "/";
 	}
 
 	@Override
