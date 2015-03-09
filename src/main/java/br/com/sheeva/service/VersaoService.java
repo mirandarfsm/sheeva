@@ -20,9 +20,11 @@ public interface VersaoService {
 
 	public Versao buscarPelaVersao(String versao);
 
-	void salvarArquivo(Versao versao, InputStream arquivo, String nome) throws IOException;
-	
-	void salvarArquivos(Versao versao, List<UploadedFile> arquivos) throws IOException;
-	
+	void salvarArquivo(Versao versao, InputStream arquivo, String nome)
+			throws IOException;
+
+	void salvarArquivos(Versao versao, List<UploadedFile> arquivos)
+			throws IOException;
+
 	void prepararVersao(Versao antiga, Versao nova);
 }

@@ -17,6 +17,10 @@ public interface ServidorService {
 	public Servidor buscarPeloId(Integer id);
 	
 	void atualizarInstancias(Servidor servidor, Versao versao);
+
+	void atualizarInstancia(Servidor servidor, Versao versao,Instancia instancia);
+	
+	void atualizarVersaoDaInstancia(Servidor servidor, Versao versao,Instancia instancia);
 	
 	void alterarArquivoConfiguracao(Servidor servidor, Versao versao, String arquivoConfiguracao);
 	
@@ -28,8 +32,6 @@ public interface ServidorService {
 	
 	void pegarConfiguracaoServidor(Servidor servidor);
 
-	void atualizarInstancia(Servidor servidor, Versao versao,
-			Instancia instancia);
 	
 
 }

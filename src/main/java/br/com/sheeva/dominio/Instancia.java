@@ -30,6 +30,13 @@ public class Instancia {
 	public Instancia() {
 	}
 
+	public Instancia(String nome, String diretorioPrincipal,
+			String arquivoConfiguracao) {
+		this.nome = nome;
+		this.diretorioPrincipal = diretorioPrincipal;
+		this.arquivoConfiguracao = arquivoConfiguracao;
+	}
+
 	public Instancia(Integer id, String nome, String diretorioPrincipal,
 			String arquivoConfiguracao) {
 		this.id = id;
@@ -49,6 +56,7 @@ public class Instancia {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	@Column(name = "nome")
 	public String getNome() {
 		return nome;
@@ -75,7 +83,7 @@ public class Instancia {
 	public void setArquivoConfiguracao(String arquivoConfiguracao) {
 		this.arquivoConfiguracao = arquivoConfiguracao;
 	}
-	
+
 	@ManyToOne
 	@JoinColumn(name = "versao")
 	public Versao getVersao() {

@@ -23,6 +23,7 @@ import br.com.sheeva.utils.Mensagem;
 public class ServidorBean {
 
 	private Servidor servidor;
+	private Servidor servidor1;
 	private List<Servidor> servidores;
 	private Instancia instancia;
 	private Versao versao;
@@ -143,5 +144,15 @@ public class ServidorBean {
 	public void setVersoes(List<Versao> versoes) {
 		this.versoes = versoes;
 	}
+
+	public Servidor getServidor1() {
+		return servidor1;
+	}
+
+	public void setServidor1(Servidor servidor1) {
+		this.servidor1 = servidor1;
+	}
+	
+	
 
 }

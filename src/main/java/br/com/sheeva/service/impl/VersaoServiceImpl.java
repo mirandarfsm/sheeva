@@ -17,7 +17,7 @@ import br.com.sheeva.dominio.Versao;
 import br.com.sheeva.service.VersaoService;
 
 @Service("versaoService")
-public class VersaoServiceImpl implements VersaoService{
+public class VersaoServiceImpl implements VersaoService {
 
 	@Autowired
 	private VersaoDao versaoDao;

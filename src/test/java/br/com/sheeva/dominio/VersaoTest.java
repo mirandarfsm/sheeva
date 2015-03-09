@@ -1,0 +1,26 @@
+package br.com.sheeva.dominio;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class VersaoTest {
+
+	private Sistema system;
+
+	@Before
+	public void init() {
+		system = new Sistema("Sheeva");
+	}
+
+	@Test
+	public void criarVersao() {
+		Versao version = new Versao(system, "1.0");
+
+		assertEquals("1.0", version.getVersao());
+		assertEquals("/home/robson/.sheeva/sistema/Sheeva/1.0/",
+				version.getFolder());
+	}
+
+}

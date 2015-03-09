@@ -1,6 +1,5 @@
 package br.com.sheeva.service.impl;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ public class ServidorServiceImpl implements ServidorService {
 
 	@Autowired
 	private ServidorDao servidorDao;
-	
+
 	@Autowired
 	private VersaoDao versaoDao;
 
@@ -50,15 +49,21 @@ public class ServidorServiceImpl implements ServidorService {
 	public void atualizarInstancia(Servidor servidor, Versao versao,
 			Instancia instancia) {
 		// TODO Implementar -
-		List<Versao> versoes = versaoDao.getVersionList(instancia.getVersao().getId(),versao.getId());
+		List<Versao> versoes = versaoDao.getVersionList(instancia.getVersao()
+				.getId(), versao.getId());
 		for (Versao v : versoes) {
-			LinuxUtil.enviarArquivos(servidor, versao.getFolder());
-			StringBuffer command = new StringBuffer();
-			command.append(
-					"bash /tmp/" + versao.getSistema().getNome() + ".sh ")
-					.append(instancia.getNome()).append(v.getVersao());
-			LinuxUtil.executarServidorRemoto(servidor, command.toString());
+			atualizarVersaoDaInstancia(servidor, v, instancia);
 		}
+	}
+
+	public void atualizarVersaoDaInstancia(Servidor servidor, Versao versao,
+			Instancia instancia) {
+		LinuxUtil.enviarArquivos(servidor, versao.getFolder());
+		StringBuffer command = new StringBuffer();
+		command.append("bash /tmp/" + versao.getSistema().getNome() + ".sh ")
+				.append(instancia.getNome()).append(versao.getVersao());
+		LinuxUtil.executarServidorRemoto(servidor, command.toString());
+
 	}
 
 	public void alterarArquivoConfiguracao(Servidor servidor, Versao versao,

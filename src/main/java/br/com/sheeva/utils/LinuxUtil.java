@@ -3,14 +3,13 @@ package br.com.sheeva.utils;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import br.com.sheeva.dominio.Arquivo;
 import br.com.sheeva.dominio.Servidor;
 
 public class LinuxUtil {
 
 	public static String enviarArquivos(Servidor servidor, String diretorio) {
 		StringBuilder command = new StringBuilder();
-		command.append("sshpass ").append(servidor.getSenha()).append(" scp ")
+		command.append("sshpass -p ").append(servidor.getSenha()).append(" scp ")
 				.append(" -P ").append(servidor.getPorta())
 				.append(" " + diretorio + "* ").append(servidor.getLogin())
 				.append("@").append(servidor.getEndereco()).append(":/tmp");
@@ -19,12 +18,12 @@ public class LinuxUtil {
 		return output;
 	}
 
-	public static String enviarArquivo(Servidor servidor, Arquivo arquivo) {
+	public static String enviarArquivo(Servidor servidor, String arquivo) {
 		StringBuilder command = new StringBuilder();
-		command.append("sshpass ").append(servidor.getSenha()).append(" scp ")
-				.append(" -P ").append(servidor.getPorta())
-				.append(arquivo.getNome()).append(" ").append(servidor.getLogin())
-				.append("@").append(servidor.getEndereco()).append(":/tmp");
+		command.append("sshpass -p ").append(servidor.getSenha()).append(" scp ")
+				.append(" -P ").append(servidor.getPorta()).append(" ")
+				.append(arquivo).append(" ").append(servidor.getLogin())
+				.append("@").append(servidor.getEndereco()).append(":/tmp/");
 
 		String output = executeCommand(command.toString());
 		return output;
@@ -32,18 +31,18 @@ public class LinuxUtil {
 
 	
 	public static String executarServidorRemoto(Servidor servidor, String command) {
-		StringBuilder remote = new StringBuilder();
-		remote.append("sshpass ").append(servidor.getSenha()).append(" ssh ")
-				.append(servidor.getLogin()).append("@").append(servidor.getEndereco())
+ 		StringBuilder remote = new StringBuilder();
+		remote.append("sshpass -p ").append(servidor.getSenha()).append(" ssh ").append(" -l ")
+				.append(servidor.getLogin()).append(" ").append(servidor.getEndereco())
 				.append(" -p ").append(servidor.getPorta())
-				.append(" -c '").append(command).append(" ' ");
+				.append(" -C  ").append(command).append("  ");
 
 		String output = executeCommand(remote.toString());
 		return output;
 	}
 	
 
-	private static String executeCommand(String command) {
+	public static String executeCommand(String command) {
 
 		StringBuffer output = new StringBuffer();
 
