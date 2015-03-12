@@ -14,7 +14,7 @@
 		<div class="vgap-10" />
 		<h:form id="formSistema">
 			<p:messages id="msg" globalOnly="true" showIcon="false" autoUpdate="true"/>
-			<p:fieldset legend="Dados Cadastrais">
+			<p:fieldset legend="Dados Cadastrais" styleClass="fieldSet">
 				<h:panelGrid columns="3">
 					<h:outputText value="Nome: "/>
 					<p:inputText id="nomeSistema" size="50" value="#{sistemaBean.sistema.nome}" /> 
@@ -22,9 +22,9 @@
 				</h:panelGrid>
 			</p:fieldset>
 					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{sistemaBean.cancelar}" 
-								icon="ui-icon-arrowreturnthick-1-w"/>		
+								styleClass="btn btn-danger"/>		
 					<p:commandButton id="botaoSalvar" value="Salvar" action="#{sistemaBean.salvar}" update="@form" 
-								icon="ui-icon-disk"/>
+								styleClass="btn btn-primary"/>
 
 		</h:form>
 

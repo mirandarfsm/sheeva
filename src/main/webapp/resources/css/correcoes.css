@@ -1,3 +1,11 @@
+.ui-inputfield, .ui-inputtext {
+	margin: 4px;
+}
+
+.input-text {
+	margin: 4px;
+}
+
 .menuTopo {
 	background: none !important;
 	border: none !important;

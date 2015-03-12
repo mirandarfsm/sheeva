@@ -14,7 +14,7 @@
 		<div class="vgap-10" />
 		<h:form id="formServidor">
 			<p:messages id="msg" globalOnly="true" showIcon="false" autoUpdate="true"/>
-			<p:fieldset legend="Dados Cadastrais">
+			<p:fieldset legend="Dados Cadastrais" styleClass="fieldSet">
 				<h:panelGrid columns="3">
 					<h:outputText value="Nome: "/>
 					<p:inputText id="nomeServidor" size="50" value="#{servidorBean.servidor.nome}" /> 
@@ -32,11 +32,13 @@
 					<p:inputText id="loginServidor" size="30" value="#{servidorBean.servidor.login}"/>
 					<p:message for="loginServidor"/>
 					
-					<h:outputText value="Senha: "/>
-					<p:password id="senhaServidor" size="30" value="#{servidorBean.servidor.senha}"/>
-					<p:message for="senhaServidor"/>
-					
+					<h:outputText value="Senha: " rendered="#{servidorBean.servidor.id == null}"/>
+					<p:password id="senhaServidor" size="30" value="#{servidorBean.servidor.senha}" rendered="#{servidorBean.servidor.id == null}"/>
+					<p:message for="senhaServidor" rendered="#{servidorBean.servidor.id == null}"/>
+				</h:panelGrid>
+				<h:panelGrid columns="1">
 					<ui:repeat varStatus="i" value="#{servidorBean.servidor.instancias}">
+					<h:panelGrid columns="3">
 						<h:outputText value="Nome: "/>
 						<p:inputText id="nomeInstancia" size="50" value="#{servidorBean.servidor.instancias[i.index].nome}" /> 
 						<p:message for="nomeInstancia"/>
@@ -57,13 +59,14 @@
 						
 						<h:commandLink action="#{servidorBean.removerInstancia(servidorBean.servidor.instancias[i.index])}" value="Remover"/>
 						<br/>
+					</h:panelGrid>
 					</ui:repeat>
 				
 					<h:commandLink action="#{servidorBean.adicionarInstancia}" value="Adicionar"/>
 				</h:panelGrid>
 			</p:fieldset>
-			<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{servidorBean.cancelar}" icon="ui-icon-arrowreturnthick-1-w"/>		
-			<p:commandButton id="botaoSalvar" value="Salvar" action="#{servidorBean.salvar}" update="@form" icon="ui-icon-disk"/>
+			<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{servidorBean.cancelar}" styleClass="btn btn-danger"/>		
+			<p:commandButton id="botaoSalvar" value="Salvar" action="#{servidorBean.salvar}" update="@form" styleClass="btn btn-primary"/>
 
 		</h:form>
 	</ui:define>
