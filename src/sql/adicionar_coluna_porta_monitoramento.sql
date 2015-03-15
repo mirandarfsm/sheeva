@@ -1,0 +1,1 @@
+alter table servidor add column porta_monitoramento integer;

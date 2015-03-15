@@ -1,12 +1,25 @@
 package br.com.sheeva.service.impl;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.InstanceNotFoundException;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import javax.management.ReflectionException;
+import javax.management.remote.JMXConnector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.sheeva.conexao.ConexaoJMX;
 import br.com.sheeva.dao.ServidorDao;
 import br.com.sheeva.dao.VersaoDao;
+import br.com.sheeva.dominio.ConfiguracaoServidor;
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Versao;
@@ -87,9 +100,52 @@ public class ServidorServiceImpl implements ServidorService {
 
 	}
 
-	public void pegarConfiguracaoServidor(Servidor servidor) {
-		// TODO implementar script para pegar dados do servidor
+	public ConfiguracaoServidor pegarConfiguracaoServidor(Servidor servidor) {
+		String[] atributosOperatingSystem = {"Name", "Version", "Arch", "AvailableProcessors", "TotalPhysicalMemorySize", "TotalSwapSpaceSize"};
+		HashMap<String, Object> listaDeAtributos = new HashMap<String, Object>();
 
+		try {
+			JMXConnector conector = ConexaoJMX.getConexao(servidor.getEndereco(), servidor.getPortaMonitoramento());
+			
+			AttributeList attributeList = conector.getMBeanServerConnection().getAttributes(new ObjectName("java.lang:type=OperatingSystem"), atributosOperatingSystem);
+			List<Attribute> lista = attributeList.asList();
+
+			for (Attribute atributo : lista) {
+				listaDeAtributos.put(atributo.getName(), atributo.getValue());
+			}
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstanceNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedObjectNameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ReflectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return getConfiguracao(listaDeAtributos);
+	}
+
+	private ConfiguracaoServidor getConfiguracao(HashMap<String, Object> listaDeAtributos) {
+		if (listaDeAtributos.isEmpty()){
+			return null;
+		}
+		ConfiguracaoServidor configuracaoServidor = new ConfiguracaoServidor();
+		configuracaoServidor.setArquitetura((String) listaDeAtributos.get("Arch"));
+		configuracaoServidor.setNumeroProcessadores((Integer) listaDeAtributos.get("AvailableProcessors"));
+		configuracaoServidor.setMemoriaFisicaTotal((Long) listaDeAtributos.get("TotalPhysicalMemorySize"));
+		configuracaoServidor.setMemoriaSwapTotal((Long) listaDeAtributos.get("TotalSwapSpaceSize"));
+		configuracaoServidor.setSistemaOperacional(listaDeAtributos.get("Name") + " " +  listaDeAtributos.get("Version"));
+		
+		return configuracaoServidor;
 	}
 
 }

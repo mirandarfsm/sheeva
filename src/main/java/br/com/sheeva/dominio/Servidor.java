@@ -32,6 +32,7 @@ public class Servidor {
 	private Integer porta;
 	private String login;
 	private String senha;
+	private Integer portaMonitoramento;
 	private List<Instancia> instancias;
 
 	public Servidor() {
@@ -124,17 +125,24 @@ public class Servidor {
 		this.instancias = instancias;
 	}
 
+	@Column(name="porta_monitoramento")
+	public Integer getPortaMonitoramento() {
+		return portaMonitoramento;
+	}
+
+	public void setPortaMonitoramento(Integer portaMonitoramento) {
+		this.portaMonitoramento = portaMonitoramento;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((endereco == null) ? 0 : endereco.hashCode());
-		result = prime * result
-				+ ((instancias == null) ? 0 : instancias.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
+		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((porta == null) ? 0 : porta.hashCode());
+		result = prime * result + ((portaMonitoramento == null) ? 0 : portaMonitoramento.hashCode());
 		return result;
 	}
 
@@ -152,25 +160,25 @@ public class Servidor {
 				return false;
 		} else if (!endereco.equals(other.endereco))
 			return false;
-		if (instancias == null) {
-			if (other.instancias != null)
+		if (login == null) {
+			if (other.login != null)
 				return false;
-		} else if (!instancias.equals(other.instancias))
+		} else if (!login.equals(other.login))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (senha == null) {
-			if (other.senha != null)
+		if (porta == null) {
+			if (other.porta != null)
 				return false;
-		} else if (!senha.equals(other.senha))
+		} else if (!porta.equals(other.porta))
 			return false;
-		if (login == null) {
-			if (other.login != null)
+		if (portaMonitoramento == null) {
+			if (other.portaMonitoramento != null)
 				return false;
-		} else if (!login.equals(other.login))
+		} else if (!portaMonitoramento.equals(other.portaMonitoramento))
 			return false;
 		return true;
 	}

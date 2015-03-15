@@ -3,11 +3,15 @@ package br.com.sheeva.bean;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
+import org.primefaces.event.TabChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import br.com.sheeva.dominio.ConfiguracaoServidor;
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Versao;
@@ -28,6 +32,7 @@ public class ServidorBean {
 	private Instancia instancia;
 	private Versao versao;
 	private List<Versao> versoes;
+	private ConfiguracaoServidor configuracaoServidor;
 
 	@Autowired
 	private ServidorService servidorService;
@@ -99,10 +104,8 @@ public class ServidorBean {
 
 	public String obterUrlSsh() {
 		StringBuffer stringBuffer = new StringBuffer();
-		return stringBuffer.append("ssh://").append(servidor.getLogin())
-				.append(":").append(servidor.getSenha()).append("@")
-				.append(servidor.getEndereco()).append(":")
-				.append(servidor.getPorta()).toString();
+		return stringBuffer.append("ssh://").append(servidor.getLogin()).append(":").append(servidor.getSenha()).append("@")
+				.append(servidor.getEndereco()).append(":").append(servidor.getPorta()).toString();
 	}
 
 	public Servidor getServidor() {
@@ -152,7 +155,23 @@ public class ServidorBean {
 	public void setServidor1(Servidor servidor1) {
 		this.servidor1 = servidor1;
 	}
-	
-	
+
+	public void onTabChange(TabChangeEvent event) {
+		FacesMessage msg = new FacesMessage("Tab Changed", "Active Tab" + event.getTab().getId());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public ConfiguracaoServidor getConfiguracaoServidor() {
+		return configuracaoServidor;
+	}
+
+	public void setConfiguracaoServidor(ConfiguracaoServidor configuracaoServidor) {
+		this.configuracaoServidor = configuracaoServidor;
+	}
+
+	public boolean isPossuiConexaoMonitoramento() {
+		configuracaoServidor = servidorService.pegarConfiguracaoServidor(servidor);
+		return configuracaoServidor == null ? false : true;
+	}
 
 }

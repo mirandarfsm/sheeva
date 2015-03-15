@@ -17,7 +17,7 @@
 
 			<p:tabView dynamic="true" cache="true">
 				<p:tab title="Dados">
-					<p:fieldset legend="Dados Cadastrais" styleClass="fieldSet">
+					<p:fieldset legend="Dados do Servidor" styleClass="fieldSet">
 						<h:panelGrid columns="2">
 							<h:outputText value="Nome: " />
 							<h:outputText id="nomeServidor" size="50" value="#{servidorBean.servidor.nome}" />
@@ -36,17 +36,21 @@
 				</p:tab>
 				
 				<p:tab title="Status">
-					<p:fieldset legend="Dados Cadastrais" styleClass="fieldSet">
-						<h:panelGrid columns="2">
-							<h:outputText value="Cpu: " />
-							<h:outputText value="#{servidorBean.servidor1.nome}" />
-							<h:outputText value="Mem: " />
-							<h:outputText value="Teste" />
-							<h:outputText value="Disk: " />
-							<h:outputText value="Teste" />
-							<h:outputText value="Backup: " />
-							<h:outputText value="Teste" />
-						</h:panelGrid>
+					<p:fieldset legend="Status do Servidor" styleClass="fieldSet">
+						<p:outputLabel value="Não há comunicação com o servidor para monitoramento." 
+									   rendered="#{!servidorBean.possuiConexaoMonitoramento}"/>
+						<p:panelGrid columns="2" rendered="#{servidorBean.possuiConexaoMonitoramento}" styleClass="panelGridA">
+							<h:outputText value="Sistema Operacional: " />
+							<h:outputText value="#{servidorBean.configuracaoServidor.sistemaOperacional}" styleClass="output-text"/>
+							<h:outputText value="Arquitetura: " />
+							<h:outputText value="#{servidorBean.configuracaoServidor.arquitetura}" />
+							<h:outputText value="Nº de Processadores: " />
+							<h:outputText value="#{servidorBean.configuracaoServidor.numeroProcessadores}" />
+							<h:outputText value="Memória Física Total: " />
+							<h:outputText value="#{servidorBean.configuracaoServidor.memoriaFisicaTotalFormatadaKbytes}" />
+							<h:outputText value="Memória SWAP Total: " />
+							<h:outputText value="#{servidorBean.configuracaoServidor.memoriaSwapTotalFormatadaKbytes}" />
+						</p:panelGrid>
 					</p:fieldset>
 				</p:tab>
 				

@@ -2,6 +2,7 @@ package br.com.sheeva.service;
 
 import java.util.List;
 
+import br.com.sheeva.dominio.ConfiguracaoServidor;
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Versao;
@@ -30,7 +31,7 @@ public interface ServidorService {
 	
 	void reiniciarAplicacao(Servidor servidor,Instancia instancia);
 	
-	void pegarConfiguracaoServidor(Servidor servidor);
+	public ConfiguracaoServidor pegarConfiguracaoServidor(Servidor servidor);
 
 	
 

@@ -1,3 +1,8 @@
+.panelGridA td{
+     border-style: hidden !important;
+}
+}
+	
 .ui-inputfield, .ui-inputtext {
 	margin: 4px;
 }
