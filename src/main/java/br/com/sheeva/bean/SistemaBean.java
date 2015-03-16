@@ -15,7 +15,7 @@ import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
 @Service("sistemaBean")
-@Scope(value = "view")
+@Scope(value = "session")
 public class SistemaBean {
 
 	private Sistema sistema;

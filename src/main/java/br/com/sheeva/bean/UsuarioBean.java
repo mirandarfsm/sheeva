@@ -18,7 +18,7 @@ import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
 @Service("usuarioBean")
-@Scope(value = "view")
+@Scope(value = "session")
 public class UsuarioBean {
 	
 	private Usuario usuario;

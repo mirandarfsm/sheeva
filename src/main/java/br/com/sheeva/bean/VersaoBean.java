@@ -22,7 +22,7 @@ import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
 @Service("versaoBean")
-@Scope(value = "view")
+@Scope(value = "session")
 public class VersaoBean {
 
 	private Versao versao;

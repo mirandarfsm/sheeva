@@ -18,7 +18,7 @@ import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
 @Service("instanciaBean")
-@Scope(value = "view")
+@Scope(value = "session")
 public class InstanciaBean {
 
 	private Instancia instancia;
