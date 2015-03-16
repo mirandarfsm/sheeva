@@ -17,10 +17,11 @@
 			<p:messages id="msg" showIcon="false" autoUpdate="true" />
 			<p:panel  style="font-size: 14px; border: none;">
 				<div class="container" style="width: 100%;">
-					<p:commandButton value="Novo Versao" action="#{versaoBean.novo}" ajax="false" id="botaoNovoVersao" style="margin-bottom: 10px;" />
+					<p:commandButton value="Nova Versao" action="#{versaoBean.novo}" ajax="false" id="botaoNovoVersao" style="margin-bottom: 10px;" />
 				</div>
-				<p:fieldset styleClass="fieldSet" legend="#{versaoBean.versoes.size()} Versaoes Cadastrados" id="fieldVersaoes">
-					<p:dataTable id="versaoTable" var="versao" value="#{versaoBean.versoes}" rowKey="#{versao.id}" paginator="true" rows="7" tableStyle="font-size: 12px;" emptyMessage="Nenhum versao cadastrado">>
+				<p:fieldset styleClass="fieldSet" legend="#{versaoBean.versoes.size()} Versões Cadastradas" id="fieldVersaoes">
+					<p:dataTable id="versaoTable" var="versao" value="#{versaoBean.versoes}" rowKey="#{versao.id}" paginator="true" 
+					             paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;" emptyMessage="Nenhuma versão cadastrada">>
 						
 						<p:column headerText="Nome Versao" sortBy="#{versao.versao}" filterBy="#{versao.versao}" id="versao">
            					#{versao.versao}

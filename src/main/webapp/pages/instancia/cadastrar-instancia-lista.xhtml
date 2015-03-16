@@ -25,7 +25,7 @@
 					id="fieldInstancias">
 					<p:dataTable id="instanciaTable" var="instancia"
 						value="#{instanciaBean.instancias}" rowKey="#{instancia.id}"
-						paginator="true" rows="7" tableStyle="font-size: 12px;"
+						paginator="true" paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;"
 						emptyMessage="Nenhum instancia cadastrado">>
 							<p:column headerText="Nome Instancia" sortBy="#{instancia.nome}"
 							filterBy="#{instancia.nome}" id="nome">

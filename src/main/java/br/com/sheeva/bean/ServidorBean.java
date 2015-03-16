@@ -1,5 +1,6 @@
 package br.com.sheeva.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -43,6 +44,7 @@ public class ServidorBean {
 
 	@PostConstruct
 	public void init() {
+		novaInstancia();
 		servidores = servidorService.listarTodos();
 		versoes = versaoService.listarTodos();
 		LayoutIndexManager.atualizarIndice(1);
@@ -50,6 +52,7 @@ public class ServidorBean {
 
 	public String novo() {
 		servidor = new Servidor();
+		servidor.setInstancias(new ArrayList<Instancia>());
 		return "/pages/servidor/cadastrar-servidor-formulario.xhtml";
 	}
 
@@ -62,6 +65,11 @@ public class ServidorBean {
 		}
 		servidores = servidorService.listarTodos();
 		ManagedBeanUtils.redirecionar("/servidor");
+	}
+	
+	public void alterarSenhaServidor() {
+		servidorService.salvar(servidor);
+		Mensagem.msgInformacao("Senha do servidor alterada com sucesso");
 	}
 
 	public void excluir() {
@@ -89,9 +97,14 @@ public class ServidorBean {
 	public void cancelar() {
 		ManagedBeanUtils.redirecionar("/servidor");
 	}
+	
+	public void novaInstancia() {
+		instancia = new Instancia();
+	}
 
 	public void adicionarInstancia() {
-		servidor.getInstancias().add(new Instancia());
+		servidor.getInstancias().add(instancia);
+		novaInstancia();
 	}
 
 	public void removerInstancia(Instancia instancia) {
@@ -174,4 +187,7 @@ public class ServidorBean {
 		return configuracaoServidor == null ? false : true;
 	}
 
+	public boolean isServidorPossuiInstancia(){
+		return !servidor.getInstancias().isEmpty();
+	}
 }

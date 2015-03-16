@@ -24,7 +24,7 @@
 					legend="#{sistemaBean.sistemas.size()} Sistemaes Cadastrados" id="fieldSistemaes">
 					<p:dataTable id="sistemaTable" var="sistema"
 						value="#{sistemaBean.sistemas}" rowKey="#{sistema.id}"
-						paginator="true" rows="7" tableStyle="font-size: 12px;"
+						paginator="true" paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;"
 						emptyMessage="Nenhum sistema cadastrado">>
 						<p:column headerText="Nome Sistema" sortBy="#{sistema.nome}"
 							filterBy="#{sistema.nome}" id="nome">

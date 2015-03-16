@@ -1,6 +1,10 @@
+.ui-paginator  {
+	border: hidden;
+	background: none;
+}
+
 .panelGridA td{
      border-style: hidden !important;
-}
 }
 	
 .ui-inputfield, .ui-inputtext {

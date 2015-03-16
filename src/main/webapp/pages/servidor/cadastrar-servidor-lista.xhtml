@@ -24,13 +24,13 @@
 					legend="#{servidorBean.servidores.size()} Servidores Cadastrados" id="fieldServidores">
 					<p:dataTable id="servidorTable" var="servidor"
 						value="#{servidorBean.servidores}" rowKey="#{servidor.id}"
-						paginator="true" rows="7" tableStyle="font-size: 12px;"
+						paginator="true" paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;"
 						emptyMessage="Nenhum servidor cadastrado">>
 							<p:column headerText="Nome Servidor" sortBy="#{servidor.nome}"
 							filterBy="#{servidor.nome}" id="nome">
             					#{servidor.nome}
        						</p:column>
-       						<p:column width="60" headerText="Terminal">
+       						<p:column width="75" headerText="Terminal">
        							<h:outputLink value="ssh://#{servidor.login}:#{servidor.senha}@#{servidor.endereco}:#{servidor.porta}/" 
        							target="_blank" >
        								Terminal

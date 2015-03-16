@@ -24,7 +24,7 @@
 					id="fieldUsuarios">
 					<p:dataTable id="usuarioTable" var="usuario"
 						value="#{usuarioBean.usuarios}" rowKey="#{usuario.id}"
-						paginator="true" rows="7" tableStyle="font-size: 12px;"
+						paginator="true" paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;"
 						emptyMessage="Nenhum usuário cadastrado">>
 							<p:column headerText="Nome Usuario" sortBy="#{usuario.nome}"
 							filterBy="#{usuario.nome}" id="nome">

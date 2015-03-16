@@ -13,9 +13,8 @@
 		<p:separator />
 		<div class="vgap-10" />
 				<h:form id="formAlterarSenha">
-				<p:panel header="Alterar Senha">
 					<p:messages id="msg" />
-					<p:fieldset legend="Alterar Senha" id="fieldAlterarSenha">
+					<p:fieldset legend="Alterar Senha" id="fieldAlterarSenha" styleClass="fieldSet">
 						<h:panelGrid columns="3">
 							<h:outputText value="Senha Atual: "/>
 							<p:password id="senhaAtual" size="30" value="#{alterarSenhaBean.senhaAtual}" promptLabel="Senha"  weakLabel="Senha Fraca" 
@@ -30,10 +29,8 @@
 											weakLabel="Senha Fraca"	goodLabel="Senha Boa" strongLabel="Senha Forte" />
 							<p:message for="confirmarSenha"/>
 						</h:panelGrid>
-						<p:commandButton value="Alterar" action="#{alterarSenhaBean.alterarSenha}" update="msg fieldAlterarSenha" 
-											icon="ui-icon-disk"/>
+						<p:commandButton value="Alterar" action="#{alterarSenhaBean.alterarSenha}" update="msg fieldAlterarSenha" />
 					</p:fieldset>
-				</p:panel>
 			</h:form>
 
 	</ui:define>
