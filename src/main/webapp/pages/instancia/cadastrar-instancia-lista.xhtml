@@ -31,11 +31,6 @@
 							filterBy="#{instancia.nome}" id="nome">
             					#{instancia.nome}
        						</p:column>
-						<p:column headerText="Exibir" style="width:60px">
-							<h:outputLink id="exibir" value="instancia/#{instancia.id}" title="Exibir">
-								<span id="exibir">exibir</span>
-							</h:outputLink>
-						</p:column>
 						<p:column headerText="Alterar" style="width:60px">
 							<p:commandButton action="#{instanciaBean.editar}" title="Alterar"
 								icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
