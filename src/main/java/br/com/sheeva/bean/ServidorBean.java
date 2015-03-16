@@ -109,6 +109,9 @@ public class ServidorBean {
 
 	public void removerInstancia(Instancia instancia) {
 		servidor.getInstancias().remove(instancia);
+		if (instancia.getId() != null) {
+			instanciaService.remover(instancia.getId());
+		}
 	}
 
 	public void abrirTerminal() {
