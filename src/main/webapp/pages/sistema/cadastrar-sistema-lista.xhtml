@@ -21,13 +21,12 @@
 						ajax="false" id="botaoNovoSistema" style="margin-bottom: 10px;" />
 				</div>
 				<p:fieldset styleClass="fieldSet"
-					legend="#{sistemaBean.sistemas.size()} Sistemaes Cadastrados" id="fieldSistemaes">
+					legend="#{sistemaBean.sistemas.size()} Sistemas Cadastrados" id="fieldSistemaes">
 					<p:dataTable id="sistemaTable" var="sistema"
 						value="#{sistemaBean.sistemas}" rowKey="#{sistema.id}"
 						paginator="true" paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;"
 						emptyMessage="Nenhum sistema cadastrado">>
-						<p:column headerText="Nome Sistema" sortBy="#{sistema.nome}"
-							filterBy="#{sistema.nome}" id="nome">
+						<p:column headerText="Nome Sistema" sortBy="#{sistema.nome}" id="nome">
             					#{sistema.nome}
     					</p:column>
 						<p:column headerText="Alterar" style="width:60px">
@@ -39,8 +38,7 @@
 						</p:column>
 						<p:column headerText="Excluir" style="width:60px">
        						<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
-       					                     actionListener="#{sistemaBean.excluir}" update=":formSistema:fieldSistemaes :formSistema:msg"> 
-       						    <f:setPropertyActionListener value="#{sistema}" target="#{sistemaBean.sistema}" /> 
+       					                     actionListener="#{sistemaBean.excluir(sistema)}" update=":formSistema:fieldSistemaes :formSistema:msg"> 
 						       	<p:confirm header="Deletar Sistema" message="Você realmente deseja deletar este sistema?" 
 						       	           icon="ui-icon-alert" />
 						    </p:commandButton>

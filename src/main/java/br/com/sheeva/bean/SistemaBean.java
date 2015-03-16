@@ -15,7 +15,7 @@ import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
 @Service("sistemaBean")
-@Scope(value = "session")
+@Scope(value = "view")
 public class SistemaBean {
 
 	private Sistema sistema;
@@ -46,7 +46,7 @@ public class SistemaBean {
 		ManagedBeanUtils.redirecionar("/sistema");
 	}
 
-	public void excluir() {
+	public void excluir(Sistema sistema) {
 		sistemaService.remover(sistema.getId());
 		sistemas = sistemaService.listarTodos();
 		Mensagem.msgInformacao("Sistema excluído com sucesso");

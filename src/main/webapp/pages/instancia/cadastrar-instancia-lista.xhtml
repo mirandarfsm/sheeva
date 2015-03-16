@@ -44,11 +44,9 @@
 							</p:commandButton>
 						</p:column>
 						<p:column headerText="Excluir" style="width:60px">
-							<p:commandButton title="Excluir" icon="ui-icon ui-icon-close"
-								id="botaoExcluir" actionListener="#{instanciaBean.excluir}"
-								update=":formInstancia:fieldInstancias :formInstancia:msg">
-								<f:setPropertyActionListener value="#{instancia}"
-									target="#{instanciaBean.instancia}" />
+							<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
+							                 actionListener="#{instanciaBean.excluir(instancia)}" 
+							                 update=":formInstancia:fieldInstancias :formInstancia:msg">
 								<p:confirm header="Deletar Instancia"
 									message="Você realmente deseja deletar esta instancia?"
 									icon="ui-icon-alert" />

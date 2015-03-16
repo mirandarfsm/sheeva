@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.primefaces.component.fileupload.FileUpload;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
 @Service("versaoBean")
-@Scope(value = "session")
+@Scope(value = "view")
 public class VersaoBean {
 
 	private Versao versao;
@@ -62,7 +61,7 @@ public class VersaoBean {
 		ManagedBeanUtils.redirecionar("/versao");
 	}
 
-	public void excluir() {
+	public void excluir(Versao versao) {
 		versaoService.remover(versao.getId());
 		versoes = versaoService.listarTodos();
 		Mensagem.msgInformacao("Versao excluído com sucesso");

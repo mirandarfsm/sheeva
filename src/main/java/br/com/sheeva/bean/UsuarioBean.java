@@ -18,7 +18,7 @@ import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
 @Service("usuarioBean")
-@Scope(value = "session")
+@Scope(value = "view")
 public class UsuarioBean {
 	
 	private Usuario usuario;
@@ -62,7 +62,7 @@ public class UsuarioBean {
 		ManagedBeanUtils.redirecionar("/usuario");
 	}
 
-	public void excluir() {
+	public void excluir(Usuario usuario) {
 		usuarioService.remover(usuario.getId());
 		usuarios = usuarioService.listarTodos();
 		Mensagem.msgInformacao("Usuario excluído com sucesso");

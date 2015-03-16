@@ -52,8 +52,7 @@
 						</p:column>
 						<p:column headerText="Excluir" style="width:60px">
        						<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
-       					                     actionListener="#{servidorBean.excluir}" update=":formServidor:fieldServidores :formServidor:msg"> 
-       						    <f:setPropertyActionListener value="#{servidor}" target="#{servidorBean.servidor}" /> 
+       					                     actionListener="#{servidorBean.excluir(servidor)}" update=":formServidor:fieldServidores :formServidor:msg"> 
 						       	<p:confirm header="Deletar Servidor" message="Você realmente deseja deletar este servidor?" 
 						       	           icon="ui-icon-alert" />
 						    </p:commandButton>

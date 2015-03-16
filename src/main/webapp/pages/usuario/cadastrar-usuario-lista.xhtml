@@ -26,8 +26,7 @@
 						value="#{usuarioBean.usuarios}" rowKey="#{usuario.id}"
 						paginator="true" paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;"
 						emptyMessage="Nenhum usuário cadastrado">>
-							<p:column headerText="Nome Usuario" sortBy="#{usuario.nome}"
-							filterBy="#{usuario.nome}" id="nome">
+							<p:column headerText="Nome Usuario" sortBy="#{usuario.nome}" id="nome">
             					#{usuario.nome}
        						</p:column>
 						<p:column headerText="Alterar" style="width:60px">
@@ -39,8 +38,7 @@
 						</p:column>
 						<p:column headerText="Excluir" style="width:60px">
        							 <p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
-       							                  actionListener="#{usuarioBean.excluir}" update=":formUsuario:fieldUsuarios :formUsuario:msg"> 
-       							    <f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" /> 
+       							                  actionListener="#{usuarioBean.excluir(usuario)}" update=":formUsuario:fieldUsuarios :formUsuario:msg"> 
 						         	<p:confirm header="Deletar Usuário" message="Você realmente deseja deletar este usuário?" 
 						         	           icon="ui-icon-alert" />
 						         </p:commandButton>

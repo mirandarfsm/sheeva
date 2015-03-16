@@ -72,7 +72,7 @@ public class ServidorBean {
 		Mensagem.msgInformacao("Senha do servidor alterada com sucesso");
 	}
 
-	public void excluir() {
+	public void excluir(Servidor servidor) {
 		servidorService.remover(servidor.getId());
 		servidores = servidorService.listarTodos();
 		Mensagem.msgInformacao("Servidor excluído com sucesso");

@@ -18,7 +18,7 @@ import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
 @Service("instanciaBean")
-@Scope(value = "session")
+@Scope(value = "view")
 public class InstanciaBean {
 
 	private Instancia instancia;
@@ -49,7 +49,7 @@ public class InstanciaBean {
 		ManagedBeanUtils.redirecionar("/instancia");
 	}
 
-	public void excluir() {
+	public void excluir(Instancia instancia) {
 		instanciaService.remover(instancia.getId());
 		instancias = instanciaService.listarTodos();
 		Mensagem.msgInformacao("Instancia excluída com sucesso");

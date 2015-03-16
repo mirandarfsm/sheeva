@@ -38,8 +38,8 @@
 						</p:column>
 						
 						<p:column headerText="Excluir" style="width:60px">
-       						<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" actionListener="#{versaoBean.excluir}" update=":formVersao:fieldVersaoes :formVersao:msg"> 
-       						    <f:setPropertyActionListener value="#{versao}" target="#{versaoBean.versao}" /> 
+       						<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
+       						                 actionListener="#{versaoBean.excluir(versao)}" update=":formVersao:fieldVersaoes :formVersao:msg"> 
 						       	<p:confirm header="Deletar Versao" message="Você realmente deseja deletar este versao?" icon="ui-icon-alert" />
 						    </p:commandButton>
        					</p:column>
