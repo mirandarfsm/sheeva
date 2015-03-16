@@ -55,21 +55,24 @@
 				</p:tab>
 				
 				<p:tab title="Instancias">
-					<p:fieldset styleClass="fieldSet" legend="#{servidorBean.servidor.instancias.size()} Instancias Cadastradas" id="fieldInstancias">
-						<p:dataTable id="instanciaTable" var="instancia" value="#{servidorBean.servidor.instancias}" rowKey="#{instancia.id}" paginator="true" paginatorPosition="bottom" rows="7" emptyMessage="Nenhuma instancia cadastrada">
+					<p:fieldset styleClass="fieldSet" legend="#{servidorBean.servidor.instancias.size()} Instancias Cadastradas" 
+								id="fieldInstancias">
+						<p:dataTable id="instanciaTable" var="instancia" value="#{servidorBean.servidor.instancias}" 
+						             rowKey="#{instancia.id}" paginator="true" paginatorPosition="bottom" rows="7" 
+						             emptyMessage="Nenhuma instancia cadastrada" tableStyle="font-size: 12px;">
 								
-								<p:column headerText="Nome Instancia" sortBy="#{instancia.nome}" filterBy="#{instancia.nome}" id="nome">
+								<p:column headerText="Nome Instância" sortBy="#{instancia.nome}" id="nome">
 	            					#{instancia.nome}
 	       						</p:column>
-	       						<p:column headerText="Versão Instancia" sortBy="#{instancia.versao}" filterBy="#{instancia.versao}" id="versao">
+	       						<p:column headerText="Versão Instância" sortBy="#{instancia.versao}" id="versao">
 	            					#{instancia.versao}
 	       						</p:column>
-	       						<p:column headerText="Versão Instancia" id="novaVersao">
+	       						<p:column headerText="Versão Instância" id="novaVersao">
 	            					<p:selectOneMenu value="#{servidorBean.versao}" converter="jsonConverter">
 	            						<f:selectItems value="#{servidorBean.versoes}" var="versao" itemLabel="#{versao}" itemValue="#{versao}"/>
 	            					</p:selectOneMenu>
 	       						</p:column>
-								<p:column headerText="Atualizar" style="width:60px">
+								<p:column headerText="Atualizar" >
 									<p:commandButton action="#{servidorBean.atualizar}" title="Atualizar" icon="ui-icon ui-icon-pencil" ajax="true" id="botaoAtualizar">
 										<f:setPropertyActionListener value="#{instancia}" target="#{servidorBean.instancia}" />
 									</p:commandButton>
