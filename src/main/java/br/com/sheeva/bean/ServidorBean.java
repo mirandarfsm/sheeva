@@ -193,4 +193,9 @@ public class ServidorBean {
 	public boolean isServidorPossuiInstancia(){
 		return !servidor.getInstancias().isEmpty();
 	}
+	
+	public List<Versao> obterVersoesPeloSistema(Instancia instancia) {
+		versoes = versaoService.obterVersoesPeloSistema(instancia.getId());
+		return versoes;
+	} 
 }

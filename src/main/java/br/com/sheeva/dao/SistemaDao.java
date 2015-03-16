@@ -15,5 +15,7 @@ public interface SistemaDao {
 	public Sistema getById(Integer id);
 
 	public Sistema getByNome(String nome);
+	
+	public int getIdSystemByInstance(Integer idInstancia);
 
 }

@@ -64,16 +64,16 @@
 								<p:column headerText="Nome Instância" sortBy="#{instancia.nome}" id="nome">
 	            					#{instancia.nome}
 	       						</p:column>
-	       						<p:column headerText="Versão Instância" sortBy="#{instancia.versao}" id="versao">
+	       						<p:column headerText="Versão Atual" sortBy="#{instancia.versao}" id="versao">
 	            					#{instancia.versao}
 	       						</p:column>
-	       						<p:column headerText="Versão Instância" id="novaVersao">
-	            					<p:selectOneMenu value="#{servidorBean.versao}" converter="jsonConverter">
-	            						<f:selectItems value="#{servidorBean.versoes}" var="versao" itemLabel="#{versao}" itemValue="#{versao}"/>
-	            					</p:selectOneMenu>
+	       						<p:column headerText="Versão para Atualizar" id="novaVersao">
+	            					<h:selectOneMenu value="#{servidorBean.versao}" converter="jsonConverter">
+	            						<f:selectItems value="#{servidorBean.obterVersoesPeloSistema(instancia)}" var="versao" itemLabel="#{versao}" itemValue="#{versao}"/>
+	            					</h:selectOneMenu>
 	       						</p:column>
 								<p:column headerText="Atualizar" >
-									<p:commandButton action="#{servidorBean.atualizar}" title="Atualizar" icon="ui-icon ui-icon-pencil" ajax="true" id="botaoAtualizar">
+									<p:commandButton action="#{servidorBean.atualizar}" title="Atualizar" icon="ui-icon ui-icon-gear" ajax="true" id="botaoAtualizar">
 										<f:setPropertyActionListener value="#{instancia}" target="#{servidorBean.instancia}" />
 									</p:commandButton>
 								</p:column>

@@ -19,6 +19,8 @@ public interface VersaoService {
 	public Versao buscarPeloId(Integer id);
 
 	public Versao buscarPelaVersao(String versao);
+	
+	public List<Versao> obterVersoesPeloSistema(Integer idInstancia);
 
 	void salvarArquivo(Versao versao, InputStream arquivo, String nome)
 			throws IOException;

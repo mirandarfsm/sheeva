@@ -11,6 +11,7 @@ import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.sheeva.dao.SistemaDao;
 import br.com.sheeva.dao.VersaoDao;
 import br.com.sheeva.dominio.Arquivo;
 import br.com.sheeva.dominio.Versao;
@@ -21,6 +22,9 @@ public class VersaoServiceImpl implements VersaoService {
 
 	@Autowired
 	private VersaoDao versaoDao;
+	
+	@Autowired
+	private SistemaDao sistemaDao;
 
 	public void salvar(Versao versao) {
 		versaoDao.save(versao);
@@ -58,6 +62,12 @@ public class VersaoServiceImpl implements VersaoService {
 		FileOutputStream out = new FileOutputStream(folder.getPath() + "/"
 				+ nome);
 		IOUtils.copy(arquivo, out);
+	}
+	
+	public List<Versao> obterVersoesPeloSistema(Integer idInstancia){
+		int idSistema = sistemaDao.getIdSystemByInstance(idInstancia);
+		List<Versao> versoes = versaoDao.getVersionBySystem(idSistema);
+		return versoes;
 	}
 
 	public void baixarArquivo(Versao versao, Arquivo arquivo) {

@@ -6,10 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.sheeva.dao.SistemaDao;
 import br.com.sheeva.dao.VersaoDao;
+import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Versao;
 
 @Service("versaoDao")
@@ -55,6 +58,12 @@ public class VersaoDaoImpl implements VersaoDao {
 	public List<Versao> getVersionList(Integer idAntiga, Integer idNova) {
 		Query query = entityManager.createNamedQuery("Versao.obterListaVersao")
 				.setParameter("idAntiga", idAntiga).setParameter("idNova", idNova);
+		List<Versao> versoes = query.getResultList();
+		return versoes;
+	}
+	
+	public List<Versao> getVersionBySystem(Integer idSistema) {
+		Query query = entityManager.createNamedQuery("Versao.obterListaVersaoPorSistema").setParameter("idSistema", idSistema);
 		List<Versao> versoes = query.getResultList();
 		return versoes;
 	}

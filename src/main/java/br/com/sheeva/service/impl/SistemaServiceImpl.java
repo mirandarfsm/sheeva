@@ -2,11 +2,14 @@ package br.com.sheeva.service.impl;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sheeva.dao.SistemaDao;
 import br.com.sheeva.dominio.Arquivo;
+import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Sistema;
 import br.com.sheeva.dominio.Versao;
 import br.com.sheeva.service.SistemaService;

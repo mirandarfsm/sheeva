@@ -51,5 +51,11 @@ public class SistemaDaoImpl implements SistemaDao {
 		}
 		return sistemas.get(0);
 	}
+	
+	public int getIdSystemByInstance(Integer idInstancia) {
+		Query query = entityManager.createNamedQuery("Sistema.obterSistemaPelaInstancia").setParameter("idInstancia", idInstancia);
+		Sistema sistema = (Sistema) query.getSingleResult();
+		return sistema.getId();
+	}
 
 }

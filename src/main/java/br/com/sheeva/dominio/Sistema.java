@@ -15,6 +15,8 @@ import javax.persistence.Transient;
 		@NamedQuery(name = "Sistema.removeById", query = "DELETE FROM Sistema system WHERE system.id = :idSistema"),
 		@NamedQuery(name = "Sistema.searchAll", query = "SELECT system FROM Sistema system"),
 		@NamedQuery(name = "Sistema.searchById", query = "SELECT system FROM Sistema system WHERE system.id = :idSistema"),
+		@NamedQuery(name = "Sistema.obterSistemaPelaInstancia", query = 
+		                   "SELECT version.sistema FROM Instancia instance left join instance.versao as version WHERE instance.id = :idInstancia"),
 		@NamedQuery(name = "Sistema.obterPeloNome", query = "SELECT system FROM Sistema system WHERE system.nome = :nome") })
 @Entity
 @Table(name = "sistema")

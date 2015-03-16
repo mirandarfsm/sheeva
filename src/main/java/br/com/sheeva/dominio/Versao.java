@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 		@NamedQuery(name = "Versao.searchAll", query = "SELECT version FROM Versao version"),
 		@NamedQuery(name = "Versao.searchById", query = "SELECT version FROM Versao version WHERE version.id = :idVersao"),
 		@NamedQuery(name = "Versao.obterPelaVersao", query = "SELECT version FROM Versao version WHERE version.versao = :versao"),
+		@NamedQuery(name = "Versao.obterListaVersaoPorSistema", query = "SELECT version FROM Versao version WHERE version.sistema.id = :idSistema"),
 		@NamedQuery(name = "Versao.obterListaVersao", query = "SELECT version FROM Versao version WHERE version.id between :idAntiga and :idNova") })
 @Entity
 @Table(name = "versao")

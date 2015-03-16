@@ -27,10 +27,10 @@
 						value="#{instanciaBean.instancias}" rowKey="#{instancia.id}"
 						paginator="true" paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;"
 						emptyMessage="Nenhum instancia cadastrado">>
-							<p:column headerText="Nome Instancia" sortBy="#{instancia.nome}"
+						<p:column headerText="Nome Instancia" sortBy="#{instancia.nome}"
 							filterBy="#{instancia.nome}" id="nome">
-            					#{instancia.nome}
-       						</p:column>
+            				#{instancia.nome}
+       					</p:column>
 						<p:column headerText="Alterar" style="width:60px">
 							<p:commandButton action="#{instanciaBean.editar}" title="Alterar"
 								icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
