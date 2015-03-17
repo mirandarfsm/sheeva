@@ -27,6 +27,8 @@ public class Versao {
 	private Integer id;
 	private Sistema sistema;
 	private String versao;
+	private String arquivoAplicacao;
+	private String arquivoBancoDados;
 
 	public Versao() {
 	}
@@ -76,6 +78,24 @@ public class Versao {
 	@Transient
 	public String getFolder() {
 		return sistema.getFolder() + this.versao + "/";
+	}
+
+	@Column(name="arquivo_aplicacao")
+	public String getArquivoAplicacao() {
+		return arquivoAplicacao;
+	}
+
+	public void setArquivoAplicacao(String arquivoAplicacao) {
+		this.arquivoAplicacao = arquivoAplicacao;
+	}
+
+	@Column(name="arquivo_banco_dados")
+	public String getArquivoBancoDados() {
+		return arquivoBancoDados;
+	}
+
+	public void setArquivoBancoDados(String arquivoBancoDados) {
+		this.arquivoBancoDados = arquivoBancoDados;
 	}
 
 	@Override

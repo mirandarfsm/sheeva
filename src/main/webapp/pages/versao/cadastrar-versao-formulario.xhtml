@@ -15,7 +15,7 @@
 		<h:form id="formVersao">
 			<p:messages id="msg" globalOnly="true" showIcon="false" autoUpdate="true"/>
 			<p:fieldset legend="Dados Cadastrais" styleClass="fieldSet">
-				<h:panelGrid columns="3">
+				<p:panelGrid columns="3" styleClass="panelGridA">
 
 					<h:outputText value="Sistema: "/>
 					<p:selectOneMenu id="sistemaVersao" value="#{versaoBean.versao.sistema}" converter="jsonConverter" >
@@ -27,8 +27,15 @@
 					<p:inputText id="versaoVersao" size="50" value="#{versaoBean.versao.versao}" /> 
 					<p:message for="versaoVersao"/>
 					
-					<p:fileUpload fileUploadListener="#{versaoBean.handleFileUpload}" mode="advanced" dragDropSupport="false" multiple="true" update="messages" sizeLimit="100000" fileLimit="5" />
-    				<p:growl id="messages" showDetail="true" />
+					<h:outputText value="Arquivo Aplicação: "/>
+					<p:fileUpload fileUploadListener="#{versaoBean.realizarUploadArquivoAplicacao}" mode="advanced" dragDropSupport="false" 
+					              sizeLimit="1024000" auto="true" update="panelGridVersao"/>
+					<h:outputText value=""/>
+    				
+    				<h:outputText value="Arquivo Banco de Dados: "/>
+    				<p:fileUpload fileUploadListener="#{versaoBean.realizarUploadArquivoBanco}" mode="advanced" dragDropSupport="false" 
+					              sizeLimit="1024000" auto="true" update="panelGridVersao"/>
+					<h:outputText value=""/>
 					
 <!-- 					<ui:repeat varStatus="i" value="#{versaoBean.arquivos}"> -->
 <!-- 						<h:outputText value="Arquivo: "/> -->
@@ -39,7 +46,13 @@
 <!-- 					</ui:repeat> -->
 <!-- 					<h:commandLink action="#{VersaoBean.adicionarArquivo}" value="Adicionar"/> -->
 
-				</h:panelGrid>
+				</p:panelGrid>
+				<p:panelGrid columns="1" id="panelGridVersao" styleClass="panelGridA">
+					<p:outputLabel value="Arquivo Aplicação Carregado: #{versaoBean.versao.arquivoAplicacao}" id="labelArquivoAplicacao" 
+									rendered="#{versaoBean.versao.arquivoAplicacao != null}"/>
+					<p:outputLabel value="Arquivo Banco de Dados Carregado: #{versaoBean.versao.arquivoBancoDados}" id="labelArquivoBancoDados" 
+									rendered="#{versaoBean.versao.arquivoBancoDados != null}"/>				
+				</p:panelGrid>
 			</p:fieldset>
 					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{versaoBean.cancelar}" 
 									styleClass="btn btn-danger"/>		

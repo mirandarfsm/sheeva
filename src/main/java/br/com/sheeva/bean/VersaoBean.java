@@ -28,7 +28,8 @@ public class VersaoBean {
 	private Versao versao;
 	private List<Versao> versoes;
 	private List<Sistema> sistemas;
-	private UploadedFile arquivo;
+	private UploadedFile arquivoAplicacao;
+	private UploadedFile arquivoBancoDados;
 	private List<UploadedFile> arquivos;
 
 	@Autowired
@@ -50,7 +51,7 @@ public class VersaoBean {
 		return "/pages/versao/cadastrar-versao-formulario.xhtml";
 	}
 
-	public void salvar() {
+	public void salvar() throws IOException {
 		versaoService.salvar(versao);
 		if (versao.getId() == null) {
 			Mensagem.msgInformacao("Versao salvo com sucesso");
@@ -76,11 +77,27 @@ public class VersaoBean {
 		ManagedBeanUtils.redirecionar("/versao");
 	}
 
-	public void handleFileUpload(FileUploadEvent event) throws IOException {
-		arquivo = event.getFile();
-		versaoService.salvarArquivo(versao, arquivo.getInputstream(), arquivo.getFileName());
+	public void realizarUploadArquivoAplicacao(FileUploadEvent event) {
+		arquivoAplicacao  = event.getFile();
+		salvarArquivosUploadNoDisco(arquivoAplicacao);
+		versao.setArquivoAplicacao(arquivoAplicacao.getFileName());
 	}
-
+	
+	public void realizarUploadArquivoBanco(FileUploadEvent event) {
+		arquivoBancoDados  = event.getFile();
+		salvarArquivosUploadNoDisco(arquivoBancoDados);
+		versao.setArquivoBancoDados(arquivoBancoDados.getFileName());
+	}
+	
+	private void salvarArquivosUploadNoDisco(UploadedFile arquivo) {
+		try {
+			versaoService.salvarArquivo(versao, arquivo.getInputstream(), arquivo.getFileName());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void adicionarArquivo() {
 	}
 
@@ -112,20 +129,28 @@ public class VersaoBean {
 		this.sistemas = sistemas;
 	}
 
-	public UploadedFile getArquivo() {
-		return arquivo;
-	}
-
-	public void setArquivo(UploadedFile arquivo) {
-		this.arquivo = arquivo;
-	}
-
 	public List<UploadedFile> getArquivos() {
 		return arquivos;
 	}
 
 	public void setArquivos(List<UploadedFile> arquivos) {
 		this.arquivos = arquivos;
+	}
+
+	public UploadedFile getArquivoAplicacao() {
+		return arquivoAplicacao;
+	}
+
+	public void setArquivoAplicacao(UploadedFile arquivoAplicacao) {
+		this.arquivoAplicacao = arquivoAplicacao;
+	}
+
+	public UploadedFile getArquivoBancoDados() {
+		return arquivoBancoDados;
+	}
+
+	public void setArquivoBancoDados(UploadedFile arquivoBancoDados) {
+		this.arquivoBancoDados = arquivoBancoDados;
 	}
 
 }

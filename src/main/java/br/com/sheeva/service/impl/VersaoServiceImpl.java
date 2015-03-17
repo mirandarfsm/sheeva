@@ -1,6 +1,7 @@
 package br.com.sheeva.service.impl;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,15 +54,22 @@ public class VersaoServiceImpl implements VersaoService {
 		}
 	}
 
-	public void salvarArquivo(Versao versao, InputStream arquivo, String nome)
-			throws IOException {
+	public void salvarArquivo(Versao versao, InputStream arquivo, String nome){
 		File folder = new File(versao.getFolder());
 		if (!folder.exists()) {
 			folder.mkdirs();
 		}
-		FileOutputStream out = new FileOutputStream(folder.getPath() + "/"
-				+ nome);
-		IOUtils.copy(arquivo, out);
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(folder.getPath() + "/" + nome);
+			IOUtils.copy(arquivo, out);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public List<Versao> obterVersoesPeloSistema(Integer idInstancia){
