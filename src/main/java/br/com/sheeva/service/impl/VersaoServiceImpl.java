@@ -71,6 +71,29 @@ public class VersaoServiceImpl implements VersaoService {
 			e.printStackTrace();
 		}
 	}
+
+	public void deletarDiretorio(String diretorioPath) {
+		File folder = new File(diretorioPath);
+		if (folder.exists()) {
+			String[] arquiovosDoDiretorio = folder.list();
+			for (String arquivo : arquiovosDoDiretorio) {
+				deletarArquivo(diretorioPath + "/" +arquivo);
+			}
+			folder.delete();
+		}
+	}
+	
+	public void deletarArquivo(String arquivoPath){
+		File file = new File(arquivoPath);
+		if (isArquivoExiste(arquivoPath)) {
+			file.delete();
+		}
+	}
+	
+	private boolean isArquivoExiste(String arquivoPath){
+		File file = new File(arquivoPath);
+		return file.exists();
+	}
 	
 	public List<Versao> obterVersoesPeloSistema(Integer idInstancia){
 		int idSistema = sistemaDao.getIdSystemByInstance(idInstancia);

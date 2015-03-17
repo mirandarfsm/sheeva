@@ -1,6 +1,7 @@
 package br.com.sheeva.bean;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,6 +31,10 @@ public class VersaoBean {
 	private List<Sistema> sistemas;
 	private UploadedFile arquivoAplicacao;
 	private UploadedFile arquivoBancoDados;
+	private String arquivoAplicacaoParaRemover;
+	private String arquivoBancoDadosParaRemover;
+	private InputStream arquivoAplicacaoInputStream;
+	private InputStream arquivoBancoDadosInputStream;
 	private List<UploadedFile> arquivos;
 
 	@Autowired
@@ -53,6 +58,16 @@ public class VersaoBean {
 
 	public void salvar() throws IOException {
 		versaoService.salvar(versao);
+		if (arquivoAplicacao != null) {
+			salvarArquivosUploadNoDisco(arquivoAplicacaoInputStream, versao.getArquivoAplicacao(), arquivoAplicacaoParaRemover);
+			arquivoAplicacaoParaRemover = null;
+			arquivoAplicacao = null;
+		}
+		if (arquivoBancoDados != null) {
+			salvarArquivosUploadNoDisco(arquivoBancoDadosInputStream, versao.getArquivoBancoDados(), arquivoBancoDadosParaRemover);
+			arquivoBancoDadosParaRemover = null;
+			arquivoBancoDados = null;
+		}
 		if (versao.getId() == null) {
 			Mensagem.msgInformacao("Versao salvo com sucesso");
 		} else {
@@ -64,6 +79,7 @@ public class VersaoBean {
 
 	public void excluir(Versao versao) {
 		versaoService.remover(versao.getId());
+		versaoService.deletarDiretorio(versao.getFolder());
 		versoes = versaoService.listarTodos();
 		Mensagem.msgInformacao("Versao excluído com sucesso");
 	}
@@ -78,24 +94,36 @@ public class VersaoBean {
 	}
 
 	public void realizarUploadArquivoAplicacao(FileUploadEvent event) {
+		if (arquivoAplicacaoParaRemover == null && versao.getArquivoAplicacao() != null) {
+			arquivoAplicacaoParaRemover = versao.getArquivoAplicacao();
+		}
 		arquivoAplicacao  = event.getFile();
-		salvarArquivosUploadNoDisco(arquivoAplicacao);
-		versao.setArquivoAplicacao(arquivoAplicacao.getFileName());
-	}
-	
-	public void realizarUploadArquivoBanco(FileUploadEvent event) {
-		arquivoBancoDados  = event.getFile();
-		salvarArquivosUploadNoDisco(arquivoBancoDados);
-		versao.setArquivoBancoDados(arquivoBancoDados.getFileName());
-	}
-	
-	private void salvarArquivosUploadNoDisco(UploadedFile arquivo) {
 		try {
-			versaoService.salvarArquivo(versao, arquivo.getInputstream(), arquivo.getFileName());
+			arquivoAplicacaoInputStream = arquivoAplicacao.getInputstream();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		versao.setArquivoAplicacao(arquivoAplicacao.getFileName());
+	}
+	
+	public void realizarUploadArquivoBanco(FileUploadEvent event) {
+		if (arquivoBancoDadosParaRemover == null && versao.getArquivoBancoDados() != null) {
+			arquivoBancoDadosParaRemover = versao.getArquivoBancoDados();
+		}
+		arquivoBancoDados  = event.getFile();
+		try {
+			arquivoBancoDadosInputStream = arquivoBancoDados.getInputstream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		versao.setArquivoBancoDados(arquivoBancoDados.getFileName());
+	}
+	
+	private void salvarArquivosUploadNoDisco(InputStream arquivo, String nomeArquivo, String arquivoParaRemover) throws IOException {
+		versaoService.deletarArquivo(versao.getFolder() + arquivoParaRemover);
+		versaoService.salvarArquivo(versao, arquivo, nomeArquivo);
 	}
 	
 	public void adicionarArquivo() {

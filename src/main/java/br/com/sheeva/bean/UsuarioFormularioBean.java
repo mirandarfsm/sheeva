@@ -17,32 +17,33 @@ import br.com.sheeva.utils.LayoutIndexManager;
 import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
-@Service("usuarioBean")
-@Scope(value = "session")
-public class UsuarioBean {
+@Service("usuarioFormularioBean")
+@Scope(value = "view")
+public class UsuarioFormularioBean {
 	
 	private Usuario usuario;
-	private List<Usuario> usuarios;
 	
 	@Autowired
 	private UsuarioService usuarioService;
 	
-	public UsuarioBean(){
+	public UsuarioFormularioBean(){
 		
 	}
 	
 	@PostConstruct
 	public void init(){
-		usuarios = usuarioService.listarTodos();
-		LayoutIndexManager.atualizarIndice(1);
+		usuario = obterUsuario();
+		usuario.getPerfis().add(Perfil.PERFIL_CONVENCIONAL);
 	}
 	
-	public String novo(){
-		usuario = new Usuario();
-		usuario.getPerfis().add(Perfil.PERFIL_CONVENCIONAL);
-		return "/pages/usuario/cadastrar-usuario-formulario.xhtml";
+	public Usuario obterUsuario() {
+		String id = ManagedBeanUtils.obterParametroRequest("id");
+		return "novo".equals(id) ? new Usuario() : usuarioService.buscarPeloId(Integer.valueOf(id));
+//		return "novo".equals(id) ? new Usuario() : usuarioService.buscarPeloId(Integer.valueOf(id));
+//		usuario = usuarioService.buscarPeloId(usuario.getId());
+//		return "/pages/usuario/cadastrar-usuario-formulario.xhtml";
 	}
-
+	
 	public void salvar() {
 		if (usuarioService.isLoginEmUso(usuario)) {
 			Mensagem.msgErro("Já existe uma pessoa cadastrada com este login.");
@@ -58,19 +59,7 @@ public class UsuarioBean {
 		}else {
 			Mensagem.msgInformacao("Usuario alterado com sucesso");
 		}
-		usuarios = usuarioService.listarTodos();
 		ManagedBeanUtils.redirecionar("/usuario");
-	}
-
-	public void excluir(Usuario usuario) {
-		usuarioService.remover(usuario.getId());
-		usuarios = usuarioService.listarTodos();
-		Mensagem.msgInformacao("Usuario excluído com sucesso");
-	}
-
-	public String editar() {
-		usuario = usuarioService.buscarPeloId(usuario.getId());
-		return "/pages/usuario/cadastrar-usuario-formulario.xhtml";
 	}
 
 	public void cancelar() {
@@ -103,12 +92,4 @@ public class UsuarioBean {
 		this.usuario = usuario;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
-	
 }

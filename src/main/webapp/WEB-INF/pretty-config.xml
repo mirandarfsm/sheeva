@@ -18,6 +18,11 @@
 		<pattern value="/usuario" />
 		<view-id value="/pages/usuario/cadastrar-usuario-lista.jsf" />
 	</url-mapping>
+	
+	<url-mapping id="cadastrar-usuario-formulario">
+		<pattern value="/usuario/#{id}" />
+		<view-id value="/pages/usuario/cadastrar-usuario-formulario.jsf" />
+	</url-mapping>
 
 	<url-mapping id="cadastrar-servidor-lista">
 		<pattern value="/servidor" />

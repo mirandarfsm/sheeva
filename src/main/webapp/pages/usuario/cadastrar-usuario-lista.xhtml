@@ -15,34 +15,33 @@
 		<h:form id="formUsuario">
 			<p:messages id="msg" showIcon="false" autoUpdate="true" />
 			<p:panel  style="font-size: 14px; border: none;">
-				<div class="container" style="width: 100%;">
-					<p:commandButton value="Novo Usuario" action="#{usuarioBean.novo}" ajax="false" id="botaoNovoUsuario"
-						style="margin-bottom: 10px;" />
-				</div>
+				
+				<a id="criar" class="btn btn-default" href="usuario/novo" style="margin-bottom: 10px;"> 
+					<span>Criar Novo Usuário</span>
+				</a>
+					
 				<p:fieldset styleClass="fieldSet"
-					legend="#{usuarioBean.usuarios.size()} Usuarios Cadastrados" 
+					legend="#{usuarioListaBean.usuarios.size()} Usuarios Cadastrados" 
 					id="fieldUsuarios">
 					<p:dataTable id="usuarioTable" var="usuario"
-						value="#{usuarioBean.usuarios}" rowKey="#{usuario.id}"
+						value="#{usuarioListaBean.usuarios}" rowKey="#{usuario.id}"
 						paginator="true" paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;"
-						emptyMessage="Nenhum usuário cadastrado">>
-							<p:column headerText="Nome Usuario" sortBy="#{usuario.nome}" id="nome">
-            					#{usuario.nome}
-       						</p:column>
-						<p:column headerText="Alterar" style="width:60px">
-							<p:commandButton action="#{usuarioBean.editar}" title="Alterar"
-								icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
-								<f:setPropertyActionListener value="#{usuario}"
-									target="#{usuarioBean.usuario}" />
-							</p:commandButton>
-						</p:column>
+						emptyMessage="Nenhum usuário cadastrado">
+						<p:column headerText="Nome Usuario" sortBy="#{usuario.nome}" id="nome">
+           					#{usuario.nome}
+    					</p:column>
+   						<p:column id="btn-editar" width="40" styleClass="text-center">
+       						<h:outputLink id="editar" styleClass="btn btn-link" value="usuario/#{usuario.id}" title="Editar">
+           						<span id="editar" class="fa fa-pencil"></span>
+       						</h:outputLink>
+       					</p:column>
 						<p:column headerText="Excluir" style="width:60px">
-       							 <p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
-       							                  actionListener="#{usuarioBean.excluir(usuario)}" update=":formUsuario:fieldUsuarios :formUsuario:msg"> 
-						         	<p:confirm header="Deletar Usuário" message="Você realmente deseja deletar este usuário?" 
-						         	           icon="ui-icon-alert" />
-						         </p:commandButton>
-       						</p:column>
+       						<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
+       						                  actionListener="#{usuarioListaBean.excluir(usuario)}" update=":formUsuario:fieldUsuarios :formUsuario:msg"> 
+						       	<p:confirm header="Deletar Usuário" message="Você realmente deseja deletar este usuário?" 
+						        	           icon="ui-icon-alert" />
+						    </p:commandButton>
+       					</p:column>
 					</p:dataTable>
 
 				</p:fieldset>

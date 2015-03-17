@@ -17,21 +17,22 @@
 			<p:fieldset legend="Dados Cadastrais" styleClass="fieldSet">
 				<h:panelGrid columns="3">
 					<h:outputText value="Nome: "/>
-					<p:inputText id="nome" size="50" value="#{usuarioBean.usuario.nome}" /> 
+					<p:inputText id="nome" size="50" value="#{usuarioFormularioBean.usuario.nome}" /> 
 					<p:message for="nome"/>
 					<h:outputText value="Login "/>
-					<p:inputText id="login" size="30" value="#{usuarioBean.usuario.login}"/>
+					<p:inputText id="login" size="30" value="#{usuarioFormularioBean.usuario.login}"/>
 					<p:message for="login"/>
 					<h:outputText value="E-mail "/>
-					<p:inputText id="email" size="30" value="#{usuarioBean.usuario.email}"/>
+					<p:inputText id="email" size="30" value="#{usuarioFormularioBean.usuario.email}"/>
 					<p:message for="email"/>
-					<p:commandButton value="Restaurar Senha" action="#{usuarioBean.resetarSenha}" update="msg" 
-					                 id="resetarSenha" rendered="#{usuarioBean.usuario.id != null}"/>
+					<p:commandButton value="Restaurar Senha" action="#{usuarioFormularioBean.resetarSenha}" update="msg" 
+					                 id="resetarSenha" rendered="#{usuarioFormularioBean.usuario.id != null}"/>
 				</h:panelGrid>
 			</p:fieldset>
-					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{usuarioBean.cancelar}" 
+					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{usuarioListaBean.cancelar}"
 								styleClass="btn btn-danger"/>		
-					<p:commandButton id="botaoSalvar" value="Salvar" action="#{usuarioBean.salvar}" update="@form" styleClass="btn btn-primary"/>
+					<p:commandButton id="botaoSalvar" value="Salvar" action="#{usuarioFormularioBean.salvar}" update="@form" 
+					            styleClass="btn btn-primary"/>
 
 		</h:form>
 

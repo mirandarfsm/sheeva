@@ -29,4 +29,8 @@ public interface VersaoService {
 			throws IOException;
 
 	void prepararVersao(Versao antiga, Versao nova);
+	
+	public void deletarArquivo(String arquivoPath);
+	
+	public void deletarDiretorio(String diretorioPath);
 }

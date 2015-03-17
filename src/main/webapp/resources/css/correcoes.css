@@ -1,3 +1,36 @@
+.btn-novo {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+.btn-novo:hover,
+.btn-novo:focus,
+.btn-novo.focus,
+.btn-novo:active,
+.btn-novo.active,
+.open > .dropdown-toggle.btn-novo {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.btn-novo:active, .btn-novo.active, .open > .dropdown-toggle.btn-novo {
+  background-image: none;
+}
+.btn-novo.disabled, .btn-novo[disabled], fieldset[disabled] .btn-novo,
+.btn-novo.disabled:hover, .btn-novo[disabled]:hover, fieldset[disabled] .btn-novo:hover,
+.btn-novo.disabled:focus, .btn-novo[disabled]:focus, fieldset[disabled] .btn-novo:focus,
+.btn-novo.disabled.focus, .btn-novo[disabled].focus, fieldset[disabled] .btn-novo.focus,
+.btn-novo.disabled:active, .btn-novo[disabled]:active, fieldset[disabled] .btn-novo:active,
+.btn-novo.disabled.active, .btn-novo[disabled].active, fieldset[disabled] .btn-novo.active {
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+
+.btn-novo .badge {
+  color: #337ab7;
+  background-color: #fff;
+}
+
 .ui-paginator  {
 	border: hidden;
 	background: none;
