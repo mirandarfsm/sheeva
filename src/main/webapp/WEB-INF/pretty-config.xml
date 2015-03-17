@@ -44,6 +44,11 @@
 		<view-id value="/pages/instancia/configuracao-instancia.jsf" />
 	</url-mapping>
 	
+	<url-mapping id="cadastrar-versao-formulario">
+		<pattern value="/versao/#{id}" />
+		<view-id value="/pages/versao/cadastrar-versao-formulario.jsf" />
+	</url-mapping>
+	
 	<url-mapping id="cadastrar-versao-lista">
 		<pattern value="/versao" />
 		<view-id value="/pages/versao/cadastrar-versao-lista.jsf" />

@@ -22,12 +22,11 @@ import br.com.sheeva.utils.LayoutIndexManager;
 import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
 
-@Service("versaoBean")
-@Scope(value = "session")
-public class VersaoBean {
+@Service("versaoFormularioBean")
+@Scope(value = "view")
+public class VersaoFormularioBean {
 
 	private Versao versao;
-	private List<Versao> versoes;
 	private List<Sistema> sistemas;
 	private UploadedFile arquivoAplicacao;
 	private UploadedFile arquivoBancoDados;
@@ -35,7 +34,7 @@ public class VersaoBean {
 	private String arquivoBancoDadosParaRemover;
 	private InputStream arquivoAplicacaoInputStream;
 	private InputStream arquivoBancoDadosInputStream;
-	private List<UploadedFile> arquivos;
+	private List<UploadedFile> arquivosAdicionais;
 
 	@Autowired
 	private VersaoService versaoService;
@@ -45,17 +44,17 @@ public class VersaoBean {
 
 	@PostConstruct
 	public void init() {
-		versoes = versaoService.listarTodos();
+		versao = obterVersao();
 		sistemas = sistemaService.listarTodos();
-		arquivos = new LinkedList<UploadedFile>();
+		arquivosAdicionais = new LinkedList<UploadedFile>();
 		LayoutIndexManager.atualizarIndice(1);
 	}
 
-	public String novo() {
-		versao = new Versao();
-		return "/pages/versao/cadastrar-versao-formulario.xhtml";
+	public Versao obterVersao() {
+		String id = ManagedBeanUtils.obterParametroRequest("id");
+		return "novo".equals(id) ? new Versao() : versaoService.buscarPeloId(Integer.valueOf(id));
 	}
-
+	
 	public void salvar() throws IOException {
 		versaoService.salvar(versao);
 		if (arquivoAplicacao != null) {
@@ -73,15 +72,7 @@ public class VersaoBean {
 		} else {
 			Mensagem.msgInformacao("Versao alterado com sucesso");
 		}
-		versoes = versaoService.listarTodos();
 		ManagedBeanUtils.redirecionar("/versao");
-	}
-
-	public void excluir(Versao versao) {
-		versaoService.remover(versao.getId());
-		versaoService.deletarDiretorio(versao.getFolder());
-		versoes = versaoService.listarTodos();
-		Mensagem.msgInformacao("Versao excluído com sucesso");
 	}
 
 	public String editar() {
@@ -130,7 +121,7 @@ public class VersaoBean {
 	}
 
 	public void removerArquivo(Arquivo arquivo) {
-		arquivos.remove(arquivo);
+		arquivosAdicionais.remove(arquivo);
 	}
 
 	public Versao getVersao() {
@@ -141,14 +132,6 @@ public class VersaoBean {
 		this.versao = versao;
 	}
 
-	public List<Versao> getVersoes() {
-		return versoes;
-	}
-
-	public void setVersoes(List<Versao> versoes) {
-		this.versoes = versoes;
-	}
-
 	public List<Sistema> getSistemas() {
 		return sistemas;
 	}
@@ -157,12 +140,12 @@ public class VersaoBean {
 		this.sistemas = sistemas;
 	}
 
-	public List<UploadedFile> getArquivos() {
-		return arquivos;
+	public List<UploadedFile> getArquivosAdicionais() {
+		return arquivosAdicionais;
 	}
 
-	public void setArquivos(List<UploadedFile> arquivos) {
-		this.arquivos = arquivos;
+	public void setArquivosAdicionais(List<UploadedFile> arquivosAdicionais) {
+		this.arquivosAdicionais = arquivosAdicionais;
 	}
 
 	public UploadedFile getArquivoAplicacao() {

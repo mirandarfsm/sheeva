@@ -16,11 +16,13 @@
 		<h:form id="formVersao">
 			<p:messages id="msg" showIcon="false" autoUpdate="true" />
 			<p:panel  style="font-size: 14px; border: none;">
-				<div class="container" style="width: 100%;">
-					<p:commandButton value="Nova Versao" action="#{versaoBean.novo}" ajax="false" id="botaoNovoVersao" style="margin-bottom: 10px;" />
-				</div>
-				<p:fieldset styleClass="fieldSet" legend="#{versaoBean.versoes.size()} Versões Cadastradas" id="fieldVersaoes">
-					<p:dataTable id="versaoTable" var="versao" value="#{versaoBean.versoes}" rowKey="#{versao.id}" paginator="true" 
+				
+				<a id="criar" class="btn btn-default" href="versao/novo" style="margin-bottom: 10px;"> 
+					<span>Nova Versão</span>
+				</a>
+				
+				<p:fieldset styleClass="fieldSet" legend="#{versaoListaBean.versoes.size()} Versões Cadastradas" id="fieldVersaoes">
+					<p:dataTable id="versaoTable" var="versao" value="#{versaoListaBean.versoes}" rowKey="#{versao.id}" paginator="true" 
 					             paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;" emptyMessage="Nenhuma versão cadastrada">>
 						
 						<p:column headerText="Nome Versao" sortBy="#{versao.versao}" filterBy="#{versao.versao}" id="versao">
@@ -31,15 +33,15 @@
            					#{versao.sistema.nome}
     					</p:column>
     					
-						<p:column headerText="Alterar" style="width:60px">
-							<p:commandButton action="#{versaoBean.editar}" title="Alterar" icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
-								<f:setPropertyActionListener value="#{versao}" target="#{versaoBean.versao}" />
-							</p:commandButton>
+						<p:column headerText="Editar" style="width:60px">
+       						<h:outputLink id="editar" styleClass="btn btn-link" value="versao/#{versao.id}" title="Editar">
+           						<span id="editar" class="fa fa-pencil"></span>
+       						</h:outputLink>
 						</p:column>
 						
 						<p:column headerText="Excluir" style="width:60px">
        						<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
-       						                 actionListener="#{versaoBean.excluir(versao)}" update=":formVersao:fieldVersaoes :formVersao:msg"> 
+       						                 actionListener="#{versaoListaBean.excluir(versao)}" update=":formVersao:fieldVersaoes :formVersao:msg"> 
 						       	<p:confirm header="Deletar Versao" message="Você realmente deseja deletar este versao?" icon="ui-icon-alert" />
 						    </p:commandButton>
        					</p:column>

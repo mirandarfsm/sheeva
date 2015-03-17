@@ -18,22 +18,22 @@
 				<p:panelGrid columns="3" styleClass="panelGridA">
 
 					<h:outputText value="Sistema: "/>
-					<p:selectOneMenu id="sistemaVersao" value="#{versaoBean.versao.sistema}" converter="jsonConverter" >
-						<f:selectItems value="#{versaoBean.sistemas}" var="sistema" itemLabel="#{sistema.nome}" itemValue="#{sistema}" />
+					<p:selectOneMenu id="sistemaVersao" value="#{versaoFormularioBean.versao.sistema}" converter="jsonConverter" >
+						<f:selectItems value="#{versaoFormularioBean.sistemas}" var="sistema" itemLabel="#{sistema.nome}" itemValue="#{sistema}" />
 					</p:selectOneMenu> 
 					<p:message for="sistemaVersao"/>
 
 					<h:outputText value="Versao: "/>
-					<p:inputText id="versaoVersao" size="50" value="#{versaoBean.versao.versao}" /> 
+					<p:inputText id="versaoVersao" size="50" value="#{versaoFormularioBean.versao.versao}" /> 
 					<p:message for="versaoVersao"/>
 					
 					<h:outputText value="Arquivo Aplicação: "/>
-					<p:fileUpload fileUploadListener="#{versaoBean.realizarUploadArquivoAplicacao}" mode="advanced" dragDropSupport="false" 
+					<p:fileUpload fileUploadListener="#{versaoFormularioBean.realizarUploadArquivoAplicacao}" mode="advanced" dragDropSupport="false" 
 					              sizeLimit="1024000" auto="true" update="panelGridVersao"/>
 					<h:outputText value=""/>
     				
     				<h:outputText value="Arquivo Banco de Dados: "/>
-    				<p:fileUpload fileUploadListener="#{versaoBean.realizarUploadArquivoBanco}" mode="advanced" dragDropSupport="false"
+    				<p:fileUpload fileUploadListener="#{versaoFormularioBean.realizarUploadArquivoBanco}" mode="advanced" dragDropSupport="false"
 					              sizeLimit="1024000" auto="true" update="panelGridVersao" process="@this,sistemaVersao,versaoVersao"/>
 					<h:outputText value=""/>
 					
@@ -48,15 +48,16 @@
 
 				</p:panelGrid>
 				<p:panelGrid columns="1" id="panelGridVersao" styleClass="panelGridA">
-					<p:outputLabel value="Arquivo Aplicação Carregado: #{versaoBean.versao.arquivoAplicacao}" id="labelArquivoAplicacao" 
-									rendered="#{versaoBean.versao.arquivoAplicacao != null}"/>
-					<p:outputLabel value="Arquivo Banco de Dados Carregado: #{versaoBean.versao.arquivoBancoDados}" id="labelArquivoBancoDados" 
-									rendered="#{versaoBean.versao.arquivoBancoDados != null}"/>				
+					<p:outputLabel value="Arquivo Aplicação Carregado: #{versaoFormularioBean.versao.arquivoAplicacao}" id="labelArquivoAplicacao" 
+									rendered="#{versaoFormularioBean.versao.arquivoAplicacao != null}"/>
+					<p:outputLabel value="Arquivo Banco de Dados Carregado: #{versaoFormularioBean.versao.arquivoBancoDados}" id="labelArquivoBancoDados" 
+									rendered="#{versaoFormularioBean.versao.arquivoBancoDados != null}"/>				
 				</p:panelGrid>
 			</p:fieldset>
-					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{versaoBean.cancelar}" 
+					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{versaoFormularioBean.cancelar}" 
 									styleClass="btn btn-danger"/>		
-					<p:commandButton id="botaoSalvar" value="Salvar" action="#{versaoBean.salvar}" update="@form" styleClass="btn btn-primary"/>
+					<p:commandButton id="botaoSalvar" value="Salvar" action="#{versaoFormularioBean.salvar}" update="@form" 
+									styleClass="btn btn-primary"/>
 		</h:form>
 	</ui:define>
 </ui:composition>
