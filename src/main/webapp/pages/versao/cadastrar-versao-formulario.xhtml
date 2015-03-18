@@ -18,14 +18,16 @@
 				<p:panelGrid columns="3" styleClass="panelGridA">
 
 					<h:outputText value="Sistema: "/>
-					<p:selectOneMenu id="sistemaVersao" value="#{versaoFormularioBean.versao.sistema}" converter="jsonConverter" >
+					<h:selectOneMenu id="sistemaVersao" value="#{versaoFormularioBean.versao.sistema}" converter="jsonConverter" >
 						<f:selectItems value="#{versaoFormularioBean.sistemas}" var="sistema" itemLabel="#{sistema.nome}" itemValue="#{sistema}" />
-					</p:selectOneMenu> 
+					</h:selectOneMenu> 
 					<p:message for="sistemaVersao"/>
 
-					<h:outputText value="Versao: "/>
-					<p:inputText id="versaoVersao" size="50" value="#{versaoFormularioBean.versao.versao}" /> 
-					<p:message for="versaoVersao"/>
+					<h:outputText value="Nova Versao: "/>
+					<p:inputText id="versaoString" size="50" value="#{versaoFormularioBean.versaoString}" >
+						<p:ajax event="blur" listener="#{versaoFormularioBean.isVersaoFormatoValido}" process="versaoString" update="@this,msg"/> 
+					</p:inputText> 
+					<p:message for="versaoString"/>
 					
 					<h:outputText value="Arquivo Aplicação: "/>
 					<p:fileUpload fileUploadListener="#{versaoFormularioBean.realizarUploadArquivoAplicacao}" mode="advanced" dragDropSupport="false" 
@@ -34,7 +36,7 @@
     				
     				<h:outputText value="Arquivo Banco de Dados: "/>
     				<p:fileUpload fileUploadListener="#{versaoFormularioBean.realizarUploadArquivoBanco}" mode="advanced" dragDropSupport="false"
-					              sizeLimit="1024000" auto="true" update="panelGridVersao" process="@this,sistemaVersao,versaoVersao"/>
+					              sizeLimit="1024000" auto="true" update="panelGridVersao" process="@this,sistemaVersao,versaoString"/>
 					<h:outputText value=""/>
 					
 <!-- 					<ui:repeat varStatus="i" value="#{versaoBean.arquivos}"> -->

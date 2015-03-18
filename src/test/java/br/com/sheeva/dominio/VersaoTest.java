@@ -18,7 +18,7 @@ public class VersaoTest {
 	public void criarVersao() {
 		Versao version = new Versao(system, "1.0");
 
-		assertEquals("1.0", version.getVersao());
+		assertEquals("1.0", version.getVersaoString());
 		assertEquals("/home/robson/.sheeva/sistema/Sheeva/1.0/",
 				version.getFolder());
 	}

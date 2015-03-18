@@ -74,7 +74,7 @@ public class ServidorServiceImpl implements ServidorService {
 		LinuxUtil.enviarArquivos(servidor, versao.getFolder());
 		StringBuffer command = new StringBuffer();
 		command.append("bash /tmp/" + versao.getSistema().getNome() + ".sh ")
-				.append(instancia.getNome()).append(versao.getVersao());
+				.append(instancia.getNome()).append(versao.getVersaoString());
 		LinuxUtil.executarServidorRemoto(servidor, command.toString());
 
 	}

@@ -62,8 +62,8 @@ public class VersaoDaoImpl implements VersaoDao {
 		return versoes;
 	}
 	
-	public List<Versao> getVersionBySystem(Integer idSistema) {
-		Query query = entityManager.createNamedQuery("Versao.obterListaVersaoPorSistema").setParameter("idSistema", idSistema);
+	public List<Versao> getVersionBySystemOrder(Integer idSistema) {
+		Query query = entityManager.createNamedQuery("Versao.obterListaVersaoPorSistemaOrdenado").setParameter("idSistema", idSistema);
 		List<Versao> versoes = query.getResultList();
 		return versoes;
 	}

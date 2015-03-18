@@ -25,8 +25,8 @@
 					<p:dataTable id="versaoTable" var="versao" value="#{versaoListaBean.versoes}" rowKey="#{versao.id}" paginator="true" 
 					             paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;" emptyMessage="Nenhuma versão cadastrada">>
 						
-						<p:column headerText="Nome Versao" sortBy="#{versao.versao}" filterBy="#{versao.versao}" id="versao">
-           					#{versao.versao}
+						<p:column headerText="Nome Versao" sortBy="#{versao.versaoString}" filterBy="#{versao.versaoString}" id="versao">
+           					#{versao.versaoString}
     					</p:column>
 
 						<p:column headerText="Sistema" sortBy="#{versao.sistema}" filterBy="#{versao.sistema}" id="sistema">
@@ -42,7 +42,7 @@
 						<p:column headerText="Excluir" style="width:60px">
        						<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
        						                 actionListener="#{versaoListaBean.excluir(versao)}" update=":formVersao:fieldVersaoes :formVersao:msg"> 
-						       	<p:confirm header="Deletar Versao" message="Você realmente deseja deletar este versao?" icon="ui-icon-alert" />
+						       	<p:confirm header="Deletar Versao" message="Você realmente deseja deletar esta versão?" icon="ui-icon-alert" />
 						    </p:commandButton>
        					</p:column>
 					

@@ -21,6 +21,7 @@ import br.com.sheeva.service.VersaoService;
 import br.com.sheeva.utils.LayoutIndexManager;
 import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
+import br.com.sheeva.utils.VersaoUtils;
 
 @Service("versaoFormularioBean")
 @Scope(value = "view")
@@ -35,6 +36,7 @@ public class VersaoFormularioBean {
 	private InputStream arquivoAplicacaoInputStream;
 	private InputStream arquivoBancoDadosInputStream;
 	private List<UploadedFile> arquivosAdicionais;
+	public String versaoString;
 
 	@Autowired
 	private VersaoService versaoService;
@@ -45,9 +47,9 @@ public class VersaoFormularioBean {
 	@PostConstruct
 	public void init() {
 		versao = obterVersao();
+		versaoString = versao.getVersaoString();
 		sistemas = sistemaService.listarTodos();
 		arquivosAdicionais = new LinkedList<UploadedFile>();
-		LayoutIndexManager.atualizarIndice(1);
 	}
 
 	public Versao obterVersao() {
@@ -56,6 +58,10 @@ public class VersaoFormularioBean {
 	}
 	
 	public void salvar() throws IOException {
+		if (!isVersaoFormatoValido()) {
+			return;
+		}
+		versao.setVersaoString(versaoString);
 		versaoService.salvar(versao);
 		if (arquivoAplicacao != null) {
 			salvarArquivosUploadNoDisco(arquivoAplicacaoInputStream, versao.getArquivoAplicacao(), arquivoAplicacaoParaRemover);
@@ -117,6 +123,14 @@ public class VersaoFormularioBean {
 		versaoService.salvarArquivo(versao, arquivo, nomeArquivo);
 	}
 	
+	public boolean isVersaoFormatoValido() {
+		if (!VersaoUtils.isVersaoFormatoValido(this.versaoString)) {
+			Mensagem.msgErro("Campo VERSÃO com formato inválido (Correto: X.X.X.X)");
+			return false;
+		}
+		return true;
+	}
+	
 	public void adicionarArquivo() {
 	}
 
@@ -162,6 +176,14 @@ public class VersaoFormularioBean {
 
 	public void setArquivoBancoDados(UploadedFile arquivoBancoDados) {
 		this.arquivoBancoDados = arquivoBancoDados;
+	}
+
+	public String getVersaoString() {
+		return versaoString;
+	}
+
+	public void setVersaoString(String versaoString) {
+		this.versaoString = versaoString;
 	}
 
 }

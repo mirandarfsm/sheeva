@@ -17,8 +17,8 @@ import javax.persistence.Transient;
 		@NamedQuery(name = "Versao.removeById", query = "DELETE FROM Versao version WHERE version.id = :idVersao"),
 		@NamedQuery(name = "Versao.searchAll", query = "SELECT version FROM Versao version"),
 		@NamedQuery(name = "Versao.searchById", query = "SELECT version FROM Versao version WHERE version.id = :idVersao"),
-		@NamedQuery(name = "Versao.obterPelaVersao", query = "SELECT version FROM Versao version WHERE version.versao = :versao"),
-		@NamedQuery(name = "Versao.obterListaVersaoPorSistema", query = "SELECT version FROM Versao version WHERE version.sistema.id = :idSistema"),
+		@NamedQuery(name = "Versao.obterListaVersaoPorSistemaOrdenado", query = "SELECT version FROM Versao version "
+							+ "WHERE version.sistema.id = :idSistema order by version.version, version.release, version.sprint, version.bug"),
 		@NamedQuery(name = "Versao.obterListaVersao", query = "SELECT version FROM Versao version WHERE version.id between :idAntiga and :idNova") })
 @Entity
 @Table(name = "versao")
@@ -26,9 +26,12 @@ public class Versao {
 
 	private Integer id;
 	private Sistema sistema;
-	private String versao;
 	private String arquivoAplicacao;
 	private String arquivoBancoDados;
+	private Integer version;
+	private Integer release;
+	private Integer sprint;
+	private Integer bug;
 
 	public Versao() {
 	}
@@ -36,12 +39,12 @@ public class Versao {
 	public Versao(Integer id, Sistema sistema, String versao) {
 		this.id = id;
 		this.sistema = sistema;
-		this.versao = versao;
+		this.setVersaoString(versao);
 	}
 	
 	public Versao(Sistema sistema, String versao) {
 		this.sistema = sistema;
-		this.versao = versao;
+		this.setVersaoString(versao);
 	}
 
 	@Id
@@ -66,18 +69,9 @@ public class Versao {
 		this.sistema = sistema;
 	}
 
-	@Column(name = "versao")
-	public String getVersao() {
-		return versao;
-	}
-
-	public void setVersao(String versao) {
-		this.versao = versao;
-	}
-
 	@Transient
 	public String getFolder() {
-		return sistema.getFolder() + this.versao + "/";
+		return sistema.getFolder() + this.getVersaoString() + "/";
 	}
 
 	@Column(name="arquivo_aplicacao")
@@ -98,13 +92,59 @@ public class Versao {
 		this.arquivoBancoDados = arquivoBancoDados;
 	}
 
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+	public Integer getRelease() {
+		return release;
+	}
+
+	public void setRelease(Integer release) {
+		this.release = release;
+	}
+
+	public Integer getSprint() {
+		return sprint;
+	}
+
+	public void setSprint(Integer sprint) {
+		this.sprint = sprint;
+	}
+
+	public Integer getBug() {
+		return bug;
+	}
+
+	public void setBug(Integer bug) {
+		this.bug = bug;
+	}
+
+	@Transient
+	public String getVersaoString() {
+		return version + "." + release + "." + sprint + "." + bug;
+	}
+	
+	public void setVersaoString(String versaoString) {
+		String strings[] = versaoString.split("\\.");
+		this.version = Integer.valueOf(strings[0]);
+		this.release = Integer.valueOf(strings[1]);
+		this.sprint = Integer.valueOf(strings[2]);
+		this.bug = Integer.valueOf(strings[3]);
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((arquivoAplicacao == null) ? 0 : arquivoAplicacao.hashCode());
+		result = prime * result + ((arquivoBancoDados == null) ? 0 : arquivoBancoDados.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((sistema == null) ? 0 : sistema.hashCode());
-		result = prime * result + ((versao == null) ? 0 : versao.hashCode());
 		return result;
 	}
 
@@ -117,27 +157,27 @@ public class Versao {
 		if (getClass() != obj.getClass())
 			return false;
 		Versao other = (Versao) obj;
+		if (arquivoAplicacao == null) {
+			if (other.arquivoAplicacao != null)
+				return false;
+		} else if (!arquivoAplicacao.equals(other.arquivoAplicacao))
+			return false;
+		if (arquivoBancoDados == null) {
+			if (other.arquivoBancoDados != null)
+				return false;
+		} else if (!arquivoBancoDados.equals(other.arquivoBancoDados))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (sistema == null) {
-			if (other.sistema != null)
-				return false;
-		} else if (!sistema.equals(other.sistema))
-			return false;
-		if (versao == null) {
-			if (other.versao != null)
-				return false;
-		} else if (!versao.equals(other.versao))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return this.sistema + " - " + this.versao;
+		return this.sistema + " - " + this.getVersaoString();
 	}
 
 }

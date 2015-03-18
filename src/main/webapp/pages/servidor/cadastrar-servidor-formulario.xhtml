@@ -45,7 +45,7 @@
 			</p:fieldset>
 			<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{servidorBean.cancelar}" styleClass="btn btn-danger"/>		
 			<p:commandButton id="botaoSalvar" value="Salvar" action="#{servidorBean.salvar}" update="@form" styleClass="btn btn-primary" 
-			                 process="@this,nomeServidor,enderecoServidor,porta,portaMonitoramento,loginServidor"/>
+			                 process="@this,nomeServidor,enderecoServidor,porta,portaMonitoramento,loginServidor,novaSenhaServidor"/>
 
 			<p:fieldset legend="Instâncias" id="fieldInstancias" styleClass="fieldSet" style="margin-top: 15px" collapsed="false"
 			             toggleable="true">
@@ -79,9 +79,9 @@
 					<p:message for="nomeInstancia"/>
 				
 					<h:outputText value="Versão: "/>
-					<p:selectOneMenu id="versaoInstancia" value="#{servidorBean.instancia.versao}" converter="jsonConverter" >
+					<h:selectOneMenu id="versaoInstancia" value="#{servidorBean.instancia.versao}" converter="jsonConverter" >
 						<f:selectItems value="#{servidorBean.versoes}" var="versao" itemLabel="#{versao}" itemValue="#{versao}"/>
-					</p:selectOneMenu> 
+					</h:selectOneMenu> 
 					<p:message for="versaoInstancia"/>
 				
 					<h:outputText value="Diretorio Principal: "/>
@@ -98,8 +98,8 @@
 				                 process="@this,nomeInstancia,versaoInstancia,diretorioPrincipalInstancia,arquivoConfiguracaoInstancia"/>
 			</p:dialog> 
 		
-			<p:fieldset legend="Alterar Senha" id="fieldAlterarSenha" styleClass="fieldSet" style="margin-top: 15px" collapsed="true"
-			             toggleable="true" rendered="#{servidorBean.servidor.id != null}">
+			<p:fieldset legend="Alterar Senha" id="fieldAlterarSenha" styleClass="fieldSet" style="margin-top: 15px; margin-bottom: 15px" 
+						collapsed="true" toggleable="true" rendered="#{servidorBean.servidor.id != null}">
 					<h:panelGrid columns="2" id="panelGridAlterarSenha">
 						<h:outputText value="Senha: "/>
 						<p:password id="senhaServidor" size="30" value="#{servidorBean.servidor.senha}" match="confirmarSenha"/>

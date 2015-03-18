@@ -22,6 +22,7 @@ import br.com.sheeva.service.VersaoService;
 import br.com.sheeva.utils.LayoutIndexManager;
 import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
+import br.com.sheeva.utils.VersaoUtils;
 
 @Service("servidorBean")
 @Scope(value = "session")
@@ -34,6 +35,7 @@ public class ServidorBean {
 	private Versao versao;
 	private List<Versao> versoes;
 	private ConfiguracaoServidor configuracaoServidor;
+	private List<Instancia> instanciaParaRemover;
 
 	@Autowired
 	private ServidorService servidorService;
@@ -58,6 +60,9 @@ public class ServidorBean {
 
 	public void salvar() {
 		servidorService.salvar(servidor);
+		if (!(instanciaParaRemover == null || instanciaParaRemover.isEmpty())) {
+			removerInstanciasDoBanco(instanciaParaRemover);
+		}
 		if (servidor.getId() == null) {
 			Mensagem.msgInformacao("Servidor salvo com sucesso");
 		} else {
@@ -109,8 +114,17 @@ public class ServidorBean {
 
 	public void removerInstancia(Instancia instancia) {
 		servidor.getInstancias().remove(instancia);
-		if (instancia.getId() != null) {
-			instanciaService.remover(instancia.getId());
+		if (instanciaParaRemover == null) {
+			instanciaParaRemover = new ArrayList<Instancia>();
+		}
+		instanciaParaRemover.add(instancia);
+	}
+	
+	private void removerInstanciasDoBanco(List<Instancia> instanciaParaRemover) {
+		for (Instancia instancia : instanciaParaRemover) {
+			if (instancia.getId() != null) {
+				instanciaService.remover(instancia.getId());
+			}
 		}
 	}
 
@@ -196,6 +210,8 @@ public class ServidorBean {
 	
 	public List<Versao> obterVersoesPeloSistema(Instancia instancia) {
 		versoes = versaoService.obterVersoesPeloSistema(instancia.getId());
+		Versao versaoDaInstancia = instanciaService.buscarPeloId(instancia.getId()).getVersao();
+		versoes = VersaoUtils.obterVersoesDisponveisAtualizacao(versoes, versaoDaInstancia);
 		return versoes;
 	} 
 }

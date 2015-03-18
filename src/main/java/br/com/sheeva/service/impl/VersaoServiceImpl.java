@@ -97,7 +97,7 @@ public class VersaoServiceImpl implements VersaoService {
 	
 	public List<Versao> obterVersoesPeloSistema(Integer idInstancia){
 		int idSistema = sistemaDao.getIdSystemByInstance(idInstancia);
-		List<Versao> versoes = versaoDao.getVersionBySystem(idSistema);
+		List<Versao> versoes = versaoDao.getVersionBySystemOrder(idSistema);
 		return versoes;
 	}
 
