@@ -16,8 +16,8 @@ import br.com.sheeva.service.VersaoService;
 
 public class VersaoServiceImplTest {
 
-	Sistema system = new Sistema("sheeva");;
-	Versao version = new Versao(system, "1.0");
+	Sistema system = new Sistema("Sheeva");;
+	Versao version = new Versao(system, "1.0.0.0");
 	VersaoService service = new VersaoServiceImpl();
 
 	@Test
