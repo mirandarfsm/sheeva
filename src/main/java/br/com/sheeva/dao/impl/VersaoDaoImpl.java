@@ -55,9 +55,13 @@ public class VersaoDaoImpl implements VersaoDao {
 		return versoes.get(0);
 	}
 
-	public List<Versao> getVersionList(Integer idAntiga, Integer idNova) {
+	public List<Versao> getVersionList(Versao antiga, Versao nova) {
 		Query query = entityManager.createNamedQuery("Versao.obterListaVersao")
-				.setParameter("idAntiga", idAntiga).setParameter("idNova", idNova);
+				.setParameter("sistema", antiga.getSistema())
+				.setParameter("versionAntiga", antiga.getVersion()).setParameter("versionNova", nova.getVersion())
+				.setParameter("releaseAntiga", antiga.getRelease()).setParameter("releaseNova", nova.getRelease())
+				.setParameter("sprintAntiga", antiga.getSprint()).setParameter("sprintNova", nova.getSprint())
+				.setParameter("bugAntiga", antiga.getBug()).setParameter("bugNova", nova.getBug());
 		List<Versao> versoes = query.getResultList();
 		return versoes;
 	}

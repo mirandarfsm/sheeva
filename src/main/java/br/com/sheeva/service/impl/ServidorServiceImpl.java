@@ -54,19 +54,19 @@ public class ServidorServiceImpl implements ServidorService {
 
 	public void atualizarInstancias(Servidor servidor, Versao versao) {
 		for (Instancia instancia : servidor.getInstancias()) {
-			if (instancia.getVersao().getSistema().equals(versao.getSistema())) {
-				atualizarInstancia(servidor, versao, instancia);
-			}
+			atualizarInstancia(servidor, versao, instancia);
 		}
 	}
 
 	public void atualizarInstancia(Servidor servidor, Versao versao,
 			Instancia instancia) {
 		// TODO Implementar -
-		List<Versao> versoes = versaoDao.getVersionList(instancia.getVersao()
-				.getId(), versao.getId());
-		for (Versao v : versoes) {
-			atualizarVersaoDaInstancia(servidor, v, instancia);
+		if (instancia.getVersao().getSistema().equals(versao.getSistema())) {
+			List<Versao> versoes = versaoDao.getVersionList(instancia.getVersao(), versao);
+			
+			for (Versao v : versoes) {
+				atualizarVersaoDaInstancia(servidor, v, instancia);
+			}
 		}
 	}
 

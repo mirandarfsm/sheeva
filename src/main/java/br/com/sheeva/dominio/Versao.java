@@ -18,8 +18,8 @@ import javax.persistence.Transient;
 		@NamedQuery(name = "Versao.searchAll", query = "SELECT version FROM Versao version"),
 		@NamedQuery(name = "Versao.searchById", query = "SELECT version FROM Versao version WHERE version.id = :idVersao"),
 		@NamedQuery(name = "Versao.obterListaVersaoPorSistemaOrdenado", query = "SELECT version FROM Versao version "
-							+ "WHERE version.sistema.id = :idSistema order by version.version, version.release, version.sprint, version.bug"),
-		@NamedQuery(name = "Versao.obterListaVersao", query = "SELECT version FROM Versao version WHERE version.id between :idAntiga and :idNova") })
+				+ "WHERE version.sistema.id = :idSistema order by version.version, version.release, version.sprint, version.bug"),
+		@NamedQuery(name = "Versao.obterListaVersao", query = "SELECT version FROM Versao version WHERE (version.sistema = :sistema) and (version.version> :versaoAntiga and version.version <= :versaoNova) and (version.release > :releaseAntiga and version.release <= :releaseNova) and (version.sprint > :sprintAntiga and version.sprint <= :sprintNova) and (version.bug > :bugAntiga and version.bug <= :bugNova) ") })
 @Entity
 @Table(name = "versao")
 public class Versao {
@@ -41,7 +41,7 @@ public class Versao {
 		this.sistema = sistema;
 		this.setVersaoString(versao);
 	}
-	
+
 	public Versao(Sistema sistema, String versao) {
 		this.sistema = sistema;
 		this.setVersaoString(versao);
@@ -74,7 +74,7 @@ public class Versao {
 		return sistema.getFolder() + this.getVersaoString() + "/";
 	}
 
-	@Column(name="arquivo_aplicacao")
+	@Column(name = "arquivo_aplicacao")
 	public String getArquivoAplicacao() {
 		return arquivoAplicacao;
 	}
@@ -83,7 +83,7 @@ public class Versao {
 		this.arquivoAplicacao = arquivoAplicacao;
 	}
 
-	@Column(name="arquivo_banco_dados")
+	@Column(name = "arquivo_banco_dados")
 	public String getArquivoBancoDados() {
 		return arquivoBancoDados;
 	}
@@ -128,7 +128,7 @@ public class Versao {
 	public String getVersaoString() {
 		return version + "." + release + "." + sprint + "." + bug;
 	}
-	
+
 	public void setVersaoString(String versaoString) {
 		String strings[] = versaoString.split("\\.");
 		this.version = Integer.valueOf(strings[0]);
@@ -137,13 +137,17 @@ public class Versao {
 		this.bug = Integer.valueOf(strings[3]);
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arquivoAplicacao == null) ? 0 : arquivoAplicacao.hashCode());
-		result = prime * result + ((arquivoBancoDados == null) ? 0 : arquivoBancoDados.hashCode());
+		result = prime
+				* result
+				+ ((arquivoAplicacao == null) ? 0 : arquivoAplicacao.hashCode());
+		result = prime
+				* result
+				+ ((arquivoBancoDados == null) ? 0 : arquivoBancoDados
+						.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
