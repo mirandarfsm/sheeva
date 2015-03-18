@@ -68,5 +68,10 @@
 		<pattern value="/sistema" />
 		<view-id value="/pages/sistema/cadastrar-sistema-lista.jsf" />
 	</url-mapping>
+	
+	<url-mapping id="alterar-senha">
+		<pattern value="/alterar-senha" />
+		<view-id value="/pages/usuario/alterar-senha.jsf" />
+	</url-mapping>
 
 </pretty-config>

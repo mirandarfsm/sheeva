@@ -16,7 +16,7 @@ public interface UsuarioService {
 
 	public Usuario buscarPeloLogin(String login);
 
-	void mudarSenha(String login, String senhaAtual, String novaSenha);
+	boolean mudarSenha(String login, String senhaAtual, String novaSenha);
 
 	public void resetSenha(Usuario usuario);
 	

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.sheeva.dao.UsuarioDao;
 import br.com.sheeva.dominio.Usuario;
 import br.com.sheeva.service.UsuarioService;
+import br.com.sheeva.utils.Mensagem;
 
 @Service("usuarioService")
 public class UsuarioServiceImpl implements UsuarioService {
@@ -44,14 +45,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return usuarioDao.getByLogin(login);
 	}
 
-	public void mudarSenha(String login, String senhaAtual, String novaSenha) {
+	public boolean mudarSenha(String login, String senhaAtual, String novaSenha) {
 		Usuario usuario = buscarPeloLogin(login);
 		if (!passwordEncoder.encodePassword(senhaAtual, null).equals(
 				usuario.getSenha())) {
-			throw new RuntimeException("A senha atual inserida está incorreta!");
+			return false;
 		}
 		usuario.setSenha(passwordEncoder.encodePassword(novaSenha, null));
 		usuarioDao.save(usuario);
+		return true;
 	}
 
 	public void resetSenha(Usuario usuario) {

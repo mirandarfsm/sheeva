@@ -17,16 +17,16 @@
 					<p:fieldset legend="Alterar Senha" id="fieldAlterarSenha" styleClass="fieldSet">
 						<h:panelGrid columns="3">
 							<h:outputText value="Senha Atual: "/>
-							<p:password id="senhaAtual" size="30" value="#{alterarSenhaBean.senhaAtual}" promptLabel="Senha"  weakLabel="Senha Fraca" 
-									goodLabel="Senha Boa" strongLabel="Senha Forte" />
+							<p:password id="senhaAtual" size="30" value="#{alterarSenhaBean.senhaAtual}" promptLabel="Senha"/>
 							<p:message for="senhaAtual"/>
 							<h:outputText value="Nova Senha "/>
 							<p:password id="novaSenha" size="30" value="#{alterarSenhaBean.novaSenha}" promptLabel="Senha"  weakLabel="Senha Fraca" 
-									goodLabel="Senha Boa" strongLabel="Senha Forte" match="confirmarSenha" />
+									goodLabel="Senha Boa" strongLabel="Senha Forte" match="confirmarSenha" feedback="true"
+									validatorMessage="A confirmação da senha está incorreta."/>
 							<p:message for="senhaAtual"/>
 							<h:outputText value="Confirmar Nova Senha: "/>
 							<p:password id="confirmarSenha" size="30" value="#{alterarSenhaBean.novaSenha}" promptLabel="Confirmar Senha" 
-											weakLabel="Senha Fraca"	goodLabel="Senha Boa" strongLabel="Senha Forte" />
+											weakLabel="Senha Fraca"	goodLabel="Senha Boa" strongLabel="Senha Forte" feedback="true"/>
 							<p:message for="confirmarSenha"/>
 						</h:panelGrid>
 						<p:commandButton value="Alterar" action="#{alterarSenhaBean.alterarSenha}" update="msg fieldAlterarSenha" />

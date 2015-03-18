@@ -9,7 +9,7 @@ import br.com.sheeva.service.UsuarioService;
 import br.com.sheeva.utils.Mensagem;
 
 @Service("alterarSenhaBean")
-@Scope("session")
+@Scope("view")
 public class AlterarSenhaBean {
 
 
@@ -26,10 +26,6 @@ public class AlterarSenhaBean {
 
 	}
 	
-	public String abrirPagina(){
-		return "/pages/usuario/alterar-senha.xhtml";
-	}
-	
 	public void alterarSenha(){
 		if (senhaAtual == null || senhaAtual == "") {
 			Mensagem.msgErro("O campo SENHA ATUAL é obrigatório.");
@@ -39,8 +35,12 @@ public class AlterarSenhaBean {
 			Mensagem.msgErro("O campo NOVA SENHA é obrigatório.");
 			return;
 		}
-		usuarioService.mudarSenha(authenticationContext.getUsuarioLogado().getLogin(), senhaAtual, novaSenha);
+		if (!usuarioService.mudarSenha(authenticationContext.getUsuarioLogado().getLogin(), senhaAtual, novaSenha)) {
+			Mensagem.msgErro("A senha atual inserida está incorreta!");
+			return;
+		}
 		Mensagem.msgInformacao("Senha Alterada com sucesso");
+		
 	}
 
 	public String getNovaSenha() {
