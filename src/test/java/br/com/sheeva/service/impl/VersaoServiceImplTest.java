@@ -23,7 +23,7 @@ public class VersaoServiceImplTest {
 	@Test
 	public void salvarArquivo() throws IOException {
 		InputStream is = new FileInputStream(
-				"/home/robson/.sheeva/teste/sheeva.jpeg");
+				"/home/robson/.sheeva/teste/sheeva/sheeva.sh");
 		service.salvarArquivo(version, is, version + ".jpeg");
 		File criado = new File(version.getFolder() + version + ".jpeg");
 		assertTrue(criado.exists() && !criado.isDirectory());

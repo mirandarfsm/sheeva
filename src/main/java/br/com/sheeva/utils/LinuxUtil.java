@@ -1,6 +1,7 @@
 package br.com.sheeva.utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 
 import br.com.sheeva.dominio.Servidor;
@@ -8,14 +9,12 @@ import br.com.sheeva.dominio.Servidor;
 public class LinuxUtil {
 
 	public static String enviarArquivos(Servidor servidor, String diretorio) {
-		StringBuilder command = new StringBuilder();
-		command.append("sshpass -p ").append(servidor.getSenha()).append(" scp ")
-				.append(" -P ").append(servidor.getPorta())
-				.append(" " + diretorio + "* ").append(servidor.getLogin())
-				.append("@").append(servidor.getEndereco()).append(":/tmp");
-
-		String output = executeCommand(command.toString());
-		return output;
+		File folder = new File(diretorio);
+		StringBuffer log = new StringBuffer();
+		for(File arquivo : folder.listFiles()){
+			log.append(enviarArquivo(servidor, arquivo.getPath()));
+		}
+		return log.toString();
 	}
 
 	public static String enviarArquivo(Servidor servidor, String arquivo) {

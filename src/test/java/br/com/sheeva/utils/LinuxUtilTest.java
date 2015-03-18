@@ -22,11 +22,20 @@ public class LinuxUtilTest {
 		teste.delete();
 		teste = new File("/tmp/executaRemoto.sh");
 		teste.delete();
+		teste = new File("/tmp/arq1");
+		teste.delete();
+		teste = new File("/tmp/arq2");
+		teste.delete();
+		
 	}
 
 	@Test
 	public void testEnviarArquivos() {
-		// LinuxUtil.enviarArquivos(servidor, diretorio);
+		LinuxUtil.enviarArquivos(server, "/home/robson/.sheeva/teste/arquivos/");
+		File arq1 = new File("/tmp/arq1");
+		File arq2 = new File("/tmp/arq2");
+		assertTrue(arq1.exists() && !arq1.isDirectory());
+		assertTrue(arq2.exists() && !arq2.isDirectory());
 	}
 
 	@Test

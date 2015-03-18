@@ -22,6 +22,7 @@ import br.com.sheeva.dao.VersaoDao;
 import br.com.sheeva.dominio.ConfiguracaoServidor;
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
+import br.com.sheeva.dominio.Sistema;
 import br.com.sheeva.dominio.Versao;
 import br.com.sheeva.service.ServidorService;
 import br.com.sheeva.utils.LinuxUtil;
@@ -71,13 +72,17 @@ public class ServidorServiceImpl implements ServidorService {
 
 	public void atualizarVersaoDaInstancia(Servidor servidor, Versao versao,
 			Instancia instancia) {
+		Sistema sistema = versao.getSistema();
+		LinuxUtil.enviarArquivo(servidor, sistema.getFolder()+"/"+sistema.getNome()+".sh");
 		LinuxUtil.enviarArquivos(servidor, versao.getFolder());
 		StringBuffer command = new StringBuffer();
 		command.append("bash /tmp/" + versao.getSistema().getNome() + ".sh ")
-				.append(instancia.getNome()).append(versao.getVersaoString());
+				.append(versao.getVersaoString()).append(" ")
+				.append(instancia.getDiretorioPrincipal());
 		LinuxUtil.executarServidorRemoto(servidor, command.toString());
 
 	}
+	
 
 	public void alterarArquivoConfiguracao(Servidor servidor, Versao versao,
 			String arquivoConfiguracao) {
