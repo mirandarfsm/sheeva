@@ -17,40 +17,40 @@
 			<p:fieldset legend="Dados Cadastrais" styleClass="fieldSet" id="fieldSetFormulario" style="margin-bottom: 5px">
 				<h:panelGrid columns="3" id="panelGridFormulario">
 					<h:outputText value="Nome: "/>
-					<p:inputText id="nomeServidor" size="50" value="#{servidorBean.servidor.nome}" /> 
+					<p:inputText id="nomeServidor" size="50" value="#{servidorFormularioBean.servidor.nome}" /> 
 					<p:message for="nomeServidor"/>
 					
 					<h:outputText value="Endereço: "/>
-					<p:inputText id="enderecoServidor" size="30" value="#{servidorBean.servidor.endereco}"/>
+					<p:inputText id="enderecoServidor" size="30" value="#{servidorFormularioBean.servidor.endereco}"/>
 					<p:message for="enderecoServidor"/>
 					
 					<h:outputText value="Porta: "/>
-					<p:inputText id="porta" size="30" value="#{servidorBean.servidor.porta}"/>
+					<p:inputText id="porta" size="30" value="#{servidorFormularioBean.servidor.porta}"/>
 					<p:message for="porta"/>
 					
 					<h:outputText value="Porta Monitoramento: "/>
-					<p:inputText id="portaMonitoramento" size="30" value="#{servidorBean.servidor.portaMonitoramento}"/>
+					<p:inputText id="portaMonitoramento" size="30" value="#{servidorFormularioBean.servidor.portaMonitoramento}"/>
 					<p:message for="portaMonitoramento"/>
 					
 					<h:outputText value="Login: "/>
-					<p:inputText id="loginServidor" size="30" value="#{servidorBean.servidor.login}"/>
+					<p:inputText id="loginServidor" size="30" value="#{servidorFormularioBean.servidor.login}"/>
 					<p:message for="loginServidor"/>
 					
-					<h:outputText value="Senha: " rendered="#{servidorBean.servidor.id == null}"/>
-					<p:password id="novaSenhaServidor" size="30" value="#{servidorBean.servidor.senha}" 
-					            rendered="#{servidorBean.servidor.id == null}"/>
-					<p:message for="novaSenhaServidor" rendered="#{servidorBean.servidor.id == null}"/>
+					<h:outputText value="Senha: " rendered="#{servidorFormularioBean.servidor.id == null}"/>
+					<p:password id="novaSenhaServidor" size="30" value="#{servidorFormularioBean.servidor.senha}" 
+					            rendered="#{servidorFormularioBean.servidor.id == null}"/>
+					<p:message for="novaSenhaServidor" rendered="#{servidorFormularioBean.servidor.id == null}"/>
 					
 				</h:panelGrid>
 			</p:fieldset>
-			<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{servidorBean.cancelar}" styleClass="btn btn-danger"/>		
-			<p:commandButton id="botaoSalvar" value="Salvar" action="#{servidorBean.salvar}" update="@form" styleClass="btn btn-primary" 
+			<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{servidorFormularioBean.cancelar}" styleClass="btn btn-danger"/>		
+			<p:commandButton id="botaoSalvar" value="Salvar" action="#{servidorFormularioBean.salvar}" update="@form" styleClass="btn btn-primary" 
 			                 process="@this,nomeServidor,enderecoServidor,porta,portaMonitoramento,loginServidor,novaSenhaServidor"/>
 
 			<p:fieldset legend="Instâncias" id="fieldInstancias" styleClass="fieldSet" style="margin-top: 15px" collapsed="false"
 			             toggleable="true">
-					<p:tabView value="#{servidorBean.servidor.instancias}" var="instancia" 
-					           rendered="#{servidorBean.servidorPossuiInstancia}">
+					<p:tabView value="#{servidorFormularioBean.servidor.instancias}" var="instancia" 
+					           rendered="#{servidorFormularioBean.servidorPossuiInstancia}">
 						<p:tab title="#{instancia.nome}">
 							<p:panelGrid columns="2" styleClass="panelGridA">
 								<h:outputText value="Nome: "/>
@@ -65,51 +65,51 @@
 								<h:outputText value="Arquivo Configuração: "/>
 								<h:outputText id="arquivoConfiguracaoInstancia" size="50" value="#{instancia.arquivoConfiguracao}" /> 
 							</p:panelGrid>
-							<p:commandButton action="#{servidorBean.removerInstancia(instancia)}" value="Remover" 
+							<p:commandButton action="#{servidorFormularioBean.removerInstancia(instancia)}" value="Remover" 
 											 update=":formServidor:fieldInstancias" ajax="true" process="@this" />
 						</p:tab>
 					</p:tabView>
-						<p:commandButton value="Adicionar" onclick="PF('dialogInstancia').show();" action="#{servidorBean.novaInstancia}"/>
+						<p:commandButton value="Adicionar" onclick="PF('dialogInstancia').show();" action="#{servidorFormularioBean.novaInstancia}"/>
 		    </p:fieldset>
 		    
 		    <p:dialog header="Adicionar Instância" widgetVar="dialogInstancia" modal="true" height="300" width="500" id="dialogInstancia">
     			<h:panelGrid columns="1" style="margin: 10px 10px 10px 10px">
 					<h:outputText value="Nome: "/>
-					<p:inputText id="nomeInstancia" size="50" value="#{servidorBean.instancia.nome}" /> 
+					<p:inputText id="nomeInstancia" size="50" value="#{servidorFormularioBean.instancia.nome}" /> 
 					<p:message for="nomeInstancia"/>
 				
 					<h:outputText value="Versão: "/>
-					<h:selectOneMenu id="versaoInstancia" value="#{servidorBean.instancia.versao}" converter="jsonConverter" >
-						<f:selectItems value="#{servidorBean.versoes}" var="versao" itemLabel="#{versao}" itemValue="#{versao}"/>
+					<h:selectOneMenu id="versaoInstancia" value="#{servidorFormularioBean.instancia.versao}" converter="jsonConverter" >
+						<f:selectItems value="#{servidorFormularioBean.versoes}" var="versao" itemLabel="#{versao}" itemValue="#{versao}"/>
 					</h:selectOneMenu> 
 					<p:message for="versaoInstancia"/>
 				
 					<h:outputText value="Diretorio Principal: "/>
-					<p:inputText id="diretorioPrincipalInstancia" size="50" value="#{servidorBean.instancia.diretorioPrincipal}" /> 
+					<p:inputText id="diretorioPrincipalInstancia" size="50" value="#{servidorFormularioBean.instancia.diretorioPrincipal}" /> 
 					<p:message for="diretorioPrincipalInstancia"/>
 				
 					<h:outputText value="Arquivo Configuração: "/>
-					<p:inputText id="arquivoConfiguracaoInstancia" size="50" value="#{servidorBean.instancia.arquivoConfiguracao}" /> 
+					<p:inputText id="arquivoConfiguracaoInstancia" size="50" value="#{servidorFormularioBean.instancia.arquivoConfiguracao}" /> 
 					<p:message for="arquivoConfiguracaoInstancia"/>
 				
 				</h:panelGrid>
-				<p:commandButton action="#{servidorBean.adicionarInstancia}" value="Adicionar" onclick="PF('dialogInstancia').hide();" 
+				<p:commandButton action="#{servidorFormularioBean.adicionarInstancia}" value="Adicionar" onclick="PF('dialogInstancia').hide();" 
 				                 update="fieldInstancias dialogInstancia" ajax="true" 
 				                 process="@this,nomeInstancia,versaoInstancia,diretorioPrincipalInstancia,arquivoConfiguracaoInstancia"/>
 			</p:dialog> 
 		
 			<p:fieldset legend="Alterar Senha" id="fieldAlterarSenha" styleClass="fieldSet" style="margin-top: 15px; margin-bottom: 15px" 
-						collapsed="true" toggleable="true" rendered="#{servidorBean.servidor.id != null}">
+						collapsed="true" toggleable="true" rendered="#{servidorFormularioBean.servidor.id != null}">
 					<h:panelGrid columns="2" id="panelGridAlterarSenha">
 						<h:outputText value="Senha: "/>
-						<p:password id="senhaServidor" size="30" value="#{servidorBean.servidor.senha}" match="confirmarSenha"/>
-						<p:message for="senhaServidor" rendered="#{servidorBean.servidor.id == null}"/>
+						<p:password id="senhaServidor" size="30" value="#{servidorFormularioBean.servidor.senha}" match="confirmarSenha"/>
+						<p:message for="senhaServidor" rendered="#{servidorFormularioBean.servidor.id == null}"/>
 							
 						<h:outputText value="Confirmar Nova Senha: "/>
-						<p:password id="confirmarSenha" size="30" value="#{servidorBean.servidor.senha}"/>
+						<p:password id="confirmarSenha" size="30" value="#{servidorFormularioBean.servidor.senha}"/>
 						<p:message for="confirmarSenha"/>
 					</h:panelGrid>
-					<p:commandButton value="Alterar" action="#{servidorBean.alterarSenhaServidor}" update="msg panelGridAlterarSenha"
+					<p:commandButton value="Alterar" action="#{servidorFormularioBean.alterarSenhaServidor}" update="msg panelGridAlterarSenha"
 					                 ajax="true" process="@this,senhaServidor,confirmarSenha"/>
 				</p:fieldset>
 		</h:form>

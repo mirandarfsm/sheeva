@@ -29,8 +29,13 @@
 		<view-id value="/pages/servidor/cadastrar-servidor-lista.jsf" />
 	</url-mapping>
 
+	<url-mapping id="cadastrar-servidor-formulario">
+		<pattern value="/servidor/#{id}" />
+		<view-id value="/pages/servidor/cadastrar-servidor-formulario.jsf" />
+	</url-mapping>
+
 	<url-mapping id="exibir-servidor">
-		<pattern value="/exibir-servidor" />
+		<pattern value="/exibir-servidor/#{id}" />
 		<view-id value="/pages/servidor/exibir-servidor.jsf" />
 	</url-mapping>
 
@@ -52,6 +57,11 @@
 	<url-mapping id="cadastrar-versao-lista">
 		<pattern value="/versao" />
 		<view-id value="/pages/versao/cadastrar-versao-lista.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="cadastrar-sistema-formulario">
+		<pattern value="/sistema/#{id}" />
+		<view-id value="/pages/sistema/cadastrar-sistema-formulario.jsf" />
 	</url-mapping>
 	
 	<url-mapping id="cadastrar-sistema-lista">

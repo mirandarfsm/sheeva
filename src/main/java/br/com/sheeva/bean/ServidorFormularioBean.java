@@ -4,37 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
-import org.primefaces.event.TabChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import br.com.sheeva.dominio.ConfiguracaoServidor;
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Versao;
 import br.com.sheeva.service.InstanciaService;
 import br.com.sheeva.service.ServidorService;
 import br.com.sheeva.service.VersaoService;
-import br.com.sheeva.utils.LayoutIndexManager;
 import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.Mensagem;
-import br.com.sheeva.utils.VersaoUtils;
 
-@Service("servidorBean")
-@Scope(value = "session")
-public class ServidorBean {
+@Service("servidorFormularioBean")
+@Scope(value = "view")
+public class ServidorFormularioBean {
 
 	private Servidor servidor;
-	private Servidor servidor1;
 	private List<Servidor> servidores;
 	private Instancia instancia;
 	private Versao versao;
 	private List<Versao> versoes;
-	private ConfiguracaoServidor configuracaoServidor;
 	private List<Instancia> instanciaParaRemover;
 
 	@Autowired
@@ -46,16 +38,15 @@ public class ServidorBean {
 
 	@PostConstruct
 	public void init() {
+		servidor = obterServidor();
 		novaInstancia();
 		servidores = servidorService.listarTodos();
 		versoes = versaoService.listarTodos();
-		LayoutIndexManager.atualizarIndice(1);
 	}
 
-	public String novo() {
-		servidor = new Servidor();
-		servidor.setInstancias(new ArrayList<Instancia>());
-		return "/pages/servidor/cadastrar-servidor-formulario.xhtml";
+	public Servidor obterServidor() {
+		String id = ManagedBeanUtils.obterParametroRequest("id");
+		return "novo".equals(id) ? new Servidor() : servidorService.buscarPeloId(Integer.valueOf(id));
 	}
 
 	public void salvar() {
@@ -68,29 +59,12 @@ public class ServidorBean {
 		} else {
 			Mensagem.msgInformacao("Servidor alterado com sucesso");
 		}
-		servidores = servidorService.listarTodos();
 		ManagedBeanUtils.redirecionar("/servidor");
 	}
 	
 	public void alterarSenhaServidor() {
 		servidorService.salvar(servidor);
 		Mensagem.msgInformacao("Senha do servidor alterada com sucesso");
-	}
-
-	public void excluir(Servidor servidor) {
-		servidorService.remover(servidor.getId());
-		servidores = servidorService.listarTodos();
-		Mensagem.msgInformacao("Servidor excluído com sucesso");
-	}
-
-	public String editar() {
-		servidor = servidorService.buscarPeloId(servidor.getId());
-		return "/pages/servidor/cadastrar-servidor-formulario.xhtml";
-	}
-
-	public String exibir() {
-		servidor = servidorService.buscarPeloId(servidor.getId());
-		return "/pages/servidor/exibir-servidor.xhtml";
 	}
 
 	public void atualizar() {
@@ -127,15 +101,9 @@ public class ServidorBean {
 			}
 		}
 	}
-
-	public void abrirTerminal() {
-		ManagedBeanUtils.redirecionarUrlExterna(obterUrlSsh());
-	}
-
-	public String obterUrlSsh() {
-		StringBuffer stringBuffer = new StringBuffer();
-		return stringBuffer.append("ssh://").append(servidor.getLogin()).append(":").append(servidor.getSenha()).append("@")
-				.append(servidor.getEndereco()).append(":").append(servidor.getPorta()).toString();
+	
+	public boolean isServidorPossuiInstancia(){
+		return !servidor.getInstancias().isEmpty();
 	}
 
 	public Servidor getServidor() {
@@ -178,40 +146,4 @@ public class ServidorBean {
 		this.versoes = versoes;
 	}
 
-	public Servidor getServidor1() {
-		return servidor1;
-	}
-
-	public void setServidor1(Servidor servidor1) {
-		this.servidor1 = servidor1;
-	}
-
-	public void onTabChange(TabChangeEvent event) {
-		FacesMessage msg = new FacesMessage("Tab Changed", "Active Tab" + event.getTab().getId());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-
-	public ConfiguracaoServidor getConfiguracaoServidor() {
-		return configuracaoServidor;
-	}
-
-	public void setConfiguracaoServidor(ConfiguracaoServidor configuracaoServidor) {
-		this.configuracaoServidor = configuracaoServidor;
-	}
-
-	public boolean isPossuiConexaoMonitoramento() {
-		configuracaoServidor = servidorService.pegarConfiguracaoServidor(servidor);
-		return configuracaoServidor == null ? false : true;
-	}
-
-	public boolean isServidorPossuiInstancia(){
-		return !servidor.getInstancias().isEmpty();
-	}
-	
-	public List<Versao> obterVersoesPeloSistema(Instancia instancia) {
-		versoes = versaoService.obterVersoesPeloSistema(instancia.getId());
-		Versao versaoDaInstancia = instanciaService.buscarPeloId(instancia.getId()).getVersao();
-		versoes = VersaoUtils.obterVersoesDisponveisAtualizacao(versoes, versaoDaInstancia);
-		return versoes;
-	} 
 }

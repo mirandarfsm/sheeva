@@ -1,5 +1,6 @@
 package br.com.sheeva.dominio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,6 +38,7 @@ public class Servidor {
 
 	public Servidor() {
 		super();
+		this.instancias = new ArrayList<Instancia>();
 	}
 
 	public Servidor(String nome, String endereco, Integer porta, String login,

@@ -16,14 +16,13 @@
 		<h:form id="formServidor">
 			<p:messages id="msg" showIcon="false" autoUpdate="true" />
 			<p:panel  style="font-size: 14px; border: none;">
-				<div class="container" style="width: 100%;">
-					<p:commandButton value="Novo Servidor" action="#{servidorBean.novo}"
-						ajax="false" id="botaoNovoServidor" style="margin-bottom: 10px;" />
-				</div>
+				<a id="criar" class="btn btn-default" href="servidor/novo" style="margin-bottom: 10px;"> 
+					<span>Novo Servidor</span>
+				</a>
 				<p:fieldset styleClass="fieldSet"
-					legend="#{servidorBean.servidores.size()} Servidores Cadastrados" id="fieldServidores">
+					legend="#{servidorListaBean.servidores.size()} Servidores Cadastrados" id="fieldServidores">
 					<p:dataTable id="servidorTable" var="servidor"
-						value="#{servidorBean.servidores}" rowKey="#{servidor.id}"
+						value="#{servidorListaBean.servidores}" rowKey="#{servidor.id}"
 						paginator="true" paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;"
 						emptyMessage="Nenhum servidor cadastrado">>
 							<p:column headerText="Nome Servidor" sortBy="#{servidor.nome}"
@@ -36,23 +35,19 @@
        								Terminal
        							</h:outputLink>
        						</p:column>
-       						<p:column headerText="Exibir" style="width:60px">
-							<p:commandButton action="#{servidorBean.exibir}" title="Exibir"
-								icon="ui-icon-search" ajax="false" id="exibirServidor">
-								<f:setPropertyActionListener value="#{servidor}"
-									target="#{servidorBean.servidor}" />
-							</p:commandButton>
-						</p:column>
-						<p:column headerText="Alterar" style="width:60px">
-							<p:commandButton action="#{servidorBean.editar}" title="Alterar"
-								icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
-								<f:setPropertyActionListener value="#{servidor}"
-									target="#{servidorBean.servidor}" />
-							</p:commandButton>
-						</p:column>
+       					<p:column id="btn-exibir" width="40" styleClass="text-center">
+       						<h:outputLink id="exibir" styleClass="btn btn-link" value="servidor/#{servidor.id}" title="Exibir">
+           						<span id="exibir" class="fa fa-search"></span>
+       						</h:outputLink>
+       					</p:column>
+						<p:column id="btn-editar" width="40" styleClass="text-center">
+       						<h:outputLink id="editar" styleClass="btn btn-link" value="servidor/#{servidor.id}" title="Editar">
+           						<span id="editar" class="fa fa-pencil"></span>
+       						</h:outputLink>
+       					</p:column>
 						<p:column headerText="Excluir" style="width:60px">
        						<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
-       					                     actionListener="#{servidorBean.excluir(servidor)}" update=":formServidor:fieldServidores :formServidor:msg"> 
+       					                     actionListener="#{servidorListaBean.excluir(servidor)}" update=":formServidor:fieldServidores :formServidor:msg"> 
 						       	<p:confirm header="Deletar Servidor" message="Você realmente deseja deletar este servidor?" 
 						       	           icon="ui-icon-alert" />
 						    </p:commandButton>
