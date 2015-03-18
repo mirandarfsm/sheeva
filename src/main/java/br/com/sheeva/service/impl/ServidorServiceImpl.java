@@ -72,6 +72,7 @@ public class ServidorServiceImpl implements ServidorService {
 
 	public void atualizarVersaoDaInstancia(Servidor servidor, Versao versao,
 			Instancia instancia) {
+		// TODO Todos os metodos abaixo retorna String, Verificar aonde lancar o retorno
 		Sistema sistema = versao.getSistema();
 		LinuxUtil.enviarArquivo(servidor, sistema.getFolder()+"/"+sistema.getNome()+".sh");
 		LinuxUtil.enviarArquivos(servidor, versao.getFolder());
