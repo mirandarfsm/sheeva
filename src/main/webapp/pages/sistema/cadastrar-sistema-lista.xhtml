@@ -16,29 +16,26 @@
 		<h:form id="formSistema">
 			<p:messages id="msg" showIcon="false" autoUpdate="true" />
 			<p:panel  style="font-size: 14px; border: none;">
-				<div class="container" style="width: 100%;">
-					<p:commandButton value="Novo Sistema" action="#{sistemaBean.novo}"
-						ajax="false" id="botaoNovoSistema" style="margin-bottom: 10px;" />
-				</div>
+				<a id="criar" class="btn btn-default" href="sistema/novo" style="margin-bottom: 10px;"> 
+					<span>Novo Servidor</span>
+				</a>
 				<p:fieldset styleClass="fieldSet"
-					legend="#{sistemaBean.sistemas.size()} Sistemas Cadastrados" id="fieldSistemaes">
+					legend="#{sistemaListaBean.sistemas.size()} Sistemas Cadastrados" id="fieldSistemaes">
 					<p:dataTable id="sistemaTable" var="sistema"
-						value="#{sistemaBean.sistemas}" rowKey="#{sistema.id}"
+						value="#{sistemaListaBean.sistemas}" rowKey="#{sistema.id}"
 						paginator="true" paginatorPosition="bottom" rows="7" tableStyle="font-size: 12px;"
 						emptyMessage="Nenhum sistema cadastrado">>
 						<p:column headerText="Nome Sistema" sortBy="#{sistema.nome}" id="nome">
             					#{sistema.nome}
     					</p:column>
-						<p:column headerText="Alterar" style="width:60px">
-							<p:commandButton action="#{sistemaBean.editar}" title="Alterar"
-								icon="ui-icon ui-icon-pencil" ajax="false" id="botaoAlterar">
-								<f:setPropertyActionListener value="#{sistema}"
-									target="#{sistemaBean.sistema}" />
-							</p:commandButton>
-						</p:column>
+						<p:column id="btn-editar" width="40" styleClass="text-center">
+       						<h:outputLink id="editar" styleClass="btn btn-link" value="sistema/#{sistema.id}" title="Editar">
+           						<span id="editar" class="fa fa-pencil"></span>
+       						</h:outputLink>
+       					</p:column>
 						<p:column headerText="Excluir" style="width:60px">
        						<p:commandButton title="Excluir" icon="ui-icon ui-icon-close" id="botaoExcluir" 
-       					                     actionListener="#{sistemaBean.excluir(sistema)}" update=":formSistema:fieldSistemaes :formSistema:msg"> 
+       					                     actionListener="#{sistemaListaBean.excluir(sistema)}" update=":formSistema:fieldSistemaes :formSistema:msg"> 
 						       	<p:confirm header="Deletar Sistema" message="Você realmente deseja deletar este sistema?" 
 						       	           icon="ui-icon-alert" />
 						    </p:commandButton>

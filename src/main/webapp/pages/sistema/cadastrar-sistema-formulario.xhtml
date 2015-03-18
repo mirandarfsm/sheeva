@@ -17,13 +17,13 @@
 			<p:fieldset legend="Dados Cadastrais" styleClass="fieldSet">
 				<h:panelGrid columns="3">
 					<h:outputText value="Nome: "/>
-					<p:inputText id="nomeSistema" size="50" value="#{sistemaBean.sistema.nome}" /> 
+					<p:inputText id="nomeSistema" size="50" value="#{sistemaFormularioBean.sistema.nome}" /> 
 					<p:message for="nomeSistema"/>
 				</h:panelGrid>
 			</p:fieldset>
-					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{sistemaBean.cancelar}" 
+					<p:commandButton id="botaoCancelar" value="Cancelar" immediate="true" action="#{sistemaFormularioBean.cancelar}" 
 								styleClass="btn btn-danger"/>		
-					<p:commandButton id="botaoSalvar" value="Salvar" action="#{sistemaBean.salvar}" update="@form" 
+					<p:commandButton id="botaoSalvar" value="Salvar" action="#{sistemaFormularioBean.salvar}" update="@form" 
 								styleClass="btn btn-primary"/>
 
 		</h:form>

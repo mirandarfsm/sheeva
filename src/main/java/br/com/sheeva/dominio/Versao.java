@@ -33,7 +33,13 @@ public class Versao {
 	private Integer sprint;
 	private Integer bug;
 
+	
+
 	public Versao() {
+		this.version = 0;
+		this.release = 0;
+		this.sprint = 0;
+		this.bug = 0;
 	}
 
 	public Versao(Integer id, Sistema sistema, String versao) {

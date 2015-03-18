@@ -30,9 +30,10 @@
 						</p:panelGrid>
 					</p:fieldset>
 					
-					<p:commandButton id="botaoCancelar" value="Voltar" immediate="true"
-						action="#{servidorExibirBean.cancelar}" icon="ui-icon-arrowreturnthick-1-w" />
-						<p:commandLink value="Terminal" immediate="true" target="_blank" action="#{servidorExibirBean.abrirTerminal}" />
+					<a id="criar" class="btn btn-default" href="../servidor" style="margin-top: 10px;"> 
+						<span>Voltar</span>
+					</a>
+					<p:commandLink value="Terminal" immediate="true" target="_blank" action="#{servidorExibirBean.abrirTerminal}" />
 				</p:tab>
 				
 				<p:tab title="Status">
