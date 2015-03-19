@@ -1,9 +1,20 @@
 package br.com.sheeva.bean;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.DateAxis;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -12,23 +23,27 @@ import br.com.sheeva.dominio.ConfiguracaoServidor;
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Versao;
+import br.com.sheeva.service.GraficoService;
 import br.com.sheeva.service.InstanciaService;
 import br.com.sheeva.service.ServidorService;
 import br.com.sheeva.service.VersaoService;
-import br.com.sheeva.utils.LayoutIndexManager;
 import br.com.sheeva.utils.ManagedBeanUtils;
 import br.com.sheeva.utils.VersaoUtils;
 
 @Service("servidorExibirBean")
 @Scope(value = "view")
-public class ServidorExibirBean {
+public class ServidorExibirBean implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private Servidor servidor;
-	private Servidor servidor1;
 	private Instancia instancia;
 	private Versao versao;
 	private List<Versao> versoes;
 	private ConfiguracaoServidor configuracaoServidor;
+	private CartesianChartModel dadosGrafico;
+	LineChartSeries series = new LineChartSeries();
+	private Object eixoX = 2;
+	private int eixoY = 3;
 
 	@Autowired
 	private ServidorService servidorService;
@@ -36,12 +51,14 @@ public class ServidorExibirBean {
 	private InstanciaService instanciaService;
 	@Autowired
 	private VersaoService versaoService;
+	@Autowired
+	private GraficoService graficoService;
 
 	@PostConstruct
 	public void init() {
 		servidor = obterServidor();
+		criarGrafico();
 		versoes = versaoService.listarTodos();
-		LayoutIndexManager.atualizarIndice(1);
 	}
 
 	public Servidor obterServidor() {
@@ -97,14 +114,6 @@ public class ServidorExibirBean {
 		this.versoes = versoes;
 	}
 
-	public Servidor getServidor1() {
-		return servidor1;
-	}
-
-	public void setServidor1(Servidor servidor1) {
-		this.servidor1 = servidor1;
-	}
-
 	public ConfiguracaoServidor getConfiguracaoServidor() {
 		return configuracaoServidor;
 	}
@@ -113,8 +122,25 @@ public class ServidorExibirBean {
 		this.configuracaoServidor = configuracaoServidor;
 	}
 
+	public CartesianChartModel getModel() {
+		criarGrafico();
+		return dadosGrafico;
+	}
+
+	public void setModel(CartesianChartModel model) {
+		this.dadosGrafico = model;
+	}
+
+	public LineChartSeries getSeries() {
+		return series;
+	}
+
+	public void setSeries(LineChartSeries series) {
+		this.series = series;
+	}
+
 	public boolean isPossuiConexaoMonitoramento() {
-		configuracaoServidor = servidorService.pegarConfiguracaoServidor(servidor);
+		configuracaoServidor = servidorService.obterConfiguracaoServidor(servidor);
 		return configuracaoServidor == null ? false : true;
 	}
 
@@ -127,5 +153,45 @@ public class ServidorExibirBean {
 		Versao versaoDaInstancia = instanciaService.buscarPeloId(instancia.getId()).getVersao();
 		versoes = VersaoUtils.obterVersoesDisponveisAtualizacao(versoes, versaoDaInstancia);
 		return versoes;
-	} 
+	}
+	
+	public void criarGrafico() {
+		dadosGrafico = new LineChartModel();
+		Random r = new Random();  
+		series.setLabel("Series 1");
+		configuracaoServidor = servidorService.obterConfiguracaoServidor(servidor);
+		eixoY = configuracaoServidor.getMemoriaUtilizadaMbytes().intValue();
+		eixoX = getHora();
+		series.set(eixoX, eixoY);
+		
+		dadosGrafico.addSeries(series);
+		dadosGrafico.setTitle("Gráfico da Memória");
+		Axis yAxis = dadosGrafico.getAxis(AxisType.Y);
+		yAxis.setLabel("Memória (Mbytes)");
+		yAxis.setMin(0);
+		
+        DateAxis xAxis = new DateAxis("Hora");
+        xAxis.setLabel("Hora");
+        xAxis.setTickAngle(-50);
+        xAxis.setMax(getHoraMaxima());
+        xAxis.setTickFormat("%I:%M:%S");
+        
+        dadosGrafico.getAxes().put(AxisType.X, xAxis);
+        
+	}
+	
+	private String getHora() {
+		String hora = "hh:mm:ss";
+		SimpleDateFormat formata = new SimpleDateFormat(hora);  
+		return formata.format(new Date());                            
+	}
+	
+	private String getHoraMaxima() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.SECOND, 3);
+		String hora = "hh:mm:ss";
+		SimpleDateFormat formata = new SimpleDateFormat(hora);  
+		return formata.format(cal.getTime());                            
+	}
 }

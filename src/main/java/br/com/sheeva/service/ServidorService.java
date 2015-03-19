@@ -31,7 +31,7 @@ public interface ServidorService {
 	
 	void reiniciarAplicacao(Servidor servidor,Instancia instancia);
 	
-	public ConfiguracaoServidor pegarConfiguracaoServidor(Servidor servidor);
+	public ConfiguracaoServidor obterConfiguracaoServidor(Servidor servidor);
 
 	
 

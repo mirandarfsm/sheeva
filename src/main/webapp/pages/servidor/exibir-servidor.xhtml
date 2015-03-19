@@ -37,10 +37,11 @@
 				</p:tab>
 				
 				<p:tab title="Status">
+					<p:outputLabel value="Não há comunicação com o servidor para monitoramento." 
+								   rendered="#{!servidorExibirBean.possuiConexaoMonitoramento}"/>
+					<p:panel id="painelStatus" rendered="#{servidorExibirBean.possuiConexaoMonitoramento}">
 					<p:fieldset legend="Status do Servidor" styleClass="fieldSet">
-						<p:outputLabel value="Não há comunicação com o servidor para monitoramento." 
-									   rendered="#{!servidorExibirBean.possuiConexaoMonitoramento}"/>
-						<p:panelGrid columns="2" rendered="#{servidorExibirBean.possuiConexaoMonitoramento}" styleClass="panelGridA">
+						<p:panelGrid columns="2" styleClass="panelGridA">
 							<h:outputText value="Sistema Operacional: " />
 							<h:outputText value="#{servidorExibirBean.configuracaoServidor.sistemaOperacional}" styleClass="output-text"/>
 							<h:outputText value="Arquitetura: " />
@@ -53,6 +54,9 @@
 							<h:outputText value="#{servidorExibirBean.configuracaoServidor.memoriaSwapTotalFormatadaKbytes}" />
 						</p:panelGrid>
 					</p:fieldset>
+							<p:chart id="graficoLinha" type="line" model="#{servidorExibirBean.model}" style="height:300px;" />
+							 <p:poll interval="7" update="graficoLinha" />
+						</p:panel>
 				</p:tab>
 				
 				<p:tab title="Instancias">

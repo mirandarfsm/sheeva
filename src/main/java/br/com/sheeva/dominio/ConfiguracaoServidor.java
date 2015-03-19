@@ -9,8 +9,9 @@ public class ConfiguracaoServidor {
 	String arquitetura;
 	Integer numeroProcessadores;
 	Long memoriaFisicaTotal;
+	Long memoriaFisicaLivre;
 	Long memoriaSwapTotal;
-
+	
 	public String getSistemaOperacional() {
 		return sistemaOperacional;
 	}
@@ -51,18 +52,43 @@ public class ConfiguracaoServidor {
 		this.memoriaSwapTotal = memoriaSwapTotal;
 	}
 	
+	public Long getMemoriaFisicaLivre() {
+		return memoriaFisicaLivre;
+	}
+
+	public void setMemoriaFisicaLivre(Long memoriaFisicaLivre) {
+		this.memoriaFisicaLivre = memoriaFisicaLivre;
+	}
+
+	public Long getMemoriaUtilizada() {
+		return memoriaFisicaTotal - memoriaFisicaLivre;
+	}
+	
+	public String getMemoriaUtilizadaFormatadaKbytes() {
+		return getMemoriaKbytesString(getMemoriaUtilizada()) + " Kbytes";
+	}
+	
 	public String getMemoriaFisicaTotalFormatadaKbytes() {
-		return getMemoriaKbytes(memoriaFisicaTotal) + " Kbytes";
+		return getMemoriaKbytesString(memoriaFisicaTotal) + " Kbytes";
 	}
 	
 	public String getMemoriaSwapTotalFormatadaKbytes() {
-		return getMemoriaKbytes(memoriaSwapTotal) + " Kbytes";
+		return getMemoriaKbytesString(memoriaSwapTotal) + " Kbytes";
 	}
 	
-	private String getMemoriaKbytes(Long valorMemoria){
-		Long valorMemoriaKbytes = valorMemoria /1024;
+	private String getMemoriaKbytesString(Long valorMemoria){
+		valorMemoria = valorMemoria /1024;
 		NumberFormat memoriaKbytesFormatada = NumberFormat.getIntegerInstance(new Locale("pt", "BR"));  
-		return memoriaKbytesFormatada.format(valorMemoriaKbytes);
+		return memoriaKbytesFormatada.format(valorMemoria);
+	}
+	
+	private Long getMemoriaMbytes(Long valorMemoria){
+		valorMemoria = valorMemoria /1024;
+		valorMemoria = valorMemoria /1024;
+		return valorMemoria;
 	}
 
+	public Long getMemoriaUtilizadaMbytes(){
+		return getMemoriaMbytes(getMemoriaUtilizada());
+	}
 }

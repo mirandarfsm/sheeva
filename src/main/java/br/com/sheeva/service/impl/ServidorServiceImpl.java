@@ -13,6 +13,7 @@ import javax.management.ObjectName;
 import javax.management.ReflectionException;
 import javax.management.remote.JMXConnector;
 
+import org.primefaces.model.chart.LineChartModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Sistema;
 import br.com.sheeva.dominio.Versao;
+import br.com.sheeva.service.GraficoService;
 import br.com.sheeva.service.ServidorService;
 import br.com.sheeva.utils.LinuxUtil;
 
@@ -105,39 +107,54 @@ public class ServidorServiceImpl implements ServidorService {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public ConfiguracaoServidor obterConfiguracaoServidor(Servidor servidor) {
+		String[] atributosOperatingSystem = {"Name", 
+											 "Version", 
+											 "Arch", 
+											 "AvailableProcessors", 
+											 "TotalPhysicalMemorySize", 
+											 "TotalSwapSpaceSize",
+											 "FreePhysicalMemorySize"};
+		String nomeObjeto="java.lang:type=OperatingSystem";
+		HashMap<String, Object> listaDeAtributos = pegarAtributosDoServidor(servidor, atributosOperatingSystem, nomeObjeto);
+		return getConfiguracao(listaDeAtributos);
+	}
+	
+	public ConfiguracaoServidor obterMemoria(Servidor servidor) {
+		String[] atributosOperatingSystem = {"HeapMemoryUsage", "NonHeapMemoryUsage"};
+		String nomeObjeto="java.lang:type=Memory";
+		HashMap<String, Object> listaDeAtributos = pegarAtributosDoServidor(servidor, atributosOperatingSystem, nomeObjeto);
+		return getConfiguracao(listaDeAtributos);
+	}
 
-	public ConfiguracaoServidor pegarConfiguracaoServidor(Servidor servidor) {
-		String[] atributosOperatingSystem = {"Name", "Version", "Arch", "AvailableProcessors", "TotalPhysicalMemorySize", "TotalSwapSpaceSize"};
+	public HashMap<String, Object> pegarAtributosDoServidor(Servidor servidor, String[] atributosOperatingSystem, String nomeObjeto) {
 		HashMap<String, Object> listaDeAtributos = new HashMap<String, Object>();
 
 		try {
 			JMXConnector conector = ConexaoJMX.getConexao(servidor.getEndereco(), servidor.getPortaMonitoramento());
 			
-			AttributeList attributeList = conector.getMBeanServerConnection().getAttributes(new ObjectName("java.lang:type=OperatingSystem"), atributosOperatingSystem);
+			AttributeList attributeList = conector.getMBeanServerConnection().getAttributes(new ObjectName(nomeObjeto), atributosOperatingSystem);
 			List<Attribute> lista = attributeList.asList();
-
+			conector.close();
+			
 			for (Attribute atributo : lista) {
 				listaDeAtributos.put(atributo.getName(), atributo.getValue());
 			}
 			
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstanceNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (MalformedObjectNameException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ReflectionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return getConfiguracao(listaDeAtributos);
+		return listaDeAtributos;
 	}
 
 	private ConfiguracaoServidor getConfiguracao(HashMap<String, Object> listaDeAtributos) {
@@ -149,6 +166,7 @@ public class ServidorServiceImpl implements ServidorService {
 		configuracaoServidor.setNumeroProcessadores((Integer) listaDeAtributos.get("AvailableProcessors"));
 		configuracaoServidor.setMemoriaFisicaTotal((Long) listaDeAtributos.get("TotalPhysicalMemorySize"));
 		configuracaoServidor.setMemoriaSwapTotal((Long) listaDeAtributos.get("TotalSwapSpaceSize"));
+		configuracaoServidor.setMemoriaFisicaLivre((Long) listaDeAtributos.get("FreePhysicalMemorySize"));
 		configuracaoServidor.setSistemaOperacional(listaDeAtributos.get("Name") + " " +  listaDeAtributos.get("Version"));
 		
 		return configuracaoServidor;
