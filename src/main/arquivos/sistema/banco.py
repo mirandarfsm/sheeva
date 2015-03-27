@@ -11,7 +11,7 @@ def carregarVariaveis(om):
         raise
     textoConfig = arquivoConfig.readlines()
     for linha in textoConfig:
-        if linha.find('#') != -1:
+        if linha.strip().startswith('#'):
             continue
         if linha.find("jdbc/default/username") != -1:
             global usuarioDB
@@ -33,14 +33,12 @@ def criarConexao(om):
     except:
         raise
 
-def execucarScript(om, script):
+def executarScript(om, script):
     try:
         conexao = criarConexao(om)
         cursor = conexao.cursor()
         cursor.execute(open(script, "r").read())
         cursor.fetchall()
-        cursor.close()
-        conexao.close()
     except:
         conexao.rollback()
         raise
@@ -52,20 +50,16 @@ def isPossuiConexao(om):
     try:
         conexao = criarConexao(om)
         cursor = conexao.cursor()
-        cursor.execute("select * from usuario limit 1;")
+        cursor.execute("SELECT version();")
         linhaTeste = cursor.fetchall()
         print linhaTeste
         if linhaTeste > 1:
             return True
         else:
             return False
-        cursor.close()
-        conexao.close()
     except:
         print "Erro: ", sys.exc_info()[1]        
         return False
-
-
-
-
-
+    finally:
+        cursor.close()
+        conexao.close()

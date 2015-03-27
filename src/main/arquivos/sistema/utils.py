@@ -32,6 +32,24 @@ def limparDiretorioWebapps(diretorio):
     except:
         raise
 
+def removerInstancia(diretorio, instancia):
+    instancia+=instancia+'.war'
+    try:
+        shutil.copy(filename, temp)
+        shutil.rmtree(filename.replace('.war', ''), True)
+        if os.path.exists(filename):
+            os.remove(filename)
+    except:
+        raise
+
+def devolverInstanciaWebapps(diretorio,instancia):
+    instancia+=instancia+'.war'
+    try:
+        shutil.copy(temp + "/" + filename, diretorio)
+    except:
+        raise
+
+
 def devolverDiretorioWebapps(diretorio):
     try:
         for filename in glob(temp + "/*.war"):
@@ -46,4 +64,9 @@ def copiarArquivoParaWebapps(diretorio, arquivo, listaInstancia):
     except:
         raise
 
-
+def executarArquivo(diretorio,arquivo):
+    try:
+        os.system("chmod +x " + diretorio + arquivo)
+        os.system('./' + diretorio + arquivo)
+    except:
+        raise
