@@ -3,6 +3,7 @@ package br.com.sheeva.utils;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Test;
@@ -26,11 +27,11 @@ public class LinuxUtilTest {
 		teste.delete();
 		teste = new File("/tmp/arq2");
 		teste.delete();
-		
+
 	}
 
 	@Test
-	public void testEnviarArquivos() {
+	public void testEnviarArquivos() throws IOException {
 		LinuxUtil.enviarArquivos(server, "/home/robson/.sheeva/teste/arquivos/");
 		File arq1 = new File("/tmp/arq1");
 		File arq2 = new File("/tmp/arq2");
@@ -39,7 +40,7 @@ public class LinuxUtilTest {
 	}
 
 	@Test
-	public void testEnviarArquivo() {
+	public void testEnviarArquivo() throws IOException {
 		LinuxUtil.enviarArquivo(server, "/home/robson/.sheeva/teste/enviar.sh");
 		File teste = new File("/tmp/enviar.sh");
 		assertTrue(teste.exists() && !teste.isDirectory());
@@ -47,7 +48,7 @@ public class LinuxUtilTest {
 
 	@Test
 	public void testExecutarServidorRemoto() {
-		LinuxUtil.executarServidorRemoto(server, "touch /tmp/executaRemoto.sh");
+		LinuxUtil.executarComandoRemoto(server, "touch /tmp/executaRemoto.sh");
 		File teste = new File("/tmp/executaRemoto.sh");
 		assertTrue(teste.exists() && !teste.isDirectory());
 	}

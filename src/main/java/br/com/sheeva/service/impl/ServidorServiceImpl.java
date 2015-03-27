@@ -79,13 +79,19 @@ public class ServidorServiceImpl implements ServidorService {
 			Instancia instancia) {
 		// TODO Todos os metodos abaixo retorna String, Verificar aonde lancar o retorno
 		Sistema sistema = versao.getSistema();
-		LinuxUtil.enviarArquivo(servidor, sistema.getFolder()+"/"+sistema.getNome()+".sh");
-		LinuxUtil.enviarArquivos(servidor, versao.getFolder());
-		StringBuffer command = new StringBuffer();
-		command.append("bash /tmp/" + versao.getSistema().getNome() + ".sh ")
+		try {
+			LinuxUtil.enviarArquivo(servidor, sistema.getFolder()+"/"+sistema.getNome()+".sh");
+			LinuxUtil.enviarArquivos(servidor, versao.getFolder());
+			
+			StringBuffer command = new StringBuffer();
+			command.append("bash /tmp/" + versao.getSistema().getNome() + ".sh ")
 				.append(versao.getVersaoString()).append(" ")
 				.append(instancia.getDiretorioPrincipal());
-		LinuxUtil.executarServidorRemoto(servidor, command.toString());
+			
+			LinuxUtil.executarComandoRemoto(servidor, command.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 	
