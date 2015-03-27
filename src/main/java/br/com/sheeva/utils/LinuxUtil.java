@@ -17,43 +17,43 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 
 public class LinuxUtil {
 
 	public static void enviarArquivos(Servidor servidor, String diretorio)
-			throws IOException {
+			throws IOException, JSchException, SftpException {
 		File folder = new File(diretorio);
 		for (File arquivo : folder.listFiles()) {
 			enviarArquivo(servidor, arquivo.getPath());
 		}
 	}
 
-	public static void enviarArquivo(Servidor servidor, String arquivo) throws IOException {
+	public static void enviarArquivo(Servidor servidor, String arquivo) throws IOException, JSchException, SftpException {
 		Session session = null;
 		ChannelSftp channel = null;
 		File file = null;
 		FileInputStream fis = null;
-		try {
-			JSch jsch = new JSch();
-			session = jsch.getSession(servidor.getLogin(),servidor.getEndereco(), servidor.getPorta());
-			session.setPassword(servidor.getSenha());
-			Properties config = new Properties();
-			config.put("StrictHostKeyChecking", "no");
-			session.setConfig(config);
-			session.connect();
-			channel = (ChannelSftp) session.openChannel("sftp");
-			channel.connect();
-			channel.cd("/tmp/");
-			file = new File(arquivo);
-			fis = new FileInputStream(file);
-			channel.put(fis, file.getName());
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			if (fis != null) {
-				fis.close();
-			}
+		JSch jsch = new JSch();
+		session = jsch.getSession(servidor.getLogin(),servidor.getEndereco(), servidor.getPorta());
+		session.setPassword(servidor.getSenha());
+		Properties config = new Properties();
+		config.put("StrictHostKeyChecking", "no");
+		session.setConfig(config);
+		session.connect();
+		channel = (ChannelSftp) session.openChannel("sftp");
+		channel.connect();
+		channel.cd("/tmp/");
+		file = new File(arquivo);
+		fis = new FileInputStream(file);
+		channel.put(fis, file.getName());
+		if (fis != null) {
+			fis.close();
+		}
+		if (channel.isConnected()) {
 			channel.disconnect();
+		}
+		if (session.isConnected()) {
 			session.disconnect();
 		}
 	}
@@ -82,7 +82,7 @@ public class LinuxUtil {
 
 	}
 
-	public static Map<String, String> executarComandoRemoto(Servidor servidor, String comando){
+	public static Map<String, String> executarComandoRemoto(Servidor servidor, String comando) throws JSchException, IOException{
 		JSch jsch = new JSch();
 		ChannelExec channel = null;
 		Session session = null;
@@ -91,39 +91,31 @@ public class LinuxUtil {
 		StringBuffer saidaErro = null;
 		Map<String, String> saida = new HashMap<String, String>();
 
-		try {
-			session = jsch.getSession(servidor.getLogin(), servidor.getEndereco(), servidor.getPorta());
-			session.setPassword(servidor.getSenha());
-			session.setConfig("StrictHostKeyChecking", "no");
-			session.connect(10*1000);
-			channel= (ChannelExec) session.openChannel("exec");
-			channel.setCommand(comando);
-			channel.setInputStream(null);
-			InputStream stdout = channel.getInputStream();
-			InputStream stderr = channel.getErrStream();
-			channel.connect();
+		session = jsch.getSession(servidor.getLogin(), servidor.getEndereco(), servidor.getPorta());
+		session.setPassword(servidor.getSenha());
+		session.setConfig("StrictHostKeyChecking", "no");
+		session.connect(10*1000);
+		channel= (ChannelExec) session.openChannel("exec");
+		channel.setCommand(comando);
+		channel.setInputStream(null);
+		InputStream stdout = channel.getInputStream();
+		InputStream stderr = channel.getErrStream();
+		channel.connect();
 
-			if (channel.getExitStatus() != 0) {
-				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stderr));
-				saidaErro = readAll(bufferedReader, result);
-				saida.put("err", saidaErro.toString());
-			} else {
-				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stdout));
-				saidaPadrao = readAll(bufferedReader, result);
-				saida.put("out", saidaPadrao.toString());
-			}
-
-		} catch (JSchException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (channel.isConnected()) {
-				channel.disconnect();
-			}
-			if (session.isConnected()) {
-				session.disconnect();
-			}
+		if (channel.getExitStatus() != 0) {
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stderr));
+			saidaErro = readAll(bufferedReader, result);
+			saida.put("err", saidaErro.toString());
+		} else {
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stdout));
+			saidaPadrao = readAll(bufferedReader, result);
+			saida.put("out", saidaPadrao.toString());
+		}
+		if (channel.isConnected()) {
+			channel.disconnect();
+		}
+		if (session.isConnected()) {
+			session.disconnect();
 		}
 		return saida;
 	}

@@ -57,7 +57,7 @@ public class ConexaoSocketServiceImplTest implements Runnable{
 				//String comandoConectar = "python /tmp/conectar.py";
 				String comandoCriarArquivo = "touch /tmp/teste";
 				String comandoIniciarServidor = "/etc/init.d/catalina start";
-				conexaoSSHService.executarComando(servidor, comandoCriarArquivo);
+				conexaoSSHService.executarComandoRemoto(servidor, comandoCriarArquivo);
 			}
 		};
 		executarScriptRemoto.run();

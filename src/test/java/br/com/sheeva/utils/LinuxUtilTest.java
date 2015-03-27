@@ -8,6 +8,9 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Test;
 
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
+
 import br.com.sheeva.dominio.Servidor;
 
 public class LinuxUtilTest {
@@ -31,7 +34,7 @@ public class LinuxUtilTest {
 	}
 
 	@Test
-	public void testEnviarArquivos() throws IOException {
+	public void testEnviarArquivos() throws IOException, JSchException, SftpException {
 		LinuxUtil.enviarArquivos(server, "/home/robson/.sheeva/teste/arquivos/");
 		File arq1 = new File("/tmp/arq1");
 		File arq2 = new File("/tmp/arq2");
@@ -40,14 +43,14 @@ public class LinuxUtilTest {
 	}
 
 	@Test
-	public void testEnviarArquivo() throws IOException {
+	public void testEnviarArquivo() throws IOException, JSchException, SftpException {
 		LinuxUtil.enviarArquivo(server, "/home/robson/.sheeva/teste/enviar.sh");
 		File teste = new File("/tmp/enviar.sh");
 		assertTrue(teste.exists() && !teste.isDirectory());
 	}
 
 	@Test
-	public void testExecutarServidorRemoto() {
+	public void testExecutarServidorRemoto() throws JSchException, IOException {
 		LinuxUtil.executarComandoRemoto(server, "touch /tmp/executaRemoto.sh");
 		File teste = new File("/tmp/executaRemoto.sh");
 		assertTrue(teste.exists() && !teste.isDirectory());

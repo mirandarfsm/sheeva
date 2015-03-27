@@ -24,6 +24,7 @@ public class Sistema {
 
 	private Integer id;
 	private String nome;
+	private String arquivoAtualizacao;
 
 	public Sistema() {
 
@@ -56,6 +57,15 @@ public class Sistema {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	@Column(name = "arquivo_atualizacao")
+	public String getArquivoAtualizacao() {
+		return arquivoAtualizacao;
+	}
+
+	public void setArquivoAtualizacao(String arquivoAtualizacao) {
+		this.arquivoAtualizacao = arquivoAtualizacao;
 	}
 
 	@Transient

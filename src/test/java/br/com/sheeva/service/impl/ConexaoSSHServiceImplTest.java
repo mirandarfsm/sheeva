@@ -1,5 +1,7 @@
 package br.com.sheeva.service.impl;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Map;
 
 import org.junit.After;
@@ -37,10 +39,9 @@ public class ConexaoSSHServiceImplTest implements Runnable{
 
 	@Test
 	public void atualizarVersaoDaInstancia() {
-		//String comandoCriarArquivo = "touch /tmp/teste";
 		String comandoListar = "ls -lh /tmp/";
-		//String comandoIniciarServidor = "/etc/init.d/catalina start";
-		Map<String, String> saida = conexaoSSHService.executarComando(servidor, comandoListar);
+		Map<String, String> saida = conexaoSSHService.executarComandoRemoto(servidor, comandoListar);
+		assertTrue(saida.containsKey("out") && !saida.containsKey("err"));
 	}
 
 	@After

@@ -40,7 +40,17 @@ public class ConexaoJMXServiceImpl implements ConexaoService<JMXConnector>{
 		return new JMXServiceURL("rmi", "", 0, "/jndi/rmi://" + endereco + ":" + porta + "/jmxrmi");
 	}
 
-	public Map<String, String> executarComando(Servidor servidor, String comando) {
+	public Map<String, String> executarComandoRemoto(Servidor servidor, String comando) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Map<String, String> enviarArquivos(Servidor servidor, String diretorio) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Map<String, String> enviarArquivo(Servidor servidor, String arquivo) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.management.Attribute;
 import javax.management.AttributeList;
@@ -26,7 +27,6 @@ import br.com.sheeva.dominio.Sistema;
 import br.com.sheeva.dominio.Versao;
 import br.com.sheeva.service.ConexaoService;
 import br.com.sheeva.service.ServidorService;
-import br.com.sheeva.utils.LinuxUtil;
 
 @Service("servidorService")
 public class ServidorServiceImpl implements ServidorService {
@@ -36,10 +36,14 @@ public class ServidorServiceImpl implements ServidorService {
 
 	@Autowired
 	private VersaoDao versaoDao;
-	
+
 	@Autowired
 	@Qualifier("conexaoJMXService")
 	private ConexaoService<?> conexaoJMXService;
+
+	@Autowired
+	@Qualifier("conexaoSSHService")
+	private ConexaoService<?> conexaoSSHService;
 
 	public void salvar(Servidor servidor) {
 		servidorDao.save(servidor);
@@ -68,38 +72,24 @@ public class ServidorServiceImpl implements ServidorService {
 		// TODO Implementar -
 		if (instancia.getVersao().getSistema().equals(versao.getSistema())) {
 			List<Versao> versoes = versaoDao.getVersionList(instancia.getVersao(), versao);
-			
+
 			for (Versao v : versoes) {
 				atualizarVersaoDaInstancia(servidor, v, instancia);
 			}
 		}
 	}
 
-	public void atualizarVersaoDaInstancia(Servidor servidor, Versao versao,
-			Instancia instancia) {
-		// TODO Todos os metodos abaixo retorna String, Verificar aonde lancar o retorno
+	public void atualizarVersaoDaInstancia(Servidor servidor, Versao versao, Instancia instancia) {
 		Sistema sistema = versao.getSistema();
-		try {
-			LinuxUtil.enviarArquivo(servidor, sistema.getFolder()+"/"+sistema.getNome()+".sh");
-			LinuxUtil.enviarArquivos(servidor, versao.getFolder());
-			
-			StringBuffer command = new StringBuffer();
-			command.append("bash /tmp/" + versao.getSistema().getNome() + ".sh ")
-				.append(versao.getVersaoString()).append(" ")
-				.append(instancia.getDiretorioPrincipal());
-			
-			LinuxUtil.executarComandoRemoto(servidor, command.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		Map<String, String> saidaEnvioDeArquivo = conexaoSSHService
+				.enviarArquivo(servidor, sistema.getFolder()+"/"+sistema.getArquivoAtualizacao());
+		Map<String, String> saidaExecutarComando = conexaoSSHService
+				.executarComandoRemoto(servidor, "bash /tmp/" + sistema.getArquivoAtualizacao());
 	}
-	
 
 	public void alterarArquivoConfiguracao(Servidor servidor, Versao versao,
 			String arquivoConfiguracao) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public String pegarArquivoConfiguracao(Servidor servidor, Versao versao) {
@@ -109,27 +99,25 @@ public class ServidorServiceImpl implements ServidorService {
 
 	public void reiniciarServidorWeb(Servidor servidor, boolean work) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void reiniciarAplicacao(Servidor servidor, Instancia instancia) {
 		// TODO Auto-generated method stub
-
 	}
-	
+
 	public ConfiguracaoServidor obterConfiguracaoServidor(Servidor servidor) {
 		String[] atributosOperatingSystem = {"Name", 
-											 "Version", 
-											 "Arch", 
-											 "AvailableProcessors", 
-											 "TotalPhysicalMemorySize", 
-											 "TotalSwapSpaceSize",
-											 "FreePhysicalMemorySize"};
+				"Version", 
+				"Arch", 
+				"AvailableProcessors", 
+				"TotalPhysicalMemorySize", 
+				"TotalSwapSpaceSize",
+		"FreePhysicalMemorySize"};
 		String nomeObjeto="java.lang:type=OperatingSystem";
 		HashMap<String, Object> listaDeAtributos = pegarAtributosDoServidor(servidor, atributosOperatingSystem, nomeObjeto);
 		return getConfiguracao(listaDeAtributos);
 	}
-	
+
 	public ConfiguracaoServidor obterMemoria(Servidor servidor) {
 		String[] atributosOperatingSystem = {"HeapMemoryUsage", "NonHeapMemoryUsage"};
 		String nomeObjeto="java.lang:type=Memory";
@@ -145,11 +133,11 @@ public class ServidorServiceImpl implements ServidorService {
 			AttributeList attributeList = conector.getMBeanServerConnection().getAttributes(new ObjectName(nomeObjeto), atributosOperatingSystem);
 			List<Attribute> lista = attributeList.asList();
 			conector.close();
-			
+
 			for (Attribute atributo : lista) {
 				listaDeAtributos.put(atributo.getName(), atributo.getValue());
 			}
-			
+
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -161,7 +149,7 @@ public class ServidorServiceImpl implements ServidorService {
 		} catch (ReflectionException e) {
 			e.printStackTrace();
 		}
-		
+
 		return listaDeAtributos;
 	}
 
@@ -176,7 +164,7 @@ public class ServidorServiceImpl implements ServidorService {
 		configuracaoServidor.setMemoriaSwapTotal((Long) listaDeAtributos.get("TotalSwapSpaceSize"));
 		configuracaoServidor.setMemoriaFisicaLivre((Long) listaDeAtributos.get("FreePhysicalMemorySize"));
 		configuracaoServidor.setSistemaOperacional(listaDeAtributos.get("Name") + " " +  listaDeAtributos.get("Version"));
-		
+
 		return configuracaoServidor;
 	}
 
