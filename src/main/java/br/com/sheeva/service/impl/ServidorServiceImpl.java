@@ -13,11 +13,10 @@ import javax.management.ObjectName;
 import javax.management.ReflectionException;
 import javax.management.remote.JMXConnector;
 
-import org.primefaces.model.chart.LineChartModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.com.sheeva.conexao.ConexaoJMX;
 import br.com.sheeva.dao.ServidorDao;
 import br.com.sheeva.dao.VersaoDao;
 import br.com.sheeva.dominio.ConfiguracaoServidor;
@@ -25,7 +24,7 @@ import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Sistema;
 import br.com.sheeva.dominio.Versao;
-import br.com.sheeva.service.GraficoService;
+import br.com.sheeva.service.ConexaoService;
 import br.com.sheeva.service.ServidorService;
 import br.com.sheeva.utils.LinuxUtil;
 
@@ -37,6 +36,10 @@ public class ServidorServiceImpl implements ServidorService {
 
 	@Autowired
 	private VersaoDao versaoDao;
+	
+	@Autowired
+	@Qualifier("conexaoJMXService")
+	private ConexaoService<?> conexaoJMXService;
 
 	public void salvar(Servidor servidor) {
 		servidorDao.save(servidor);
@@ -131,9 +134,8 @@ public class ServidorServiceImpl implements ServidorService {
 	public HashMap<String, Object> pegarAtributosDoServidor(Servidor servidor, String[] atributosOperatingSystem, String nomeObjeto) {
 		HashMap<String, Object> listaDeAtributos = new HashMap<String, Object>();
 
+		JMXConnector conector = (JMXConnector) conexaoJMXService.abrirConexao(servidor);
 		try {
-			JMXConnector conector = ConexaoJMX.getConexao(servidor.getEndereco(), servidor.getPortaMonitoramento());
-			
 			AttributeList attributeList = conector.getMBeanServerConnection().getAttributes(new ObjectName(nomeObjeto), atributosOperatingSystem);
 			List<Attribute> lista = attributeList.asList();
 			conector.close();
