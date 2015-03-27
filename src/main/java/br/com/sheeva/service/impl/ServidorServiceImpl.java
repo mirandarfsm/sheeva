@@ -81,10 +81,9 @@ public class ServidorServiceImpl implements ServidorService {
 
 	public void atualizarVersaoDaInstancia(Servidor servidor, Versao versao, Instancia instancia) {
 		Sistema sistema = versao.getSistema();
-		Map<String, String> saidaEnvioDeArquivo = conexaoSSHService
-				.enviarArquivo(servidor, sistema.getFolder()+"/"+sistema.getArquivoAtualizacao());
-		Map<String, String> saidaExecutarComando = conexaoSSHService
-				.executarComandoRemoto(servidor, "bash /tmp/" + sistema.getArquivoAtualizacao());
+		
+		Map<String, String> saidaEnvioDeArquivo = conexaoSSHService.enviarArquivo(servidor, sistema.getFolder()+"/"+sistema.getArquivoAtualizacao());
+		Map<String, String> saidaExecutarComando = conexaoSSHService.executarComandoRemoto(servidor, "bash /tmp/" + sistema.getArquivoAtualizacao());
 	}
 
 	public void alterarArquivoConfiguracao(Servidor servidor, Versao versao,

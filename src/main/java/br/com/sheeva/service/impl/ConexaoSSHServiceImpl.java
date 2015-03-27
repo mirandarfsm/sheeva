@@ -39,8 +39,14 @@ public class ConexaoSSHServiceImpl implements ConexaoService<Session>{
 	}
 
 	public Map<String, String> enviarArquivo(Servidor servidor, String arquivo) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, String> saida = new HashMap<String, String>();
+		try {
+			LinuxUtil.enviarArquivo(servidor, arquivo);
+		} catch (Exception e) {
+			saida.put("NAO_EXECUTADO", NAO_EXECUTADO);
+			e.printStackTrace();
+		}
+		return saida;
 	}
 
 }

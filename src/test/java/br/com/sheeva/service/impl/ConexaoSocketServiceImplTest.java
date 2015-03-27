@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,28 +41,31 @@ public class ConexaoSocketServiceImplTest implements Runnable{
 		servidor = new Servidor("Sigadaer", "192.168.1.40", 22, "root", "123456");
 	}
 
-	@Test
+	@Ignore
 	public void atualizarVersaoDaInstancia() throws IOException {
-		 Runnable serverTask = new Runnable() {
-	            
-	            public void run() {
-                    conexaoSocketService.abrirConexao(servidor);
-	            }
-	        };
-	        Thread serverThread = new Thread(serverTask);
-	        serverThread.start();
-		
-		
+		Runnable serverTask = new Runnable() {
+			public void run() {
+				conexaoSocketService.abrirConexao(servidor);
+			}
+		};
+		Thread serverThread = new Thread(serverTask);
+		serverThread.run();
+
+
 		Runnable executarScriptRemoto = new Runnable() {
 			public void run() {
 				//String comandoConectar = "python /tmp/conectar.py";
 				String comandoCriarArquivo = "touch /tmp/teste";
-				String comandoIniciarServidor = "/etc/init.d/catalina start";
 				conexaoSSHService.executarComandoRemoto(servidor, comandoCriarArquivo);
 			}
 		};
 		executarScriptRemoto.run();
 
+	}
+
+	@Test
+	public void enviarArquivo() {
+		conexaoSocketService.enviarArquivo(servidor, "/home/teixeiragpt/.sheeva/sistema/Sigadaer/impl.tar.gz");
 	}
 
 	@After

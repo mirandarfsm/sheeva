@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,25 @@ public class ConexaoSSHServiceImplTest implements Runnable{
 	public void iniciar() {
 		servidor = new Servidor("Sigadaer", "192.168.1.39", 22, "root", "123456");
 	}
+	
+	@Ignore
+	public void testarConexaoSSH() {
+		String arquivo = "ls -lh /tmp/";
+		Map<String, String> saida = conexaoSSHService.enviarArquivo(servidor, "/home/teixeiragpt/.sheeva/sistema/Sigadaer/conecta.py");
+		assertTrue(saida.containsKey("out") && !saida.containsKey("err"));
+	}
 
-	@Test
-	public void atualizarVersaoDaInstancia() {
+	@Ignore
+	public void executarComandoRemoto() {
 		String comandoListar = "ls -lh /tmp/";
 		Map<String, String> saida = conexaoSSHService.executarComandoRemoto(servidor, comandoListar);
 		assertTrue(saida.containsKey("out") && !saida.containsKey("err"));
+	}
+	
+	@Test
+	public void enviarArquivo() {
+		Map<String, String> saida = conexaoSSHService.enviarArquivo(servidor, "/home/teixeiragpt/.sheeva/sistema/Sigadaer/conecta.py");
+		assertTrue(!saida.containsKey("NAO_EXECUTADO"));
 	}
 
 	@After
