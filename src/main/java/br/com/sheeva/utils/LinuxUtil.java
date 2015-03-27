@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import br.com.sheeva.dominio.Servidor;
@@ -79,26 +82,35 @@ public class LinuxUtil {
 
 	}
 
-	public static void executarComandoRemoto(Servidor servidor, String comando) {
+	public static Map<String, String> executarComandoRemoto(Servidor servidor, String comando){
 		JSch jsch = new JSch();
 		ChannelExec channel = null;
 		Session session = null;
+		StringBuffer result = new StringBuffer();
+		StringBuffer saidaPadrao = null;
+		StringBuffer saidaErro = null;
+		Map<String, String> saida = new HashMap<String, String>();
 
 		try {
-			session = jsch.getSession(servidor.getLogin(),
-					servidor.getEndereco(), servidor.getPorta());
+			session = jsch.getSession(servidor.getLogin(), servidor.getEndereco(), servidor.getPorta());
 			session.setPassword(servidor.getSenha());
 			session.setConfig("StrictHostKeyChecking", "no");
-			session.connect(10 * 1000);
-			channel = (ChannelExec) session.openChannel("exec");
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					channel.getInputStream()));
+			session.connect(10*1000);
+			channel= (ChannelExec) session.openChannel("exec");
 			channel.setCommand(comando);
+			channel.setInputStream(null);
+			InputStream stdout = channel.getInputStream();
+			InputStream stderr = channel.getErrStream();
 			channel.connect();
 
-			String msg = null;
-			while ((msg = in.readLine()) != null) {
-				System.out.println(msg);
+			if (channel.getExitStatus() != 0) {
+				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stderr));
+				saidaErro = readAll(bufferedReader, result);
+				saida.put("err", saidaErro.toString());
+			} else {
+				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stdout));
+				saidaPadrao = readAll(bufferedReader, result);
+				saida.put("out", saidaPadrao.toString());
 			}
 
 		} catch (JSchException e) {
@@ -106,10 +118,23 @@ public class LinuxUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			channel.disconnect();
-			session.disconnect();
+			if (channel.isConnected()) {
+				channel.disconnect();
+			}
+			if (session.isConnected()) {
+				session.disconnect();
+			}
 		}
-
+		return saida;
 	}
+
+	private static StringBuffer readAll(BufferedReader bufferedReader, StringBuffer result) throws IOException {
+		String msg=null;
+		while((msg=bufferedReader.readLine())!=null){
+			result.append(msg);
+		}
+		return result;
+	}
+
 
 }

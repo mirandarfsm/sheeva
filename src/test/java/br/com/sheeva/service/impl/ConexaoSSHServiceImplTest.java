@@ -1,6 +1,6 @@
 package br.com.sheeva.service.impl;
 
-import java.io.IOException;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,19 +15,14 @@ import org.springframework.web.context.WebApplicationContext;
 
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.service.ConexaoService;
-import br.com.sheeva.utils.LinuxUtil;
 
 @ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-public class ConexaoSocketServiceImplTest implements Runnable{
+public class ConexaoSSHServiceImplTest implements Runnable{
 
 	@Autowired
 	private WebApplicationContext context;
-
-	@Autowired
-	@Qualifier("conexaoSocketService")
-	private ConexaoService<?> conexaoSocketService;
 
 	@Autowired
 	@Qualifier("conexaoSSHService")
@@ -37,31 +32,15 @@ public class ConexaoSocketServiceImplTest implements Runnable{
 
 	@Before
 	public void iniciar() {
-		servidor = new Servidor("Sigadaer", "192.168.1.40", 22, "root", "123456");
+		servidor = new Servidor("Sigadaer", "192.168.1.39", 22, "root", "123456");
 	}
 
 	@Test
-	public void atualizarVersaoDaInstancia() throws IOException {
-		 Runnable serverTask = new Runnable() {
-	            
-	            public void run() {
-                    conexaoSocketService.abrirConexao(servidor);
-	            }
-	        };
-	        Thread serverThread = new Thread(serverTask);
-	        serverThread.start();
-		
-		
-		Runnable executarScriptRemoto = new Runnable() {
-			public void run() {
-				//String comandoConectar = "python /tmp/conectar.py";
-				String comandoCriarArquivo = "touch /tmp/teste";
-				String comandoIniciarServidor = "/etc/init.d/catalina start";
-				conexaoSSHService.executarComando(servidor, comandoCriarArquivo);
-			}
-		};
-		executarScriptRemoto.run();
-
+	public void atualizarVersaoDaInstancia() {
+		//String comandoCriarArquivo = "touch /tmp/teste";
+		String comandoListar = "ls -lh /tmp/";
+		//String comandoIniciarServidor = "/etc/init.d/catalina start";
+		Map<String, String> saida = conexaoSSHService.executarComando(servidor, comandoListar);
 	}
 
 	@After

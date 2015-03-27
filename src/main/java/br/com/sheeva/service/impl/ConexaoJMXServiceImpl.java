@@ -3,6 +3,7 @@ package br.com.sheeva.service.impl;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
@@ -37,6 +38,11 @@ public class ConexaoJMXServiceImpl implements ConexaoService<JMXConnector>{
 
 	private static JMXServiceURL criarURLConexao(String endereco, int porta) throws MalformedURLException {
 		return new JMXServiceURL("rmi", "", 0, "/jndi/rmi://" + endereco + ":" + porta + "/jmxrmi");
+	}
+
+	public Map<String, String> executarComando(Servidor servidor, String comando) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

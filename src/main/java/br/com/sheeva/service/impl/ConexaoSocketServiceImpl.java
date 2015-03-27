@@ -3,6 +3,7 @@ package br.com.sheeva.service.impl;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.springframework.stereotype.Service;
@@ -31,6 +32,11 @@ public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoServidorS
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	public Map<String, String> executarComando(Servidor servidor, String comando) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
