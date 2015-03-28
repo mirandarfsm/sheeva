@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import br.com.sheeva.conexao.ConexaoServidorSocket;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.service.ConexaoService;
-import br.com.sheeva.utils.LinuxUtil;
 
 @Service("conexaoSocketService")
 public class ConexaoSocketServiceImpl implements ConexaoService<ServerSocket>{

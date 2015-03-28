@@ -44,6 +44,10 @@ public class ServidorServiceImpl implements ServidorService {
 	@Autowired
 	@Qualifier("conexaoSSHService")
 	private ConexaoService<?> conexaoSSHService;
+	
+	@Autowired
+	@Qualifier("conexaoSocketService")
+	private ConexaoService<?> conexaoSocketService;
 
 	public void salvar(Servidor servidor) {
 		servidorDao.save(servidor);
@@ -83,7 +87,21 @@ public class ServidorServiceImpl implements ServidorService {
 		Sistema sistema = versao.getSistema();
 		
 		Map<String, String> saidaEnvioDeArquivo = conexaoSSHService.enviarArquivo(servidor, sistema.getFolder()+"/"+sistema.getArquivoAtualizacao());
-		Map<String, String> saidaExecutarComando = conexaoSSHService.executarComandoRemoto(servidor, "bash /tmp/" + sistema.getArquivoAtualizacao());
+		if (saidaEnvioDeArquivo.containsKey("NAO_EXECUTADO")) {
+			return;
+		}
+		abrirConexaoThread(servidor, versao, instancia);
+		Map<String, String> saidaExecutarComando = conexaoSSHService.executarComandoRemoto(servidor, "python /tmp/" + sistema.getArquivoAtualizacao());
+	}
+
+	private void abrirConexaoThread(final Servidor servidor, final Versao versao, final Instancia instancia) {
+		Runnable abrirConexao = new Runnable() {
+			public void run() {
+				conexaoSocketService.abrirConexao(servidor);
+			}
+		};
+		Thread serverThread = new Thread(abrirConexao);
+		serverThread.run();
 	}
 
 	public void alterarArquivoConfiguracao(Servidor servidor, Versao versao,
