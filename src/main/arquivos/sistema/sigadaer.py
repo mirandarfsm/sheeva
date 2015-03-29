@@ -7,8 +7,56 @@ import sys
 import os
 import json
 
-def carregarVariaveis(om):
-    caminhoArquivoConfig='/var/sigadaer/sigad-' + om + '/config.properties'
+def main():
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_address = ('192.168.1.47', 8888)
+        sock.connect(server_address)
+
+        sock.send(bytes(json.dumps({'panel':'INICIANDO_ATUALIZACAO'})) + '\n')
+
+        sock.send(bytes(json.dumps({'properties':'VARIAVEL'})) + '\n')
+        result = json.loads(sock.recv(1024).decode('UTF-8'))
+           
+        sock.send(bytes(json.dumps({'properties':'VARIAVEL'})) + '\n')
+        result = json.loads(sock.recv(1024).decode('UTF-8'))
+        catalina='/opt/tomcat/'
+        versao=result['versao']
+        instancia=result['instancia']
+        aplicacao = '/tmp/' + result['aplicacao']
+        banco = '/tmp/' + result['banco']
+        script = '/tmp/' + result['script']
+        BD = carregarVariaveis(instancia)
+        
+        tipo = {'file':'ARQUIVO_APLICACAO'}
+        receberArquivo(sock,arquivo,tipo)
+        
+        tipo = {'file':'ARQUIVO_BANCO'}
+        receberArquivo(sock,arquivo,tipo)
+        
+        tipo = {'file':'ARQUIVO_SCRIPT'}
+        receberArquivo(sock,arquivo,tipo)
+
+        removerInstancia(catalina+'/webapps', instancia+'.war')
+
+        BD.executarScript(banco)
+        
+        executarScript(arquivo=script)
+        
+        copiarArquivoParaWebapps(diretorio=catalina+'/webapps', aplicacao=aplicacao, listaInstancia=[instancia])
+
+        sock.send(bytes(json.dumps({'panel':'ATUALIZADO'})) + '\n')
+
+    except:
+        sock.send(bytes(json.dumps({'panel':'FALHOU'})) + '\n')        
+        raise
+    finally:
+        sock.send(bytes(json.dumps({'panel':'FECHANDO_CONEXAO'})) + '\n')
+        sock.close()
+        exit()
+
+def carregarVariaveis(instancia):
+    caminhoArquivoConfig='/var/sigadaer/' + instancia + '/config.properties'
     try:
         arquivoConfig = open(caminhoArquivoConfig)
     except:
@@ -32,65 +80,21 @@ def receberArquivo(sock,nome,tipo):
     #f = open(data.strip(),'wb')
     #data = {'message':'hello world!', 'test':123.4}
     
-    sock.send(bytes(json.dumps(tipo)))
+    sock.send(bytes(json.dumps(tipo)) + '\n')
 
-    data,addr = s.recvfrom(buf)
+    data,addr = sock.recvfrom(1024)
 
     try:
         while(data):
             arquivo.write(data)
             sock.settimeout(2)
-            data,addr = sock.recvfrom(buf)
+            data,addr = sock.recvfrom(1024)
         print "File Downloaded"
     except:
         raise
     finally:
         arquivo.close()
 
-
-def main():
-    try:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_address = ('192.168.1.47', 8888)
-        sock.connect(server_address)
-           
-        sock.send(bytes(json.dumps({'return':'VARIAVEL'})))
-        result = json.loads(s.recv(1024).decode('UTF-8'))
-        catalina='/opt/tomcat/'
-        versao=result['versao']
-        om=result['om']
-        aplicacao = '/tmp/' + result['aplicacao']
-        banco = '/tmp/' + result['banco']
-        script = '/tmp/' + result['script']
-        instancia = 'sigad-'+om
-        BD = carregarVariaveis(om)
-        
-        tipo = {'return':'ARQUIVO_APLICACAO'}
-        receberArquivo(sock,arquivo,tipo)
-        
-        tipo = {'return':'ARQUIVO_BANCO'}
-        receberArquivo(sock,arquivo,tipo)
-        
-        tipo = {'return':'ARQUIVO_SCRIPT'}
-        receberArquivo(sock,arquivo,tipo)
-
-        removerInstancia(catalina+'/webapps', instancia+'.war')
-
-        BD.executarScript(banco)
-        
-        executarScript(arquivo=script)
-        
-        copiarArquivoParaWebapps(diretorio=catalina+'/webapps', aplicacao=aplicacao, listaInstancia=[instancia])
-
-        sock.send(bytes(json.dumps({'return':'ATUALIZADO'})))
-
-    except:
-        sock.send(bytes(json.dumps({'return':'FALHOU'})))        
-        raise
-    finally:
-        sock.send(bytes(json.dumps({'return':'FECHANDO_CONEXAO'})))
-        sock.close()
-        exit()
 
 if __name__ == '__main__':
     main

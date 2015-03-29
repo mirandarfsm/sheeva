@@ -44,7 +44,7 @@ public class ServidorServiceImpl implements ServidorService {
 	@Autowired
 	@Qualifier("conexaoSSHService")
 	private ConexaoService<?> conexaoSSHService;
-	
+
 	@Autowired
 	@Qualifier("conexaoSocketService")
 	private ConexaoService<?> conexaoSocketService;
@@ -71,8 +71,7 @@ public class ServidorServiceImpl implements ServidorService {
 		}
 	}
 
-	public void atualizarInstancia(Servidor servidor, Versao versao,
-			Instancia instancia) {
+	public void atualizarInstancia(Servidor servidor, Versao versao, Instancia instancia) {
 		// TODO Implementar -
 		if (instancia.getVersao().getSistema().equals(versao.getSistema())) {
 			List<Versao> versoes = versaoDao.getVersionList(instancia.getVersao(), versao);
@@ -85,13 +84,15 @@ public class ServidorServiceImpl implements ServidorService {
 
 	public void atualizarVersaoDaInstancia(Servidor servidor, Versao versao, Instancia instancia) {
 		Sistema sistema = versao.getSistema();
-		
-		Map<String, String> saidaEnvioDeArquivo = conexaoSSHService.enviarArquivo(servidor, sistema.getFolder()+"/"+sistema.getArquivoAtualizacao());
+
+		Map<String, String> saidaEnvioDeArquivo = conexaoSSHService.enviarArquivo(servidor,
+				sistema.getFolder() + "/" + sistema.getArquivoAtualizacao());
 		if (saidaEnvioDeArquivo.containsKey("NAO_EXECUTADO")) {
 			return;
 		}
 		abrirConexaoThread(servidor, versao, instancia);
-		Map<String, String> saidaExecutarComando = conexaoSSHService.executarComandoRemoto(servidor, "python /tmp/" + sistema.getArquivoAtualizacao());
+		Map<String, String> saidaExecutarComando = conexaoSSHService.executarComandoRemoto(servidor,
+				"python /tmp/" + sistema.getArquivoAtualizacao());
 	}
 
 	private void abrirConexaoThread(final Servidor servidor, final Versao versao, final Instancia instancia) {
@@ -104,8 +105,7 @@ public class ServidorServiceImpl implements ServidorService {
 		serverThread.run();
 	}
 
-	public void alterarArquivoConfiguracao(Servidor servidor, Versao versao,
-			String arquivoConfiguracao) {
+	public void alterarArquivoConfiguracao(Servidor servidor, Versao versao, String arquivoConfiguracao) {
 		// TODO Auto-generated method stub
 	}
 
@@ -123,31 +123,28 @@ public class ServidorServiceImpl implements ServidorService {
 	}
 
 	public ConfiguracaoServidor obterConfiguracaoServidor(Servidor servidor) {
-		String[] atributosOperatingSystem = {"Name", 
-				"Version", 
-				"Arch", 
-				"AvailableProcessors", 
-				"TotalPhysicalMemorySize", 
-				"TotalSwapSpaceSize",
-		"FreePhysicalMemorySize"};
-		String nomeObjeto="java.lang:type=OperatingSystem";
+		String[] atributosOperatingSystem = { "Name", "Version", "Arch", "AvailableProcessors", "TotalPhysicalMemorySize",
+				"TotalSwapSpaceSize", "FreePhysicalMemorySize" };
+		String nomeObjeto = "java.lang:type=OperatingSystem";
 		HashMap<String, Object> listaDeAtributos = pegarAtributosDoServidor(servidor, atributosOperatingSystem, nomeObjeto);
 		return getConfiguracao(listaDeAtributos);
 	}
 
 	public ConfiguracaoServidor obterMemoria(Servidor servidor) {
-		String[] atributosOperatingSystem = {"HeapMemoryUsage", "NonHeapMemoryUsage"};
-		String nomeObjeto="java.lang:type=Memory";
+		String[] atributosOperatingSystem = { "HeapMemoryUsage", "NonHeapMemoryUsage" };
+		String nomeObjeto = "java.lang:type=Memory";
 		HashMap<String, Object> listaDeAtributos = pegarAtributosDoServidor(servidor, atributosOperatingSystem, nomeObjeto);
 		return getConfiguracao(listaDeAtributos);
 	}
 
-	public HashMap<String, Object> pegarAtributosDoServidor(Servidor servidor, String[] atributosOperatingSystem, String nomeObjeto) {
+	public HashMap<String, Object> pegarAtributosDoServidor(Servidor servidor, String[] atributosOperatingSystem,
+			String nomeObjeto) {
 		HashMap<String, Object> listaDeAtributos = new HashMap<String, Object>();
 
 		JMXConnector conector = (JMXConnector) conexaoJMXService.abrirConexao(servidor);
 		try {
-			AttributeList attributeList = conector.getMBeanServerConnection().getAttributes(new ObjectName(nomeObjeto), atributosOperatingSystem);
+			AttributeList attributeList = conector.getMBeanServerConnection().getAttributes(new ObjectName(nomeObjeto),
+					atributosOperatingSystem);
 			List<Attribute> lista = attributeList.asList();
 			conector.close();
 
@@ -171,7 +168,7 @@ public class ServidorServiceImpl implements ServidorService {
 	}
 
 	private ConfiguracaoServidor getConfiguracao(HashMap<String, Object> listaDeAtributos) {
-		if (listaDeAtributos.isEmpty()){
+		if (listaDeAtributos.isEmpty()) {
 			return null;
 		}
 		ConfiguracaoServidor configuracaoServidor = new ConfiguracaoServidor();
@@ -180,7 +177,7 @@ public class ServidorServiceImpl implements ServidorService {
 		configuracaoServidor.setMemoriaFisicaTotal((Long) listaDeAtributos.get("TotalPhysicalMemorySize"));
 		configuracaoServidor.setMemoriaSwapTotal((Long) listaDeAtributos.get("TotalSwapSpaceSize"));
 		configuracaoServidor.setMemoriaFisicaLivre((Long) listaDeAtributos.get("FreePhysicalMemorySize"));
-		configuracaoServidor.setSistemaOperacional(listaDeAtributos.get("Name") + " " +  listaDeAtributos.get("Version"));
+		configuracaoServidor.setSistemaOperacional(listaDeAtributos.get("Name") + " " + listaDeAtributos.get("Version"));
 
 		return configuracaoServidor;
 	}

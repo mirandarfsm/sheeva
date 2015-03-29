@@ -28,6 +28,7 @@ public class Versao {
 	private Sistema sistema;
 	private String arquivoAplicacao;
 	private String arquivoBancoDados;
+	private String arquivoScript;
 	private Integer version;
 	private Integer release;
 	private Integer sprint;
@@ -128,6 +129,15 @@ public class Versao {
 
 	public void setBug(Integer bug) {
 		this.bug = bug;
+	}
+
+	@Column(name = "arquivo_script")
+	public String getArquivoScript() {
+		return arquivoScript;
+	}
+
+	public void setArquivoScript(String arquivoScript) {
+		this.arquivoScript = arquivoScript;
 	}
 
 	@Transient

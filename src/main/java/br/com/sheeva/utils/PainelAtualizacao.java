@@ -6,16 +6,18 @@ import java.util.Observable;
 
 import org.springframework.stereotype.Component;
 
+import br.com.sheeva.bean.ServidorAtualizacaoBean;
 import br.com.sheeva.enu.EstadoAtualizacao;
 
-@Component("dadosAtualizacao")
-public class DadosAtualizacao extends Observable {
+@Component("painelAtualizacao")
+public class PainelAtualizacao extends Observable {
 
 
 	private EstadoAtualizacao estadoAtualizacao;
 	private List<String> listaDadosAtualizacao;
+	private ServidorAtualizacaoBean servidorAtualizacaoBean;
 	
-	public DadosAtualizacao() {
+	public PainelAtualizacao() {
 		super();
 		this.estadoAtualizacao = EstadoAtualizacao.NAO_INICIADA;
 		this.listaDadosAtualizacao = new ArrayList<String>();
@@ -37,6 +39,10 @@ public class DadosAtualizacao extends Observable {
 
 	public void setListaDadosAtualizacao(List<String> listaDadosAtualizacao) {
 		this.listaDadosAtualizacao = listaDadosAtualizacao;
+	}
+	
+	public void atualizarMensagem(String mensagem) {
+		this.listaDadosAtualizacao.add(mensagem);
 		setChanged();
 		notifyObservers();
 	}

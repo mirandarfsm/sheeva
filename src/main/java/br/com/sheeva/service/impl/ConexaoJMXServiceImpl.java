@@ -11,7 +11,9 @@ import javax.management.remote.JMXServiceURL;
 
 import org.springframework.stereotype.Service;
 
+import br.com.sheeva.conexao.ConexaoSocket;
 import br.com.sheeva.dominio.Servidor;
+import br.com.sheeva.dto.PacoteAtualizacaoDTO;
 import br.com.sheeva.service.ConexaoService;
 
 @Service("conexaoJMXService")
@@ -53,6 +55,12 @@ public class ConexaoJMXServiceImpl implements ConexaoService<JMXConnector>{
 	public Map<String, String> enviarArquivo(Servidor servidor, String arquivo) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void acompanharAtualizacao(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

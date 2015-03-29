@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import br.com.sheeva.conexao.ConexaoSocket;
 import br.com.sheeva.dominio.Servidor;
+import br.com.sheeva.dto.PacoteAtualizacaoDTO;
 import br.com.sheeva.service.ConexaoService;
 import br.com.sheeva.utils.LinuxUtil;
 
@@ -15,12 +17,6 @@ import com.jcraft.jsch.Session;
 public class ConexaoSSHServiceImpl implements ConexaoService<Session>{
 	
 	private final String NAO_EXECUTADO = "O comando não foi executado.";
-
-	public Session abrirConexao(Servidor servidor) {
-		
-
-	    return null;
-	}
 
 	public Map<String, String> executarComandoRemoto(Servidor servidor, String comando) {
 		Map<String, String> saida = new HashMap<String, String>();
@@ -47,6 +43,18 @@ public class ConexaoSSHServiceImpl implements ConexaoService<Session>{
 			e.printStackTrace();
 		}
 		return saida;
+	}
+
+	@Override
+	public Session abrirConexao(Servidor servidor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void acompanharAtualizacao(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
