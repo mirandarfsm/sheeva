@@ -71,7 +71,8 @@ public class ConexaoSocketServiceImplTest implements Runnable{
 	@Test
 	public void atualizarVersao() {
 		ConexaoSocket conexaoSocket = (ConexaoSocket) conexaoSocketService.abrirConexao(servidor);
-		conexaoSocketService.acompanharAtualizacao(conexaoSocket, pacoteAtualizacaoDTO);
+		//conexaoSocketService.acompanharAtualizacao(conexaoSocket, pacoteAtualizacaoDTO);
+		conexaoSocketService.enviarArquivosJson(conexaoSocket, pacoteAtualizacaoDTO);
 	}
 	
 	@Ignore

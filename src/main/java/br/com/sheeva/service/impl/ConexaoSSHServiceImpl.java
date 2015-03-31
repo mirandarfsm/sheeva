@@ -57,4 +57,10 @@ public class ConexaoSSHServiceImpl implements ConexaoService<Session>{
 		
 	}
 
+	@Override
+	public void enviarArquivosJson(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -17,5 +17,7 @@ public interface ConexaoService<T> {
 	public Map<String, String> enviarArquivo(Servidor servidor, String arquivo);
 	
 	public void acompanharAtualizacao(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO);
+	
+	public void enviarArquivosJson(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO);
 
 }

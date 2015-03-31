@@ -19,13 +19,12 @@ import org.springframework.stereotype.Service;
 
 import br.com.sheeva.conexao.ConexaoSocket;
 import br.com.sheeva.dominio.Servidor;
+import br.com.sheeva.dominio.Versao;
 import br.com.sheeva.dto.PacoteAtualizacaoDTO;
 import br.com.sheeva.service.ConexaoService;
 
 @Service("conexaoSocketService")
 public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoSocket>{
-
-	private final String NAO_EXECUTADO = "O comando não foi executado.";
 
 	public ConexaoSocket abrirConexao(Servidor servidor) {
 		ConexaoSocket conexaoSocket = null;
@@ -43,28 +42,13 @@ public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoSocket>{
 		ServerSocket server = conexaoSocket.getServidorSocket();
 		Socket cliente = conexaoSocket.getClientSocket();
 		System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
-		// TODO atualizar painel
 		Scanner scanner;
 		try {
 			scanner = new Scanner(cliente.getInputStream());
 			while (scanner.hasNextLine()) {
 				String mensagem = scanner.nextLine();
 				JSONObject objetoJson =new JSONObject(mensagem);
-				String key = objetoJson.keys().next().toString();
-				switch (key) {
-				case "properties":
-					String variaveis = encapsulaVariaveis(pacoteAtualizacaoDTO);
-					enviarString(variaveis, cliente);
-					break;
-				case "file":
-					enviarArquivo(pacoteAtualizacaoDTO, cliente, objetoJson.getString(key));
-					break;
-				case "panel":
-					System.out.println(objetoJson.get(key));
-					break;
-				default:
-					break;
-				}
+				enviarMensagemAoPainel(objetoJson.get("panel").toString());
 			}
 			cliente.close();
 			server.close();
@@ -77,24 +61,64 @@ public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoSocket>{
 		}
 	}
 
-	private void enviarString(String variaveis, Socket cliente) throws IOException {
-		OutputStream outstream = cliente.getOutputStream(); 
-		PrintWriter out = new PrintWriter(outstream);
-		out.print(variaveis);
-		out.flush();
-
-		out.close();
-		outstream.close();
+	private void enviarMensagemAoPainel(String mensagem) {
+		System.out.println(mensagem);
 	}
 
-	private String encapsulaVariaveis(PacoteAtualizacaoDTO pacoteAtualizacaoDTO) throws JSONException {
-		JSONObject objetoJson = new JSONObject();
+	public void enviarArquivosJson(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
+		ServerSocket server = conexaoSocket.getServidorSocket();
+		Socket cliente = conexaoSocket.getClientSocket();
+		System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
+		// TODO atualizar painel
+		Scanner scanner;
+		try {
+			scanner = new Scanner(cliente.getInputStream());
+			while (scanner.hasNextLine()) {
+				JSONObject objetoJson = new JSONObject();
+				objetoJson = encapsulaVariaveisJson(objetoJson, pacoteAtualizacaoDTO);
+				objetoJson = encapsulaArquivosJson(objetoJson, pacoteAtualizacaoDTO);
+
+				OutputStream outputStream = cliente.getOutputStream();
+				PrintWriter printWriter = new PrintWriter(outputStream);
+				printWriter.write(objetoJson.toString());
+				printWriter.flush();
+
+				outputStream.close();
+				printWriter.close();
+			}
+			cliente.close();
+			server.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private JSONObject encapsulaVariaveisJson(JSONObject objetoJson, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) throws JSONException {
 		objetoJson.put("versao", pacoteAtualizacaoDTO.getVersao().getVersaoString());
 		objetoJson.put("instancia", pacoteAtualizacaoDTO.getInstancia().getNome());
 		objetoJson.put("aplicacao", pacoteAtualizacaoDTO.getVersao().getArquivoAplicacao());
 		objetoJson.put("banco", pacoteAtualizacaoDTO.getVersao().getArquivoBancoDados());
 		objetoJson.put("script", pacoteAtualizacaoDTO.getVersao().getArquivoScript());
-		return objetoJson.toString();
+		return objetoJson;
+	}
+
+	private JSONObject encapsulaArquivosJson(JSONObject objetoJson, PacoteAtualizacaoDTO pacoteAtualizacaoDTO)
+			throws FileNotFoundException, IOException, JSONException {
+
+		Map<String, String> arquivosDaVersao = obterArquivosDaVersao(pacoteAtualizacaoDTO.getVersao());
+		for (String arquivoDaVersao : arquivosDaVersao.keySet()) {
+			File arquivoParaEnviar = new File (arquivosDaVersao.get(arquivoDaVersao));
+			byte [] mybytearray  = new byte [(int)arquivoParaEnviar.length()];
+			FileInputStream fileInputStream = new FileInputStream(arquivoParaEnviar);
+			BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+			bufferedInputStream.read(mybytearray,0,mybytearray.length);
+			objetoJson.put(arquivoDaVersao, mybytearray);
+		}
+		return objetoJson;
 	}
 
 	public Map<String, String> executarComandoRemoto(Servidor servidor, String comando) {
@@ -107,42 +131,14 @@ public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoSocket>{
 		return null;
 	}
 
-	private void enviarArquivo(
-			PacoteAtualizacaoDTO pacoteAtualizacaoDTO, Socket cliente, String stringArquivo) throws FileNotFoundException, IOException {
+	private Map<String, String> obterArquivosDaVersao(Versao versao) {
+		String diretorio = versao.getFolder();
+		Map<String, String> arquivos = new HashMap<String, String>();
+		arquivos.put("ARQUIVO_APLICACAO", diretorio + "/" + versao.getArquivoAplicacao());
+		arquivos.put("ARQUIVO_BANCO", diretorio + "/" + versao.getArquivoBancoDados());
+		arquivos.put("ARQUIVO_SCRIPT", diretorio + "/" + versao.getArquivoScript());
 
-		File arquivoParaEnviar = new File (obterArquivo(stringArquivo, pacoteAtualizacaoDTO));
-		byte [] mybytearray  = new byte [(int)arquivoParaEnviar.length()];
-
-		FileInputStream fileInputStream = new FileInputStream(arquivoParaEnviar);
-		BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-		bufferedInputStream.read(mybytearray,0,mybytearray.length);
-		OutputStream outputStream = cliente.getOutputStream();
-
-		outputStream.write(mybytearray,0,mybytearray.length);
-		outputStream.flush();
-
-		outputStream.close();
-		bufferedInputStream.close();
-		fileInputStream.close();
-	}
-
-	private String obterArquivo(String stringArquivo, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
-		String arquivo = null;
-		String diretorio = pacoteAtualizacaoDTO.getVersao().getFolder();
-		switch (stringArquivo) {
-		case "ARQUIVO_APLICACAO":
-			arquivo =  pacoteAtualizacaoDTO.getVersao().getArquivoAplicacao();
-			break;
-		case "ARQUIVO_BANCO":
-			arquivo =  pacoteAtualizacaoDTO.getVersao().getArquivoBancoDados();
-			break;
-		case "ARQUIVO_SCRIPT":
-			arquivo =  pacoteAtualizacaoDTO.getVersao().getArquivoScript();
-			break;
-		default:
-			break;
-		}
-		return diretorio + "/" + arquivo;
+		return arquivos;
 	}
 
 	@Override
@@ -150,6 +146,5 @@ public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoSocket>{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }
