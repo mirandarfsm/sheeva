@@ -45,19 +45,16 @@ public class ConexaoSSHServiceImpl implements ConexaoService<Session>{
 		return saida;
 	}
 
-	@Override
 	public Session abrirConexao(Servidor servidor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public void acompanharAtualizacao(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void enviarArquivosJson(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
 		// TODO Auto-generated method stub
 		

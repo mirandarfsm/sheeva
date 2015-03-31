@@ -141,7 +141,6 @@ public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoSocket>{
 		return arquivos;
 	}
 
-	@Override
 	public Map<String, String> enviarArquivo(Servidor servidor, String arquivo) {
 		// TODO Auto-generated method stub
 		return null;
