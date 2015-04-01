@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
-import br.com.sheeva.conexao.ConexaoSocket;
 import br.com.sheeva.dominio.Instancia;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dominio.Sistema;
@@ -58,11 +57,11 @@ public class ConexaoSocketServiceImplTest implements Runnable{
 		sistema.setArquivoAtualizacao("sigadaer.py");
 		versao = new Versao();
 		versao.setSistema(sistema);
-		versao.setArquivoAplicacao("sigad-ccasj.war");
-		versao.setArquivoBancoDados("sigad-ccasj.sql");
-		versao.setArquivoScript("sigad-ccasj.sh");
+		versao.setArquivoAplicacao("sigad-celog.war");
+		versao.setArquivoBancoDados("sigad-celog.sql");
+		versao.setArquivoScript("sigad-celog.sh");
 		versao.setVersaoString("5.0.0.14");
-		instancia = new Instancia("sigad-ccasj", "/var/sigadaer/sigad-ccasj/", "config.properties");
+		instancia = new Instancia("sigad-celog", "/var/sigadaer/sigad-celog/", "config.properties");
 		
 		painelAtualizacao = new PainelAtualizacao();
 		pacoteAtualizacaoDTO = new PacoteAtualizacaoDTO(servidor, versao, sistema, painelAtualizacao, instancia);
@@ -70,9 +69,9 @@ public class ConexaoSocketServiceImplTest implements Runnable{
 
 	@Test
 	public void atualizarVersao() {
-		ConexaoSocket conexaoSocket = (ConexaoSocket) conexaoSocketService.abrirConexao(servidor);
-		//conexaoSocketService.acompanharAtualizacao(conexaoSocket, pacoteAtualizacaoDTO);
-		conexaoSocketService.enviarArquivosJson(conexaoSocket, pacoteAtualizacaoDTO);
+		conexaoSocketService.enviarArquivosJson(pacoteAtualizacaoDTO);
+		//enviarArquivosJsonThread();
+		//acompanharAtualizacaoThread();
 	}
 	
 	@Ignore
@@ -84,18 +83,22 @@ public class ConexaoSocketServiceImplTest implements Runnable{
 			return;
 		}
 		
-		abrirConexaoThread(servidor, versao, instancia);
 		Map<String, String> saidaExecutarComando = conexaoSSHService.executarComandoRemoto(servidor, "python /tmp/" + sistema.getArquivoAtualizacao());
 	}
 
-	private void abrirConexaoThread(final Servidor servidor, final Versao versao, final Instancia instancia) {
+	private void acompanharAtualizacaoThread() {
+		conexaoSocketService.acompanharAtualizacao(pacoteAtualizacaoDTO);
+	}
+	
+	private void enviarArquivosJsonThread() {
 		Runnable abrirConexao = new Runnable() {
 			public void run() {
-				conexaoSocketService.abrirConexao(servidor);
+				System.out.println("hi");
+				conexaoSocketService.enviarArquivosJson(pacoteAtualizacaoDTO);
 			}
 		};
 		Thread serverThread = new Thread(abrirConexao);
-		serverThread.run();
+		serverThread.start();
 	}
 
 	@After

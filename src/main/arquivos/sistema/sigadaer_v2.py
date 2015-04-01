@@ -49,9 +49,9 @@ def obterDadosAtualizacao():
 
     obterVariaveis(objetosJson)
 
-    salvarArquivoNoDisco(objetosJson['ARQUIVO_APLICACAO'],nomeArquivo,tipo)
-    salvarArquivoNoDisco(objetosJson['ARQUIVO_BANCO'],nomeArquivo,tipo)
-    salvarArquivoNoDisco(objetosJson['ARQUIVO_SCRIPT'],nomeArquivo,tipo)
+    salvarArquivoNoDisco(objetosJson['ARQUIVO_APLICACAO'],aplicacao)
+    salvarArquivoNoDisco(objetosJson['ARQUIVO_BANCO'],banco)
+    salvarArquivoNoDisco(objetosJson['ARQUIVO_SCRIPT'],script)
     
     socketDownload.close()
 
@@ -64,11 +64,11 @@ def obterVariaveis(objetosJson):
     global instancia
     instancia=objetosJson['instancia']
     global aplicacao
-    aplicacao = '/tmp/' + objetosJson['aplicacao']
+    aplicacao = '/tmp/' + versao + '.war'
     global banco
-    banco = '/tmp/' + objetosJson['banco']
+    banco = '/tmp/' + versao + '.sql'
     global script
-    script = '/tmp/' + objetosJson['script']
+    script = '/tmp/' + versao + '.sh'
 
 def carregarVariaveis(instancia):
     caminhoArquivoConfig='/var/sigadaer/' + instancia + '/config.properties'
@@ -90,7 +90,7 @@ def carregarVariaveis(instancia):
 
     return Postgres(usuario,senha,ip,database)
 
-def salvarArquivoNoDisco(objetoJsonByteArray,nome,tipo):
+def salvarArquivoNoDisco(objetoJsonByteArray,nome):
     try:
         arquivo = open(nome, 'wb')
         objetoJson = bytearray(objetoJsonByteArray)

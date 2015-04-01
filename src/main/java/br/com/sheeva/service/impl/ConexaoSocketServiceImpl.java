@@ -38,7 +38,20 @@ public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoSocket>{
 		return conexaoSocket;
 	}
 
-	public void acompanharAtualizacao(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
+	private ConexaoSocket abrirConexao(int port) {
+		ConexaoSocket conexaoSocket = null;
+		try {
+			ServerSocket server = new ServerSocket(port);
+			Socket cliente = server.accept();
+			conexaoSocket = new ConexaoSocket(server, cliente);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return conexaoSocket;
+	}
+
+	public void acompanharAtualizacao(PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
+		ConexaoSocket conexaoSocket = abrirConexao(8888);
 		ServerSocket server = conexaoSocket.getServidorSocket();
 		Socket cliente = conexaoSocket.getClientSocket();
 		System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
@@ -65,7 +78,8 @@ public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoSocket>{
 		System.out.println(mensagem);
 	}
 
-	public void enviarArquivosJson(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
+	public void enviarArquivosJson(PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
+		ConexaoSocket conexaoSocket = abrirConexao(9999);
 		ServerSocket server = conexaoSocket.getServidorSocket();
 		Socket cliente = conexaoSocket.getClientSocket();
 		System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
@@ -74,17 +88,21 @@ public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoSocket>{
 		try {
 			scanner = new Scanner(cliente.getInputStream());
 			while (scanner.hasNextLine()) {
-				JSONObject objetoJson = new JSONObject();
-				objetoJson = encapsulaVariaveisJson(objetoJson, pacoteAtualizacaoDTO);
-				objetoJson = encapsulaArquivosJson(objetoJson, pacoteAtualizacaoDTO);
+				String mensagem = scanner.nextLine();
+				JSONObject mensagemJson =new JSONObject(mensagem);
+				if (mensagemJson.get("return").toString().equals("PACOTE_ATUALIZACAO")) {
+					JSONObject objetoJson = new JSONObject();
+					objetoJson = encapsulaVariaveisJson(objetoJson, pacoteAtualizacaoDTO);
+					objetoJson = encapsulaArquivosJson(objetoJson, pacoteAtualizacaoDTO);
 
-				OutputStream outputStream = cliente.getOutputStream();
-				PrintWriter printWriter = new PrintWriter(outputStream);
-				printWriter.write(objetoJson.toString());
-				printWriter.flush();
+					OutputStream outputStream = cliente.getOutputStream();
+					PrintWriter printWriter = new PrintWriter(outputStream);
+					printWriter.write(objetoJson.toString());
+					printWriter.flush();
 
-				outputStream.close();
-				printWriter.close();
+					outputStream.close();
+					printWriter.close();
+				}
 			}
 			cliente.close();
 			server.close();
@@ -100,9 +118,6 @@ public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoSocket>{
 	private JSONObject encapsulaVariaveisJson(JSONObject objetoJson, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) throws JSONException {
 		objetoJson.put("versao", pacoteAtualizacaoDTO.getVersao().getVersaoString());
 		objetoJson.put("instancia", pacoteAtualizacaoDTO.getInstancia().getNome());
-		objetoJson.put("aplicacao", pacoteAtualizacaoDTO.getVersao().getArquivoAplicacao());
-		objetoJson.put("banco", pacoteAtualizacaoDTO.getVersao().getArquivoBancoDados());
-		objetoJson.put("script", pacoteAtualizacaoDTO.getVersao().getArquivoScript());
 		return objetoJson;
 	}
 
@@ -134,7 +149,7 @@ public class ConexaoSocketServiceImpl implements ConexaoService<ConexaoSocket>{
 	private Map<String, String> obterArquivosDaVersao(Versao versao) {
 		String diretorio = versao.getFolder();
 		Map<String, String> arquivos = new HashMap<String, String>();
-		arquivos.put("ARQUIVO_APLICACAO", diretorio + "/" + versao.getArquivoAplicacao());
+		//arquivos.put("ARQUIVO_APLICACAO", diretorio + "/" + versao.getArquivoAplicacao());
 		arquivos.put("ARQUIVO_BANCO", diretorio + "/" + versao.getArquivoBancoDados());
 		arquivos.put("ARQUIVO_SCRIPT", diretorio + "/" + versao.getArquivoScript());
 

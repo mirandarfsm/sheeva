@@ -2,12 +2,11 @@ package br.com.sheeva.service;
 
 import java.util.Map;
 
-import br.com.sheeva.conexao.ConexaoSocket;
 import br.com.sheeva.dominio.Servidor;
 import br.com.sheeva.dto.PacoteAtualizacaoDTO;
 
-public interface ConexaoService<T> {
 	
+public interface ConexaoService<T> {
 	public T abrirConexao(Servidor servidor);
 	
 	public Map<String, String> executarComandoRemoto(Servidor servidor, String comando);
@@ -16,8 +15,8 @@ public interface ConexaoService<T> {
 	
 	public Map<String, String> enviarArquivo(Servidor servidor, String arquivo);
 	
-	public void acompanharAtualizacao(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO);
+	public void acompanharAtualizacao(PacoteAtualizacaoDTO pacoteAtualizacaoDTO);
 	
-	public void enviarArquivosJson(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO);
+	public void enviarArquivosJson(PacoteAtualizacaoDTO pacoteAtualizacaoDTO);
 
 }

@@ -57,12 +57,12 @@ public class ConexaoJMXServiceImpl implements ConexaoService<JMXConnector>{
 		return null;
 	}
 
-	public void acompanharAtualizacao(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
+	public void acompanharAtualizacao(PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void enviarArquivosJson(ConexaoSocket conexaoSocket, PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
+	public void enviarArquivosJson(PacoteAtualizacaoDTO pacoteAtualizacaoDTO) {
 		// TODO Auto-generated method stub
 		
 	}
